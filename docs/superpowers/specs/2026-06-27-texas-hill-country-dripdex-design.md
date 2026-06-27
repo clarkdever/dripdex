@@ -177,14 +177,53 @@ The preferred owner workflow begins with a photo upload.
 High-level flow:
 
 1. Owner uploads a photo.
-2. System reads EXIF privately.
-3. System stores original privately if configured.
-4. System creates EXIF-stripped public derivative.
-5. System runs AI identification.
-6. System returns suggested ID, confidence, reasoning, uncertainty, and lookalikes.
-7. System loads web-search comparison thumbnails for the suggested entity and likely lookalikes.
-8. Owner accepts, refines, disagrees, creates a mystery entry, or enters manually.
-9. System creates an observation and links it to a confirmed or mystery entry.
+2. Photo appears in the shared capture preview.
+3. Owner taps the subject to target it.
+4. Scanner overlay animates a target lock at the tapped point.
+5. System reads EXIF privately.
+6. System stores original privately if configured.
+7. System creates EXIF-stripped public derivative.
+8. System runs AI identification with the full image and target point as context.
+9. System returns suggested ID, confidence, reasoning, uncertainty, and lookalikes.
+10. System loads web-search comparison thumbnails for the suggested entity and likely lookalikes.
+11. Owner accepts, refines, disagrees, creates a mystery entry, or enters manually.
+12. System creates an observation and links it to a confirmed or mystery entry.
+
+### Capture Entry Point
+
+The capture start screen should offer three clear actions:
+
+- Upload Photo.
+- Open Scanner.
+- Log Without Photo.
+
+Upload Photo is the primary owner path because real field capture often happens through the OS camera shortcut, professional gear, or an existing photo library.
+
+Open Scanner is the playful in-app path. It should give the "I have a device scanner" feeling for kids and families. In MVP, it can be stubbed or implemented as a browser-camera/file-picker path, but it should converge into the same shared capture preview once a photo exists.
+
+Log Without Photo is the fallback for calls, tracks, fleeting sightings, behavior notes, and other observations where no image is available.
+
+### Manual Target Lock
+
+After a photo is loaded, DripDex should ask the owner to tap the subject before analysis begins.
+
+Target-lock interaction:
+
+1. Photo appears with a cyberpunk/anime-inspired HUD overlay above it.
+2. Overlay prompts: "Tap the subject."
+3. Owner taps the creature, plant, track, flower, or other observation target.
+4. A vertical line travels down from the top edge toward the tapped Y coordinate.
+5. A horizontal line travels in from the left edge toward the tapped X coordinate.
+6. The lines meet at the tapped point to form a crosshair.
+7. The crosshair blinks.
+8. Two corner brackets appear around the target zone, showing only upper-left and lower-right 90 degree angles rather than a full square.
+9. Overlay text resolves to "Subject located."
+10. Target marker fades or collapses into the analysis HUD.
+11. AI analysis begins or continues with the tap coordinate stored as image-relative metadata.
+
+This is intentionally not computer vision. The user supplies the subject point, and DripDex makes the moment feel like the device acquired the subject. The point may later help with crop suggestions, model prompts, or image-region analysis, but it should not be treated as proof of identity.
+
+Scanner effects are cosmetic and assistive, not authoritative. Identification remains suggest-and-confirm.
 
 ### Fallback Path: Manual Observation
 
@@ -548,6 +587,7 @@ Initial candidate jobs:
 - As a kid or family member, I want the creature pages to feel fun and approachable so I want to keep exploring.
 - As an adult learner, I want expandable scientific details and citations so I can trust and learn from the app.
 - As the owner, I want to upload a photo and get an AI-assisted ID so I can quickly record an observation.
+- As the owner, I want to tap the subject in a photo so DripDex knows what I want identified and the scan interaction feels intentional.
 - As the owner, I want to challenge or refine the AI suggestion so I can avoid bad identifications.
 - As the owner, I want to record observations without photos so I can capture calls, tracks, fleeting sightings, and notes.
 - As the owner, I want exact private GPS and heatmaps so I can understand my own field activity.
@@ -566,6 +606,8 @@ Candidate MVP journeys:
 - Public visitor opens a creature scan page.
 - Public visitor uses "Seen Near Me."
 - Owner logs in.
+- Owner starts a capture from Upload Photo or Open Scanner.
+- Owner taps the subject and sees the target-lock animation.
 - Owner uploads a photo and accepts an AI identification.
 - Owner uploads a photo and refines/disagrees with the AI identification.
 - Owner uploads a photo that matches an existing DripDex entry and chooses how to use it.
