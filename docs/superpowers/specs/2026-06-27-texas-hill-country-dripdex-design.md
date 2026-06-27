@@ -425,6 +425,32 @@ Requirements:
 
 The app should avoid permanently storing third-party thumbnails unless their license permits it. In v1, external thumbnails should be treated as transient comparison aids with source links.
 
+### Identify A Find Journey
+
+The MVP identification journey should be direct and recoverable.
+
+Flow:
+
+1. Scanner returns the best candidate with common name, scientific name when available, confidence, short reasoning, safety note when relevant, and "Possible match found" status.
+2. Review screen shows visual comparison thumbnails for the suggested creature, useful lookalikes, and the current DripDex entry photo if there may already be an existing match.
+3. Tapping a thumbnail opens the swipeable gallery with "Accept ID" as the primary action.
+4. If the owner accepts the ID, DripDex links the observation to an existing creature when matched, or creates a new creature draft when it is new.
+5. If the owner refines the ID, DripDex uses kid-readable correction choices plus lookahead fields rather than a blank form.
+6. If confidence is low or the owner is unsure, DripDex can save the observation as a Mystery with the photo, tap point, model boxes, notes, and candidate IDs intact.
+7. If the owner enters an ID manually, the input should use lookahead across existing DripDex creatures, cached Hill Country species, aliases, common names, and scientific names.
+8. If the accepted ID matches an existing entry, DripDex moves into the existing-entry match flow.
+9. The done state is a friendly "Ready for the journal" review with accepted, mystery, or manual identity; suggested tags; private exact location; protected public location; and Save/Publish actions.
+
+Refine ID choices should favor simple labels:
+
+- Different kind.
+- Same kind, different creature.
+- Color or pattern.
+- Size or shape.
+- What it was doing.
+- Where I found it.
+- I know the name.
+
 ### Refining or Pushing Back on AI
 
 The disagreement path should be framed as "Refine ID" rather than a confrontational "Wrong."
@@ -546,6 +572,21 @@ Card contents:
 - Status: confirmed, likely, mystery.
 
 In the logged-in owner view, the same card index should also include private draft cards tagged as Draft. Draft cards are excluded from public browsing until saved/published.
+
+### Regional Checklist Cards
+
+The collection/search view should be prepopulated with a curated Texas Hill Country checklist so the experience feels like a collectible regional field guide before the owner has many observations.
+
+Checklist behavior:
+
+- Seed common regional creatures by category and type.
+- Show unfound creatures as disabled or locked cards with a question-mark placeholder image.
+- Number seeded checklist cards alphabetically so kids have a stable, achievable list to complete.
+- Keep found and unfound cards in the same collection surface, with clear visual difference between found, locked, draft, mystery, and published states.
+- Append any discovered creature outside the seeded checklist using the next available number.
+- Use the collection flavor phrase "Gotta Catch'em Y'all!" where it fits the playful checklist experience.
+
+The seed list should be curated from reputable regional sources and human-reviewed. AI can suggest additions, aliases, tags, and starter descriptions, but it should not be the sole source of the checklist.
 
 ### Creature Card Visual Decisions
 
