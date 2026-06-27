@@ -201,6 +201,71 @@
         border-radius: 6px;
       }
 
+      .public-intro {
+        display: grid;
+        gap: 12px;
+        padding: 13px 12px 12px;
+        background:
+          linear-gradient(135deg, rgba(201, 255, 61, 0.16), rgba(78, 135, 217, 0.12)),
+          #fffbe9;
+        border-bottom: 3px solid #252730;
+      }
+
+      .public-intro.is-hidden {
+        display: none;
+      }
+
+      .intro-copy {
+        display: grid;
+        gap: 4px;
+      }
+
+      .intro-copy strong {
+        color: #141416;
+        font-size: clamp(1.05rem, 3vw, 1.34rem);
+        line-height: 1;
+        font-weight: 950;
+      }
+
+      .intro-copy p {
+        max-width: 680px;
+        color: #4c5358;
+        font-size: 0.8rem;
+        line-height: 1.35;
+      }
+
+      .intro-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+
+      .intro-link,
+      .intro-hide {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 34px;
+        padding: 0 10px;
+        border-radius: 6px;
+        font-size: 0.68rem;
+        font-weight: 950;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .intro-link.secondary {
+        color: #fff7df;
+        background: #252730;
+      }
+
+      .intro-hide {
+        color: #141416;
+        background: var(--glow);
+        border: 0;
+      }
+
       .collection-bar {
         display: grid;
         gap: 12px;
@@ -845,6 +910,265 @@
         line-height: 1.4;
       }
 
+      .guestbook {
+        color: #eff9ee;
+        background:
+          linear-gradient(90deg, rgba(215, 25, 47, 0.22), transparent 48%),
+          #1f2329;
+        border-top: 5px solid var(--shell);
+        border-bottom: 5px solid #252730;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 247, 223, 0.1),
+          inset 0 -1px 0 rgba(201, 255, 61, 0.24);
+      }
+
+      .guestbook summary {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 12px;
+        min-height: 58px;
+        padding: 12px;
+        list-style: none;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .guestbook summary:hover {
+        background: rgba(201, 255, 61, 0.08);
+      }
+
+      .guestbook summary:focus-visible {
+        outline: 3px solid var(--glow);
+        outline-offset: -3px;
+      }
+
+      .guestbook summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .guestbook-title {
+        display: grid;
+        gap: 2px;
+        justify-items: end;
+        margin-left: auto;
+        text-align: right;
+      }
+
+      .guestbook-title strong {
+        color: var(--glow);
+        font-size: 0.9rem;
+        line-height: 1.05;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .guestbook-title span {
+        color: #a9b7a9;
+        font-size: 0.76rem;
+        line-height: 1.25;
+      }
+
+      .guestbook-caret {
+        width: 28px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        color: #141416;
+        background: var(--glow);
+        border-radius: 50%;
+        font-size: 1rem;
+        font-weight: 950;
+        transform: rotate(90deg);
+      }
+
+      .guestbook[open] .guestbook-caret {
+        transform: rotate(-90deg);
+      }
+
+      .guestbook-panel {
+        display: grid;
+        gap: 12px;
+        padding: 0 12px 12px;
+      }
+
+      .guestbook-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+        padding: 10px;
+        background: #15181d;
+        border: 1px solid rgba(201, 255, 61, 0.28);
+        border-radius: 8px;
+      }
+
+      .guestbook-form label {
+        display: grid;
+        gap: 5px;
+        color: #d9ffd2;
+        font-size: 0.72rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .guestbook-form .wide-field {
+        grid-column: 1 / -1;
+      }
+
+      .guestbook-form input,
+      .guestbook-form textarea {
+        width: 100%;
+        color: #f6ffe8;
+        background: #12161a;
+        border: 1px solid rgba(201, 255, 61, 0.42);
+        border-radius: 6px;
+        outline: none;
+      }
+
+      .guestbook-form input {
+        height: 40px;
+        padding: 0 10px;
+      }
+
+      .guestbook-form textarea {
+        min-height: 96px;
+        padding: 10px;
+        resize: vertical;
+      }
+
+      .public-check {
+        display: flex;
+        align-items: start;
+        gap: 8px;
+        color: #ded5c3;
+        font-size: 0.8rem;
+        line-height: 1.32;
+      }
+
+      .public-check input {
+        width: auto;
+        height: auto;
+        margin-top: 2px;
+        accent-color: var(--glow);
+      }
+
+      .guestbook-actions {
+        grid-column: 1 / -1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .guestbook-send {
+        margin-left: auto;
+        min-height: 40px;
+        padding: 0 14px;
+        color: #141416;
+        background: var(--glow);
+        border: 0;
+        border-radius: 6px;
+        font-size: 0.74rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .guestbook-status {
+        color: #a9b7a9;
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      .guestbook-list {
+        display: grid;
+        max-height: 260px;
+        overflow: auto;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 8px;
+      }
+
+      .guestbook-row {
+        display: grid;
+        grid-template-columns: minmax(88px, 0.7fr) minmax(82px, 0.7fr) 1fr auto;
+        gap: 9px;
+        align-items: start;
+        padding: 9px 10px;
+        background: #252a31;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .guestbook-row:last-child {
+        border-bottom: 0;
+      }
+
+      .guestbook-row.pending {
+        background:
+          linear-gradient(90deg, rgba(201, 255, 61, 0.13), transparent),
+          #252a31;
+      }
+
+      .guestbook-name {
+        color: #fff7df;
+        font-size: 0.8rem;
+        font-weight: 950;
+      }
+
+      .guestbook-from {
+        color: #b9c9bb;
+        font-size: 0.76rem;
+        font-weight: 800;
+      }
+
+      .guestbook-message {
+        color: #eff9ee;
+        font-size: 0.8rem;
+        line-height: 1.32;
+      }
+
+      .guestbook-badge {
+        justify-self: end;
+        padding: 4px 6px;
+        color: #141416;
+        background: var(--glow);
+        border-radius: 999px;
+        font-size: 0.58rem;
+        font-weight: 950;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .guestbook-badge.approved {
+        color: #fff7df;
+        background: #3c9b7b;
+      }
+
+      .guestbook-pagination {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        color: #a9b7a9;
+        font-size: 0.74rem;
+        font-weight: 850;
+      }
+
+      .page-buttons {
+        display: flex;
+        gap: 6px;
+      }
+
+      .page-button {
+        min-height: 30px;
+        padding: 0 9px;
+        color: #f6ffe8;
+        background: #2a3036;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 6px;
+        font-size: 0.68rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
       @media (max-width: 840px) {
         .option-title {
           display: grid;
@@ -897,6 +1221,19 @@
           align-items: stretch;
           flex-direction: column;
         }
+
+        .guestbook-form {
+          grid-template-columns: 1fr;
+        }
+
+        .guestbook-row {
+          grid-template-columns: 1fr auto;
+        }
+
+        .guestbook-from,
+        .guestbook-message {
+          grid-column: 1 / -1;
+        }
       }
     </style>
   </head>
@@ -940,6 +1277,80 @@
             </div>
 
             <div class="screen">
+              <section class="public-intro" data-public-intro>
+                <div class="intro-copy">
+                  <strong>Welcome to DripDex</strong>
+                  <p>
+                    A personal Hill Country field journal for learning about local wildlife,
+                    plants, and tiny weird neighbors. Browse the collection, see what has
+                    been found, and start your own from the open-source project.
+                  </p>
+                </div>
+                <div class="intro-actions">
+                  <a class="intro-link secondary" href="https://clarkdever.github.io/dripdex/" target="_blank" rel="noreferrer">Would you like to learn more?</a>
+                  <button class="intro-hide" type="button" data-hide-intro>Hide Intro</button>
+                </div>
+              </section>
+
+              <details class="guestbook">
+                <summary>
+                  <span class="guestbook-title">
+                    <strong>Click to Sign Our Guest Book</strong>
+                    <span>See who has stopped by, then sign your own field note.</span>
+                  </span>
+                  <span class="guestbook-caret" aria-hidden="true">›</span>
+                </summary>
+                <div class="guestbook-panel">
+                  <form class="guestbook-form" data-guestbook-form>
+                    <label>
+                      Name
+                      <input name="displayName" type="text" placeholder="Scout, class name, or first name" autocomplete="name" required />
+                    </label>
+                    <label>
+                      Visiting from
+                      <input name="visitingFrom" type="text" placeholder="Austin, science class, grandma's porch..." required />
+                    </label>
+                    <label class="wide-field">
+                      Comment
+                      <textarea name="message" placeholder="What did you notice? What should we look for next?" required></textarea>
+                    </label>
+                    <div class="guestbook-actions">
+                      <span class="guestbook-status" data-guestbook-status>New notes appear pending until owner approval.</span>
+                      <button class="guestbook-send" type="submit">Sign Guest Book</button>
+                    </div>
+                  </form>
+
+                  <div class="guestbook-list" data-guestbook-list aria-label="Guest book entries">
+                    <article class="guestbook-row">
+                      <strong class="guestbook-name">Maya</strong>
+                      <span class="guestbook-from">Austin, TX</span>
+                      <p class="guestbook-message">We used this to compare two backyard birds after breakfast.</p>
+                      <span class="guestbook-badge approved">Approved</span>
+                    </article>
+                    <article class="guestbook-row">
+                      <strong class="guestbook-name">Room 12</strong>
+                      <span class="guestbook-from">4th grade science</span>
+                      <p class="guestbook-message">Please add more spiders. The draft stamp is our favorite part.</p>
+                      <span class="guestbook-badge approved">Approved</span>
+                    </article>
+                    <article class="guestbook-row">
+                      <strong class="guestbook-name">Nana J</strong>
+                      <span class="guestbook-from">Kerrville</span>
+                      <p class="guestbook-message">Saw a ladder-backed woodpecker on a cedar post this morning.</p>
+                      <span class="guestbook-badge approved">Approved</span>
+                    </article>
+                  </div>
+
+                  <div class="guestbook-pagination">
+                    <span>Showing 1-50 of 118 approved notes</span>
+                    <span class="page-buttons">
+                      <button class="page-button" type="button">Prev</button>
+                      <button class="page-button" type="button">Next</button>
+                    </span>
+                  </div>
+                </div>
+              </details>
+
               <div class="collection-bar">
                 <div class="collection-heading">
                   <h3>Collection</h3>
@@ -1268,12 +1679,30 @@
 
         <p class="footer-note">
           Interaction notes: filter buttons open dropdowns. Tap a card with a New badge
-          to clear the badge, modeling the "new until viewed" behavior.
+          to clear the badge, modeling the "new until viewed" behavior. Hide Intro
+          stores a cookie in the browser. Guest book submissions render locally as
+          pending rows for this comp.
         </p>
       </div>
     </main>
 
     <script>
+      const introCookieName = "dripdex_public_intro_hidden";
+      const hasHiddenIntro = document.cookie
+        .split("; ")
+        .some((item) => item === `${introCookieName}=1`);
+      const publicIntro = document.querySelector("[data-public-intro]");
+      const hideIntroButton = document.querySelector("[data-hide-intro]");
+
+      if (hasHiddenIntro) {
+        publicIntro?.classList.add("is-hidden");
+      }
+
+      hideIntroButton?.addEventListener("click", () => {
+        document.cookie = `${introCookieName}=1; max-age=31536000; path=/; samesite=lax`;
+        publicIntro?.classList.add("is-hidden");
+      });
+
       const filterButtons = document.querySelectorAll("[data-filter-toggle]");
 
       filterButtons.forEach((button) => {
@@ -1298,6 +1727,34 @@
         card.addEventListener("click", () => {
           card.classList.remove("new-seen");
         });
+      });
+
+      const guestbookForm = document.querySelector("[data-guestbook-form]");
+      const guestbookList = document.querySelector("[data-guestbook-list]");
+      const guestbookStatus = document.querySelector("[data-guestbook-status]");
+
+      guestbookForm?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(guestbookForm);
+        const name = formData.get("displayName") || "Field visitor";
+        const visitingFrom = formData.get("visitingFrom") || "Somewhere outside";
+        const message = formData.get("message") || "Signed the guest book.";
+        const row = document.createElement("article");
+
+        row.className = "guestbook-row pending";
+        row.innerHTML = `
+          <strong class="guestbook-name"></strong>
+          <span class="guestbook-from"></span>
+          <p class="guestbook-message"></p>
+          <span class="guestbook-badge">Pending</span>
+        `;
+
+        row.querySelector(".guestbook-name").textContent = String(name);
+        row.querySelector(".guestbook-from").textContent = String(visitingFrom);
+        row.querySelector(".guestbook-message").textContent = String(message);
+        guestbookList?.prepend(row);
+        guestbookStatus.textContent = "Added below as pending owner approval.";
+        guestbookForm.reset();
       });
     </script>
   </body>

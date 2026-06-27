@@ -653,6 +653,28 @@ Design decisions from the mockup:
 - Render complete life-cycle or connected sets inside a wrapper with an outline and colored background to show the cards belong together.
 - Use the set wrapper especially when a set is complete, focused, or newly celebrated, rather than wrapping every possible relationship all the time.
 
+Approved public collection states:
+
+1. Public default: intro panel visible, guestbook collapsed, collection grid visible below. Reference: `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-public-default.png`.
+2. Guestbook open: accordion expands in place between the intro and collection, with Name, Visiting From, Comment, Sign Guest Book, existing approved entries, and pagination. Reference: `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-guestbook-open.png`.
+3. Guestbook pending submission: after submit, the visitor's row appears immediately at the top of the list with a Pending badge and owner-approval note. Reference: `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-guestbook-pending.png`.
+4. Intro hidden: Hide Intro is the primary/default intro CTA; it dismisses the intro and stores that preference in a cookie so returning visitors land closer to the collection. Reference: `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-intro-hidden.png`.
+
+Public intro behavior:
+
+- The intro explains DripDex as a personal Hill Country field journal and open-source project.
+- Primary CTA: Hide Intro.
+- Secondary CTA: "Would you like to learn more?", linking to the project documentation site/GitHub Pages.
+- The public collection should still be usable with the intro visible, hidden, or permanently dismissed.
+
+Guestbook behavior:
+
+- The guestbook is an in-page accordion, closed by default.
+- The closed accordion is fully clickable and visually separate from the collection area.
+- Right-handed mobile reach matters: the open/submit affordances should be visually and physically biased to the right side where practical.
+- Guestbook submissions are public-facing only after owner approval, but the submitting visitor sees the new row immediately with Pending status.
+- Pagination starts after 50 approved entries.
+
 ### Creature Card Visual Decisions
 
 The House Finch mockup in `/docs/mockups/tag-display-options.html` is the current card-design inspiration.
@@ -867,6 +889,10 @@ Recommended stack:
 - Gemini-first LLM provider interface for identification, bounding boxes, and fact generation.
 - Search provider interface for comparison thumbnails.
 
+### Project Documentation Site
+
+The project should include a GitHub Pages branch or published docs site linked from the public intro panel. It should explain what DripDex is, show the approved mockups, describe the open-source/self-host path, and give a lightweight "build your own DripDex" guide for parents, teachers, and local nature clubs.
+
 ### Native App Future
 
 Future Android/iOS should be treated as another client of the same backend/API.
@@ -962,6 +988,10 @@ Mockup references in the local repo:
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-option-1.png`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-options-desktop.png`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-options-mobile.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-public-default.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-guestbook-open.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-guestbook-pending.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-intro-hidden.png`
 
 Gemini references:
 
