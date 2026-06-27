@@ -629,13 +629,29 @@ The collection/search view should be prepopulated with a curated Texas Hill Coun
 Checklist behavior:
 
 - Seed common regional creatures by category and type.
-- Show unfound creatures as disabled or locked cards with a question-mark placeholder image.
+- Show unfound creatures as disabled or locked cards with a high-contrast lock icon placeholder image.
 - Number seeded checklist cards alphabetically so kids have a stable, achievable list to complete.
 - Keep found and unfound cards in the same collection surface, with clear visual difference between found, locked, draft, mystery, and published states.
 - Append any discovered creature outside the seeded checklist using the next available number.
 - Use the collection flavor phrase "Gotta Catch'em Y'all!" where it fits the playful checklist experience.
 
 The seed list should be curated from reputable regional sources and human-reviewed. AI can suggest additions, aliases, tags, and starter descriptions, but it should not be the sole source of the checklist.
+
+### Collection View Visual Decisions
+
+The approved collection-view direction is Option A, Scanner Grid, from `/docs/mockups/collection-view-options.html`.
+
+Design decisions from the mockup:
+
+- Keep search primary and always visible.
+- Put most filters behind a compact Filter dropdown or mobile sheet rather than a long chip row.
+- Allow only a small set of high-use quick filters, such as Found, Drafts, and Mysteries.
+- Treat Draft cards with a red diagonal rubber-stamp overlay.
+- Treat Mystery cards with the original image shown in grayscale, question marks for the name, and a purple question mark overlay on the image.
+- Treat locked checklist cards with a lock icon, not a question mark, so locked/unfound and mystery/unknown states stay visually distinct.
+- Treat New as a badge overlay that remains until the card is opened.
+- Render complete life-cycle or connected sets inside a wrapper with an outline and colored background to show the cards belong together.
+- Use the set wrapper especially when a set is complete, focused, or newly celebrated, rather than wrapping every possible relationship all the time.
 
 ### Creature Card Visual Decisions
 
@@ -942,6 +958,9 @@ Mockup references in the local repo:
 
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/tag-display-options.html`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/tag-display-options-full-page.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-options.html`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-options-desktop.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-options-mobile.png`
 
 Gemini references:
 
