@@ -187,11 +187,12 @@ High-level flow:
 9. Scanner overlay animates a target lock at the tapped point.
 10. System updates the draft with the normalized subject point.
 11. AI analysis is updated or refined with the subject point if the first pass has not completed, or a follow-up refinement is queued if it has.
-12. System returns suggested ID, confidence, reasoning, uncertainty, and lookalikes.
-13. System loads web-search comparison thumbnails for the suggested entity and likely lookalikes.
-14. Owner accepts, refines, disagrees, creates a mystery entry, or enters manually.
-15. System updates the draft observation and links it to a confirmed or mystery entry.
-16. Owner saves/publishes the completed observation.
+12. Scanner overlay progressively enhances as model results arrive, including candidate subject regions when available.
+13. System returns suggested ID, confidence, reasoning, uncertainty, and lookalikes.
+14. System loads web-search comparison thumbnails for the suggested entity and likely lookalikes.
+15. Owner accepts, refines, disagrees, creates a mystery entry, or enters manually.
+16. System updates the draft observation and links it to a confirmed or mystery entry.
+17. Owner saves/publishes the completed observation.
 
 Draft creation is optimistic. Once the photo upload succeeds, DripDex should save a recoverable draft and progressively update it as EXIF extraction, public derivative generation, target locking, AI identification, and owner review complete.
 
@@ -231,6 +232,26 @@ This is intentionally not computer vision. The user supplies the subject point, 
 
 Scanner effects are cosmetic and assistive, not authoritative. Identification remains suggest-and-confirm.
 
+### Progressive Scanner Overlay
+
+The scanner overlay should improve as background model results arrive.
+
+Initial state:
+
+- Shows the loaded photo.
+- Prompts the owner to tap the subject.
+- Animates HUD lines, status lights, and target-lock feedback.
+
+Progressive model-enhanced state:
+
+- If the model returns candidate subjects with approximate regions, DripDex may briefly display ghost brackets, faint outlines, or numbered candidate pings.
+- Candidate regions should be visually subordinate to the user-selected target.
+- If a candidate region overlaps the user's tap target, the overlay can reinforce it with copy such as "Target match likely."
+- If model candidates do not overlap the user's target, DripDex should continue with the user-selected target and avoid arguing in the scan overlay.
+- Candidate regions can be used for fun HUD feedback and later review, but the user tap remains the authoritative MVP target.
+
+Model-returned subject coordinates should be stored as suggestions, not truth. The schema should allow multiple candidate regions with labels, confidence, and source model so DripDex can improve later without changing the capture UX.
+
 ### Fallback Path: Manual Observation
 
 The owner can record an observation without a photo.
@@ -264,6 +285,7 @@ The AI result should include:
 - Short reasoning.
 - Uncertainty flags.
 - Lookalike candidates.
+- Optional candidate subject regions with approximate coordinates, labels, confidence, and source model.
 - Safety note if relevant.
 - Recommended type tags.
 - Recommended rarity inputs or source queries.
