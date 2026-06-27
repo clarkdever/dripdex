@@ -196,6 +196,20 @@ High-level flow:
 
 Draft creation is optimistic. Once the photo upload succeeds, DripDex should save a recoverable draft and progressively update it as EXIF extraction, public derivative generation, target locking, AI identification, and owner review complete.
 
+### Draft Visibility and Recovery
+
+Draft observations should not disappear into a separate hidden queue. In the logged-in owner view, drafts should appear in the same creature card index as saved entries, clearly tagged as Draft.
+
+Draft behavior:
+
+- Drafts are private by default and never visible to public visitors.
+- Draft cards are searchable and filterable by Draft status.
+- Draft cards can represent a known candidate, an unidentified mystery, or an incomplete upload.
+- Opening a draft resumes the capture/review flow at the most useful incomplete step.
+- If the owner leaves after upload, the draft remains recoverable from the private card index.
+- Failed EXIF or AI processing should not hide the draft.
+- Public publishing requires an explicit owner action after review.
+
 ### Capture Entry Point
 
 The capture start screen should offer three clear actions:
@@ -424,6 +438,8 @@ Card contents:
 - Public area label.
 - Status: confirmed, likely, mystery.
 
+In the logged-in owner view, the same card index should also include private draft cards tagged as Draft. Draft cards are excluded from public browsing until saved/published.
+
 ### Seen Near Me
 
 The app should support a "Seen Near Me" discovery view.
@@ -616,6 +632,7 @@ Initial candidate jobs:
 - As an adult learner, I want expandable scientific details and citations so I can trust and learn from the app.
 - As the owner, I want to upload a photo and get an AI-assisted ID so I can quickly record an observation.
 - As the owner, I want DripDex to save a draft as soon as my upload succeeds so I do not lose work if I am interrupted.
+- As the owner, I want draft captures to appear in my private card index so I can find, search, filter, and finish them later.
 - As the owner, I want to tap the subject in a photo so DripDex knows what I want identified and the scan interaction feels intentional.
 - As the owner, I want to challenge or refine the AI suggestion so I can avoid bad identifications.
 - As the owner, I want to record observations without photos so I can capture calls, tracks, fleeting sightings, and notes.
@@ -637,6 +654,7 @@ Candidate MVP journeys:
 - Owner logs in.
 - Owner starts a capture from Upload Photo or Open Scanner.
 - DripDex saves a draft immediately and processes EXIF, image derivatives, and AI analysis in parallel.
+- Owner can find unfinished drafts in the private card index by filtering for Draft status.
 - Owner taps the subject and sees the target-lock animation.
 - Owner uploads a photo and accepts an AI identification.
 - Owner uploads a photo and refines/disagrees with the AI identification.
