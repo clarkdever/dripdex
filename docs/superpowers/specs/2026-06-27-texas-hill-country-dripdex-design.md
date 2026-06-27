@@ -177,17 +177,23 @@ The preferred owner workflow begins with a photo upload.
 High-level flow:
 
 1. Owner uploads a photo.
-2. Photo appears in the shared capture preview.
-3. Owner taps the subject to target it.
-4. Scanner overlay animates a target lock at the tapped point.
-5. System reads EXIF privately.
-6. System stores original privately if configured.
-7. System creates EXIF-stripped public derivative.
-8. System runs AI identification with the full image and target point as context.
-9. System returns suggested ID, confidence, reasoning, uncertainty, and lookalikes.
-10. System loads web-search comparison thumbnails for the suggested entity and likely lookalikes.
-11. Owner accepts, refines, disagrees, creates a mystery entry, or enters manually.
-12. System creates an observation and links it to a confirmed or mystery entry.
+2. System immediately creates a draft observation tied to the uploaded file.
+3. Photo appears in the shared capture preview.
+4. System reads EXIF privately in the background.
+5. System stores original privately if configured.
+6. System creates EXIF-stripped public derivative in the background.
+7. System starts AI identification in the background using the full image and any available date/location context.
+8. Owner taps the subject to target it while background processing continues.
+9. Scanner overlay animates a target lock at the tapped point.
+10. System updates the draft with the normalized subject point.
+11. AI analysis is updated or refined with the subject point if the first pass has not completed, or a follow-up refinement is queued if it has.
+12. System returns suggested ID, confidence, reasoning, uncertainty, and lookalikes.
+13. System loads web-search comparison thumbnails for the suggested entity and likely lookalikes.
+14. Owner accepts, refines, disagrees, creates a mystery entry, or enters manually.
+15. System updates the draft observation and links it to a confirmed or mystery entry.
+16. Owner saves/publishes the completed observation.
+
+Draft creation is optimistic. Once the photo upload succeeds, DripDex should save a recoverable draft and progressively update it as EXIF extraction, public derivative generation, target locking, AI identification, and owner review complete.
 
 ### Capture Entry Point
 
@@ -205,7 +211,7 @@ Log Without Photo is the fallback for calls, tracks, fleeting sightings, behavio
 
 ### Manual Target Lock
 
-After a photo is loaded, DripDex should ask the owner to tap the subject before analysis begins.
+After a photo is loaded, DripDex should ask the owner to tap the subject while background analysis begins.
 
 Target-lock interaction:
 
@@ -219,7 +225,7 @@ Target-lock interaction:
 8. Two corner brackets appear around the target zone, showing only upper-left and lower-right 90 degree angles rather than a full square.
 9. Overlay text resolves to "Subject located."
 10. Target marker fades or collapses into the analysis HUD.
-11. AI analysis begins or continues with the tap coordinate stored as image-relative metadata.
+11. The draft is updated with the tap coordinate as image-relative metadata, and the analysis HUD continues.
 
 This is intentionally not computer vision. The user supplies the subject point, and DripDex makes the moment feel like the device acquired the subject. The point may later help with crop suggestions, model prompts, or image-region analysis, but it should not be treated as proof of identity.
 
@@ -587,6 +593,7 @@ Initial candidate jobs:
 - As a kid or family member, I want the creature pages to feel fun and approachable so I want to keep exploring.
 - As an adult learner, I want expandable scientific details and citations so I can trust and learn from the app.
 - As the owner, I want to upload a photo and get an AI-assisted ID so I can quickly record an observation.
+- As the owner, I want DripDex to save a draft as soon as my upload succeeds so I do not lose work if I am interrupted.
 - As the owner, I want to tap the subject in a photo so DripDex knows what I want identified and the scan interaction feels intentional.
 - As the owner, I want to challenge or refine the AI suggestion so I can avoid bad identifications.
 - As the owner, I want to record observations without photos so I can capture calls, tracks, fleeting sightings, and notes.
@@ -607,6 +614,7 @@ Candidate MVP journeys:
 - Public visitor uses "Seen Near Me."
 - Owner logs in.
 - Owner starts a capture from Upload Photo or Open Scanner.
+- DripDex saves a draft immediately and processes EXIF, image derivatives, and AI analysis in parallel.
 - Owner taps the subject and sees the target-lock animation.
 - Owner uploads a photo and accepts an AI identification.
 - Owner uploads a photo and refines/disagrees with the AI identification.
