@@ -632,10 +632,28 @@ Checklist behavior:
 - Show unfound creatures as disabled or locked cards with a high-contrast lock icon placeholder image.
 - Number seeded checklist cards alphabetically so kids have a stable, achievable list to complete.
 - Keep found and unfound cards in the same collection surface, with clear visual difference between found, locked, draft, mystery, and published states.
-- Append any discovered creature outside the seeded checklist using the next available number.
+- Append any confirmed creature outside the seeded checklist using the next available number, and increment the total possible collection count. Example: a new confirmed unseeded species after a 75-card checklist becomes `#076`, and progress changes from `18/75` to `19/76`.
 - Use the collection flavor phrase "Gotta Catch'em Y'all!" where it fits the playful checklist experience.
 
 The seed list should be curated from reputable regional sources and human-reviewed. AI can suggest additions, aliases, tags, and starter descriptions, but it should not be the sole source of the checklist.
+
+Collectible progress behavior:
+
+- A creature counts as Found when it has at least one confirmed observation.
+- Drafts do not count as Found.
+- Mysteries do not count as Found until resolved.
+- Locked checklist cards count toward the total possible collection.
+- Rarity is a visual frame treatment, not a progress mechanic.
+- The New badge clears when the card is opened. For public visitors this can be local browser state in MVP.
+- Favorites are a simple personalization layer and do not affect progress.
+
+Starter set catalog:
+
+- Life-cycle sets: frog egg/tadpole/froglet/adult and butterfly egg/caterpillar/chrysalis/adult.
+- Theme sets: Porch Light Crew, Pond Pals, Cacti Comrades, Succulent Set.
+- Each set should have simple metadata: name, description, category, required entries, optional entries, completion rule, and celebration copy.
+- AI can suggest set membership, but owner approval is required.
+- Set wrappers should render when at least two related cards/finds are present, and completion should be highlighted when all required entries are found.
 
 ### Collection View Visual Decisions
 
@@ -645,7 +663,12 @@ Design decisions from the mockup:
 
 - Keep search primary and always visible.
 - Put most filters behind a compact Filter dropdown or mobile sheet rather than a long chip row.
-- Allow only a small set of high-use quick filters, such as Found, Drafts, and Mysteries.
+- Allow only a small set of high-use quick filters, such as Found, Favorites, Drafts, and Mysteries.
+- Add a Front Row Favorites area above the grouped collection when favorites exist. Starred cards still remain in their normal category group; Front Row is a shortcut, not relocation.
+- Favorite state should be local/private in MVP: per-browser for public visitors and per-owner account for the logged-in owner. No public favorite counts in MVP.
+- Group cards by broad organism category so the collection stays scannable as it grows.
+- Use collapsible category sections for Birds, Mammals, Reptiles, Amphibians, Fish, Insects, Arachnids, Other Invertebrates, Plants, and Fungi.
+- Include a compact category jump menu for long collections. It should be treated as lightweight navigation and kept visually small.
 - Treat Draft cards with a red diagonal rubber-stamp overlay.
 - Treat Mystery cards with the original image shown in grayscale, question marks for the name, and a purple question mark overlay on the image.
 - Treat locked checklist cards with a lock icon, not a question mark, so locked/unfound and mystery/unknown states stay visually distinct.
@@ -659,6 +682,7 @@ Approved public collection states:
 2. Guestbook open: accordion expands in place between the intro and collection, with Name, Visiting From, Comment, Sign Guest Book, existing approved entries, and pagination. Reference: `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-guestbook-open.png`.
 3. Guestbook pending submission: after submit, the visitor's row appears immediately at the top of the list with a Pending badge and owner-approval note. Reference: `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-guestbook-pending.png`.
 4. Intro hidden: Hide Intro is the primary/default intro CTA; it dismisses the intro and stores that preference in a cookie so returning visitors land closer to the collection. Reference: `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-intro-hidden.png`.
+5. Favorites and grouped collection: Front Row favorites, category jump menu, collapsible organism groups, and Featured Sets in the approved Option A visual language. Reference: `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-favorites-groups.png`.
 
 Public intro behavior:
 
@@ -992,6 +1016,7 @@ Mockup references in the local repo:
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-guestbook-open.png`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-guestbook-pending.png`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-intro-hidden.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-favorites-groups.png`
 
 Gemini references:
 

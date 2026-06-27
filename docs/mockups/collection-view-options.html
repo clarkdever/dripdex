@@ -466,6 +466,40 @@
         display: grid;
       }
 
+      .favorite-button {
+        position: absolute;
+        z-index: 8;
+        top: 8px;
+        left: 8px;
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        color: #252730;
+        background: rgba(255, 251, 233, 0.92);
+        border: 2px solid #252730;
+        border-radius: 50%;
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.24);
+      }
+
+      .favorite-button::before {
+        content: "\2606";
+        font-size: 1.05rem;
+        font-weight: 950;
+        line-height: 1;
+      }
+
+      .favorite-button.is-active,
+      .favorite-button[aria-pressed="true"] {
+        color: #252730;
+        background: var(--complete);
+      }
+
+      .favorite-button.is-active::before,
+      .favorite-button[aria-pressed="true"]::before {
+        content: "\2605";
+      }
+
       .new-badge {
         position: absolute;
         z-index: 7;
@@ -749,6 +783,217 @@
       .toggle.active {
         color: #fff7df;
         background: #252730;
+      }
+
+      .front-row {
+        display: grid;
+        gap: 9px;
+        padding: 12px;
+        color: #fff7df;
+        background:
+          linear-gradient(90deg, rgba(255, 210, 74, 0.24), rgba(201, 255, 61, 0.12)),
+          #252730;
+        border-top: 3px solid rgba(255, 210, 74, 0.72);
+        border-bottom: 3px solid #141416;
+      }
+
+      .front-row-header,
+      .category-summary,
+      .collection-group-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .front-row-header strong,
+      .category-summary strong,
+      .collection-group-header strong {
+        color: var(--glow);
+        font-size: 0.82rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .front-row-header span,
+      .category-summary span,
+      .collection-group-header span {
+        color: #b9c9bb;
+        font-size: 0.7rem;
+        font-weight: 850;
+      }
+
+      .favorite-strip {
+        display: grid;
+        grid-auto-columns: minmax(126px, 34%);
+        grid-auto-flow: column;
+        gap: 9px;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        padding-bottom: 4px;
+        scroll-snap-type: inline proximity;
+      }
+
+      .favorite-strip .dex-card {
+        scroll-snap-align: start;
+      }
+
+      .favorite-strip .card-body {
+        padding: 7px;
+      }
+
+      .favorite-strip .card-name {
+        min-height: 2em;
+        font-size: 0.78rem;
+      }
+
+      .favorite-strip .latin,
+      .favorite-strip .tags {
+        display: none;
+      }
+
+      .group-jump {
+        position: sticky;
+        z-index: 15;
+        top: 0;
+        display: grid;
+        gap: 7px;
+        padding: 9px 12px;
+        background: #15181d;
+        border-top: 3px solid rgba(201, 255, 61, 0.35);
+        border-bottom: 3px solid #252730;
+      }
+
+      .group-jump-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        color: #fff7df;
+        font-size: 0.72rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .group-jump-title span:last-child {
+        color: #a9b7a9;
+        font-size: 0.66rem;
+      }
+
+      .jump-scroll {
+        display: flex;
+        gap: 7px;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .jump-link {
+        flex: 0 0 auto;
+        min-height: 32px;
+        padding: 0 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #141416;
+        background: #fffbe9;
+        border-radius: 999px;
+        font-size: 0.68rem;
+        font-weight: 950;
+        text-decoration: none;
+        white-space: nowrap;
+        box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.12);
+      }
+
+      .jump-link.active {
+        color: #141416;
+        background: var(--glow);
+      }
+
+      .collection-groups {
+        display: grid;
+        gap: 0;
+        background:
+          linear-gradient(rgba(20, 20, 22, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(20, 20, 22, 0.04) 1px, transparent 1px),
+          var(--screen);
+        background-size: 16px 16px;
+      }
+
+      .category-section {
+        border-bottom: 3px solid rgba(37, 39, 48, 0.18);
+      }
+
+      .category-section summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 11px 12px;
+        color: #141416;
+        background: rgba(255, 251, 233, 0.78);
+        cursor: pointer;
+        list-style: none;
+      }
+
+      .category-section summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .category-summary {
+        min-width: 0;
+        flex: 1;
+      }
+
+      .category-summary strong {
+        color: #252730;
+      }
+
+      .category-summary span {
+        color: #5b625f;
+      }
+
+      .category-caret {
+        width: 28px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        color: #141416;
+        background: var(--glow);
+        border-radius: 50%;
+        font-size: 1rem;
+        font-weight: 950;
+        transform: rotate(90deg);
+      }
+
+      .category-section[open] .category-caret {
+        transform: rotate(-90deg);
+      }
+
+      .category-section .grid {
+        padding-top: 0;
+      }
+
+      .collection-set-row {
+        display: grid;
+        gap: 10px;
+        padding: 12px;
+        background:
+          linear-gradient(rgba(20, 20, 22, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(20, 20, 22, 0.04) 1px, transparent 1px),
+          var(--screen);
+        background-size: 16px 16px;
+      }
+
+      .collection-group-header {
+        padding: 0 2px;
+      }
+
+      .collection-group-header strong {
+        color: #252730;
+      }
+
+      .collection-group-header span {
+        color: #5b625f;
       }
 
       .life-set {
@@ -1217,6 +1462,19 @@
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
+        .favorite-strip {
+          grid-auto-columns: minmax(116px, 44%);
+        }
+
+        .front-row-header,
+        .category-summary,
+        .collection-group-header,
+        .group-jump-title {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 3px;
+        }
+
         .quick-row {
           align-items: stretch;
           flex-direction: column;
@@ -1399,114 +1657,329 @@
               <div class="quick-row">
                 <div class="quick-toggles" aria-label="Quick filters">
                   <button class="toggle active" type="button">Found</button>
+                  <button class="toggle" type="button">Favorites</button>
                   <button class="toggle" type="button">Drafts</button>
                   <button class="toggle" type="button">Mysteries</button>
                 </div>
                 <button class="capture-button" type="button">Add Find</button>
               </div>
 
-              <div class="grid" aria-label="Collection card grid">
-                <article class="dex-card new-seen" data-clear-new>
-                  <span class="new-badge">New</span>
-                  <div class="card-art"><div class="creature-mark bird-mark"></div></div>
-                  <div class="card-body">
-                    <div class="num-row">
-                      <span class="entry-number">#018</span>
-                      <span class="state-chip found">Found</span>
-                    </div>
-                    <h3 class="card-name">House Finch</h3>
-                    <p class="latin">Haemorhous mexicanus</p>
-                    <div class="tags">
-                      <span class="tag flying">Flying</span>
-                      <span class="tag plant">Seed</span>
-                    </div>
-                  </div>
-                </article>
-
-                <article class="dex-card locked">
-                  <div class="card-art"></div>
-                  <div class="card-body">
-                    <div class="num-row">
-                      <span class="entry-number">#019</span>
-                      <span class="state-chip">Locked</span>
-                    </div>
-                    <h3 class="card-name">Ladder-backed Woodpecker</h3>
-                    <p class="latin">Still searching</p>
-                    <div class="tags">
-                      <span class="tag flying">Flying</span>
-                      <span class="tag bug">Predator</span>
-                    </div>
-                  </div>
-                </article>
-
-                <article class="dex-card draft">
-                  <div class="card-art"><div class="creature-mark spider-mark"></div></div>
-                  <div class="card-body">
-                    <div class="num-row">
-                      <span class="entry-number">#041</span>
-                      <span class="state-chip">Draft</span>
-                    </div>
-                    <h3 class="card-name">False Widow</h3>
-                    <p class="latin">Steatoda sp.</p>
-                    <div class="tags">
-                      <span class="tag dark">Dark</span>
-                      <span class="tag bug">Predator</span>
-                    </div>
-                  </div>
-                </article>
-
-                <article class="dex-card mystery">
-                  <div class="card-art"><div class="creature-mark plant-mark"></div></div>
-                  <div class="card-body">
-                    <div class="num-row">
-                      <span class="entry-number">#???</span>
-                      <span class="state-chip mystery-chip">Mystery</span>
-                    </div>
-                    <h3 class="card-name mystery-name">?????</h3>
-                    <p class="latin">Needs your expert eye</p>
-                    <div class="tags">
-                      <span class="tag plant">Plant</span>
-                      <span class="tag rare">Spring</span>
-                    </div>
-                  </div>
-                </article>
-              </div>
-
-              <section class="life-set" aria-label="Life cycle complete set">
-                <div class="life-set-header">
-                  <strong>Life Cycle Complete</strong>
-                  <span>Monarch set</span>
+              <section class="front-row" aria-label="Favorite creatures">
+                <div class="front-row-header">
+                  <strong>Front Row Favorites</strong>
+                  <span>Star a card to keep it up top</span>
                 </div>
-                <div class="mini-grid">
-                  <article class="dex-card">
-                    <div class="card-art"><div class="creature-mark egg-mark"></div></div>
+                <div class="favorite-strip">
+                  <article class="dex-card new-seen" data-clear-new>
+                    <button class="favorite-button is-active" type="button" aria-label="Remove House Finch from favorites" aria-pressed="true" data-favorite-toggle></button>
+                    <span class="new-badge">New</span>
+                    <div class="card-art"><div class="creature-mark bird-mark"></div></div>
                     <div class="card-body">
-                      <div class="num-row"><span class="entry-number">#052A</span></div>
-                      <h3 class="card-name">Egg</h3>
+                      <div class="num-row">
+                        <span class="entry-number">#018</span>
+                        <span class="state-chip found">Found</span>
+                      </div>
+                      <h3 class="card-name">House Finch</h3>
+                      <p class="latin">Haemorhous mexicanus</p>
                     </div>
                   </article>
+
                   <article class="dex-card">
-                    <div class="card-art"><div class="creature-mark larva-mark"></div></div>
-                    <div class="card-body">
-                      <div class="num-row"><span class="entry-number">#052B</span></div>
-                      <h3 class="card-name">Caterpillar</h3>
-                    </div>
-                  </article>
-                  <article class="dex-card">
-                    <div class="card-art"><div class="creature-mark pupa-mark"></div></div>
-                    <div class="card-body">
-                      <div class="num-row"><span class="entry-number">#052C</span></div>
-                      <h3 class="card-name">Chrysalis</h3>
-                    </div>
-                  </article>
-                  <article class="dex-card">
+                    <button class="favorite-button is-active" type="button" aria-label="Remove Monarch from favorites" aria-pressed="true" data-favorite-toggle></button>
                     <div class="card-art"><div class="creature-mark butterfly-mark"></div></div>
                     <div class="card-body">
-                      <div class="num-row"><span class="entry-number">#052D</span></div>
-                      <h3 class="card-name">Adult</h3>
+                      <div class="num-row">
+                        <span class="entry-number">#052D</span>
+                        <span class="state-chip found">Found</span>
+                      </div>
+                      <h3 class="card-name">Monarch Adult</h3>
+                      <p class="latin">Danaus plexippus</p>
+                    </div>
+                  </article>
+
+                  <article class="dex-card">
+                    <button class="favorite-button is-active" type="button" aria-label="Remove Bat from favorites" aria-pressed="true" data-favorite-toggle></button>
+                    <div class="card-art"><div class="creature-mark bat-mark"></div></div>
+                    <div class="card-body">
+                      <div class="num-row">
+                        <span class="entry-number">#006</span>
+                        <span class="state-chip found">Found</span>
+                      </div>
+                      <h3 class="card-name">Free-tailed Bat</h3>
+                      <p class="latin">Tadarida brasiliensis</p>
                     </div>
                   </article>
                 </div>
+              </section>
+
+              <nav class="group-jump" aria-label="Collection group navigation">
+                <div class="group-jump-title">
+                  <span>Jump to a group</span>
+                </div>
+                <div class="jump-scroll">
+                  <a class="jump-link active" href="#birds">Birds</a>
+                  <a class="jump-link" href="#mammals">Mammals</a>
+                  <a class="jump-link" href="#reptiles">Reptiles</a>
+                  <a class="jump-link" href="#amphibians">Amphibians</a>
+                  <a class="jump-link" href="#fish">Fish</a>
+                  <a class="jump-link" href="#insects">Insects</a>
+                  <a class="jump-link" href="#arachnids">Arachnids</a>
+                  <a class="jump-link" href="#inverts">Other Inverts</a>
+                  <a class="jump-link" href="#plants">Plants</a>
+                  <a class="jump-link" href="#fungi">Fungi</a>
+                </div>
+              </nav>
+
+              <div class="collection-groups">
+                <details class="category-section" id="birds" open>
+                  <summary>
+                    <span class="category-summary">
+                      <strong>Birds</strong>
+                      <span>2 found / 14 in Hill Country set</span>
+                    </span>
+                    <span class="category-caret" aria-hidden="true">›</span>
+                  </summary>
+                  <div class="grid" aria-label="Bird cards">
+                    <article class="dex-card new-seen" data-clear-new>
+                      <button class="favorite-button is-active" type="button" aria-label="Remove House Finch from favorites" aria-pressed="true" data-favorite-toggle></button>
+                      <span class="new-badge">New</span>
+                      <div class="card-art"><div class="creature-mark bird-mark"></div></div>
+                      <div class="card-body">
+                        <div class="num-row">
+                          <span class="entry-number">#018</span>
+                          <span class="state-chip found">Found</span>
+                        </div>
+                        <h3 class="card-name">House Finch</h3>
+                        <p class="latin">Haemorhous mexicanus</p>
+                        <div class="tags">
+                          <span class="tag flying">Flying</span>
+                          <span class="tag plant">Seed</span>
+                        </div>
+                      </div>
+                    </article>
+
+                    <article class="dex-card locked">
+                      <button class="favorite-button" type="button" aria-label="Add Ladder-backed Woodpecker to favorites" aria-pressed="false" data-favorite-toggle></button>
+                      <div class="card-art"></div>
+                      <div class="card-body">
+                        <div class="num-row">
+                          <span class="entry-number">#019</span>
+                          <span class="state-chip">Locked</span>
+                        </div>
+                        <h3 class="card-name">Ladder-backed Woodpecker</h3>
+                        <p class="latin">Still searching</p>
+                        <div class="tags">
+                          <span class="tag flying">Flying</span>
+                          <span class="tag bug">Predator</span>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                </details>
+
+                <details class="category-section" id="mammals">
+                  <summary>
+                    <span class="category-summary">
+                      <strong>Mammals</strong>
+                      <span>3 found / 9 in Hill Country set</span>
+                    </span>
+                    <span class="category-caret" aria-hidden="true">›</span>
+                  </summary>
+                </details>
+
+                <details class="category-section" id="reptiles">
+                  <summary>
+                    <span class="category-summary">
+                      <strong>Reptiles</strong>
+                      <span>1 found / 8 in Hill Country set</span>
+                    </span>
+                    <span class="category-caret" aria-hidden="true">›</span>
+                  </summary>
+                </details>
+
+                <details class="category-section" id="amphibians">
+                  <summary>
+                    <span class="category-summary">
+                      <strong>Amphibians</strong>
+                      <span>1 found / 7 in Hill Country set</span>
+                    </span>
+                    <span class="category-caret" aria-hidden="true">›</span>
+                  </summary>
+                </details>
+
+                <details class="category-section" id="fish">
+                  <summary>
+                    <span class="category-summary">
+                      <strong>Fish</strong>
+                      <span>0 found / 5 in Hill Country set</span>
+                    </span>
+                    <span class="category-caret" aria-hidden="true">›</span>
+                  </summary>
+                </details>
+
+                <details class="category-section" id="insects" open>
+                  <summary>
+                    <span class="category-summary">
+                      <strong>Insects</strong>
+                      <span>5 found / 16 in Hill Country set</span>
+                    </span>
+                    <span class="category-caret" aria-hidden="true">›</span>
+                  </summary>
+                  <div class="grid" aria-label="Insect cards">
+                    <article class="dex-card">
+                      <button class="favorite-button is-active" type="button" aria-label="Remove Monarch Adult from favorites" aria-pressed="true" data-favorite-toggle></button>
+                      <div class="card-art"><div class="creature-mark butterfly-mark"></div></div>
+                      <div class="card-body">
+                        <div class="num-row">
+                          <span class="entry-number">#052D</span>
+                          <span class="state-chip found">Found</span>
+                        </div>
+                        <h3 class="card-name">Monarch Adult</h3>
+                        <p class="latin">Danaus plexippus</p>
+                        <div class="tags">
+                          <span class="tag bug">Bug</span>
+                          <span class="tag flying">Flying</span>
+                        </div>
+                      </div>
+                    </article>
+
+                    <article class="dex-card locked">
+                      <button class="favorite-button" type="button" aria-label="Add June Beetle to favorites" aria-pressed="false" data-favorite-toggle></button>
+                      <div class="card-art"></div>
+                      <div class="card-body">
+                        <div class="num-row">
+                          <span class="entry-number">#063</span>
+                          <span class="state-chip">Locked</span>
+                        </div>
+                        <h3 class="card-name">June Beetle</h3>
+                        <p class="latin">Still searching</p>
+                        <div class="tags">
+                          <span class="tag bug">Bug</span>
+                          <span class="tag dark">Dark</span>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                </details>
+
+                <details class="category-section" id="arachnids" open>
+                  <summary>
+                    <span class="category-summary">
+                      <strong>Arachnids</strong>
+                      <span>1 draft / 6 in Hill Country set</span>
+                    </span>
+                    <span class="category-caret" aria-hidden="true">›</span>
+                  </summary>
+                  <div class="grid" aria-label="Arachnid cards">
+                    <article class="dex-card draft">
+                      <button class="favorite-button" type="button" aria-label="Add False Widow to favorites" aria-pressed="false" data-favorite-toggle></button>
+                      <div class="card-art"><div class="creature-mark spider-mark"></div></div>
+                      <div class="card-body">
+                        <div class="num-row">
+                          <span class="entry-number">#041</span>
+                          <span class="state-chip">Draft</span>
+                        </div>
+                        <h3 class="card-name">False Widow</h3>
+                        <p class="latin">Steatoda sp.</p>
+                        <div class="tags">
+                          <span class="tag dark">Dark</span>
+                          <span class="tag bug">Predator</span>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                </details>
+
+                <details class="category-section" id="inverts">
+                  <summary>
+                    <span class="category-summary">
+                      <strong>Other Invertebrates</strong>
+                      <span>0 found / 4 in Hill Country set</span>
+                    </span>
+                    <span class="category-caret" aria-hidden="true">›</span>
+                  </summary>
+                </details>
+
+                <details class="category-section" id="plants" open>
+                  <summary>
+                    <span class="category-summary">
+                      <strong>Plants</strong>
+                      <span>4 found / 18 in Hill Country set</span>
+                    </span>
+                    <span class="category-caret" aria-hidden="true">›</span>
+                  </summary>
+                  <div class="grid" aria-label="Plant cards">
+                    <article class="dex-card mystery">
+                      <button class="favorite-button" type="button" aria-label="Add mystery plant to favorites" aria-pressed="false" data-favorite-toggle></button>
+                      <div class="card-art"><div class="creature-mark plant-mark"></div></div>
+                      <div class="card-body">
+                        <div class="num-row">
+                          <span class="entry-number">#???</span>
+                          <span class="state-chip mystery-chip">Mystery</span>
+                        </div>
+                        <h3 class="card-name mystery-name">?????</h3>
+                        <p class="latin">Needs your expert eye</p>
+                        <div class="tags">
+                          <span class="tag plant">Plant</span>
+                          <span class="tag rare">Spring</span>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                </details>
+
+                <details class="category-section" id="fungi">
+                  <summary>
+                    <span class="category-summary">
+                      <strong>Fungi</strong>
+                      <span>1 found / 5 in Hill Country set</span>
+                    </span>
+                    <span class="category-caret" aria-hidden="true">›</span>
+                  </summary>
+                </details>
+              </div>
+
+              <section class="collection-set-row" aria-label="Collection sets">
+                <div class="collection-group-header">
+                  <strong>Featured Sets</strong>
+                  <span>Life cycles and little local crews</span>
+                </div>
+                <section class="life-set" aria-label="Life cycle complete set">
+                  <div class="life-set-header">
+                    <strong>Life Cycle Complete</strong>
+                    <span>Monarch set</span>
+                  </div>
+                  <div class="mini-grid">
+                    <article class="dex-card">
+                      <div class="card-art"><div class="creature-mark egg-mark"></div></div>
+                      <div class="card-body">
+                        <div class="num-row"><span class="entry-number">#052A</span></div>
+                        <h3 class="card-name">Egg</h3>
+                      </div>
+                    </article>
+                    <article class="dex-card">
+                      <div class="card-art"><div class="creature-mark larva-mark"></div></div>
+                      <div class="card-body">
+                        <div class="num-row"><span class="entry-number">#052B</span></div>
+                        <h3 class="card-name">Caterpillar</h3>
+                      </div>
+                    </article>
+                    <article class="dex-card">
+                      <div class="card-art"><div class="creature-mark pupa-mark"></div></div>
+                      <div class="card-body">
+                        <div class="num-row"><span class="entry-number">#052C</span></div>
+                        <h3 class="card-name">Chrysalis</h3>
+                      </div>
+                    </article>
+                    <article class="dex-card">
+                      <div class="card-art"><div class="creature-mark butterfly-mark"></div></div>
+                      <div class="card-body">
+                        <div class="num-row"><span class="entry-number">#052D</span></div>
+                        <h3 class="card-name">Adult</h3>
+                      </div>
+                    </article>
+                  </div>
+                </section>
               </section>
             </div>
           </div>
@@ -1681,7 +2154,8 @@
           Interaction notes: filter buttons open dropdowns. Tap a card with a New badge
           to clear the badge, modeling the "new until viewed" behavior. Hide Intro
           stores a cookie in the browser. Guest book submissions render locally as
-          pending rows for this comp.
+          pending rows for this comp. Star buttons toggle favorite state locally.
+          Group buttons preview compact category navigation.
         </p>
       </div>
     </main>
@@ -1726,6 +2200,15 @@
       document.querySelectorAll("[data-clear-new]").forEach((card) => {
         card.addEventListener("click", () => {
           card.classList.remove("new-seen");
+        });
+      });
+
+      document.querySelectorAll("[data-favorite-toggle]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const isPressed = button.getAttribute("aria-pressed") === "true";
+          button.setAttribute("aria-pressed", String(!isPressed));
+          button.classList.toggle("is-active", !isPressed);
         });
       });
 
