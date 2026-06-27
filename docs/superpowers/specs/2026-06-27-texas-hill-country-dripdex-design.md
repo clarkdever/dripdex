@@ -429,16 +429,38 @@ Card contents:
 - Entry number.
 - Common name.
 - Scientific name when confirmed.
+- Generated/editable nickname in the logged-in owner view.
 - Default photo or mystery silhouette.
 - Category icon.
-- Type chips.
+- Collapsed tag-family controls with iconography and labels.
 - Rarity treatment.
+- Active variant/life-stage badge when the card is showing a specific find.
+- Multiple-find controls when more than one observation/photo exists.
 - Seen count.
 - Last seen season or month.
 - Public area label.
 - Status: confirmed, likely, mystery.
 
 In the logged-in owner view, the same card index should also include private draft cards tagged as Draft. Draft cards are excluded from public browsing until saved/published.
+
+### Creature Card Visual Decisions
+
+The House Finch mockup in `/docs/mockups/tag-display-options.html` is the current card-design inspiration.
+
+Design decisions from the mockup:
+
+- Use a vertically oriented mobile-card composition, roughly 9:16 in spirit.
+- Keep the creature image as the focal point.
+- Treat rarity as the image/card frame treatment, not as another chip.
+- Show only one active sex/variant/life-stage badge on the image at a time.
+- Use mid-image left/right arrows and small dots for multiple finds, similar to a lightweight social carousel.
+- Do not show redundant overlay text such as "Male Find" when the active variant badge already communicates it.
+- Put the generated nickname above the species/common-name section.
+- Let the nickname be generated from tag/type-specific word lists, editable on click, autosaved, and overwritten by an explicit shuffle action.
+- Place shuffle as a small icon button on the left side of the nickname row to reduce accidental overwrites.
+- Keep tag families collapsed by default as icon + word controls.
+- Expand a tag family into readable pills only when tapped.
+- Avoid helper copy on the card when the control itself is understandable.
 
 ### Seen Near Me
 
@@ -487,25 +509,42 @@ Adult/science accordions:
 - Safety.
 - Sources and citations.
 
-The first view should hook a child. The accordions should reward adult curiosity.
+The first view should hook a child. The accordions should reward adult curiosity. The current mockup uses "Would you like to know more?" as the adult-science expansion text; this tone is intentionally playful, while the expanded content should remain citation-backed and reviewable.
 
 ## 11. Tags, Rarity, and Game Flavor
 
-### Type Tags
+### Tag Families
 
-The app should use a controlled tag list that covers most organisms, with AI suggestions and owner approval.
+The app should use controlled tag lists that cover most organisms, with AI suggestions and owner approval.
 
-Draft tag categories:
+Tag display should be compact by default. On creature cards and scan/detail surfaces, show tag families as icon + word controls. When a user taps a family, expand that family into readable pills. Icons may begin as emoji placeholders in prototypes but should later become consistent custom icons.
 
-- Habitat: Woodland, Grassland, Riparian, Aquatic, Cave, Urban, Garden, Roadside.
-- Activity: Nocturnal, Crepuscular, Diurnal.
-- Movement/behavior: Flying, Swimming, Burrowing, Climbing, Pollinator, Predator, Scavenger, Parasite, Mimic, Camouflaged.
-- Interaction/safety: Venomous, Poisonous, Stinging, Biting, Irritating, Edible, Medicinal, Fragile, Protected.
-- Appearance: Flowering, Spotted, Striped, Iridescent, Fuzzy, Armored, Tiny, Large, Bright, Cryptic.
-- Ecology/status: Native, Endemic, Introduced, Invasive, Migratory, Rare, Common, Indicator Species.
-- Seasonality: Spring, Summer, Fall, Winter, Rain-Loving, Drought-Tolerant.
+MVP tag families:
 
-The final controlled list should be broad enough for 90 percent of entries but small enough to avoid tag sprawl.
+- Core type tags: Plant, Flying, Bug, Water, Ground, Rock, Poisonous, Venomous, Dark, Light, Camouflage, Armored, Singing, Stinging.
+- Food-chain role tags: Producer, Pollinator, Herbivore, Carnivore, Omnivore, Predator, Prey, Decomposer, Scavenger, Parasite, Seed Spreader.
+- Habitat/behavior tags: Woodland, Grassland, Creekside, Pond, Garden, Urban, Porch Light, Roadside, Cave, Burrowing, Climbing, Swimming, Web Builder, Migratory, Native, Introduced, Invasive, Rain-Loving, Drought-Tolerant.
+- Seasonality tags: Spring, Summer, Fall, Winter, Year-Round.
+- Variant/life-stage tags: Male, Female, Juvenile, Adult, Egg, Larva, Nymph, Pupa, Track, Call, Nest, Burrow, Scat, Flower, Bud, Fruit, Seed, New Growth, Dormant, Fruiting Body, Mycelium, Bracket, Lichen Form.
+- Safety/interaction tags: Look Only, Do Not Touch, Venomous, Poisonous, Stinging, Biting, Irritating, Sharp, Fragile, Protected, Allergen, Invasive Concern, Reportable.
+
+Avoid public kid-facing Edible or Medicinal tags in MVP because they can encourage unsafe experimentation.
+
+The final controlled lists should be broad enough for most entries but small enough to avoid tag sprawl.
+
+### Generated Nicknames
+
+Kids like naming collected creatures, so logged-in cards should support a generated nickname.
+
+Nickname behavior:
+
+- Generate nicknames from word lists associated with the creature's approved tags/types.
+- Combine two randomly selected relevant word-list entries, such as a Flying word and a Singing/Garden word.
+- Show the generated name as text by default.
+- Clicking the name turns it into an editable input.
+- Edits autosave.
+- A shuffle/recycle icon generates a new nickname and overwrites the current saved nickname.
+- The shuffle control should be visually separate from the editable field, placed on the left in the current mockup, to reduce accidental overwrites.
 
 ### Rarity
 
@@ -522,6 +561,8 @@ Ecological rarity:
 - May include conservation status, range, local occurrence, county records, and frequency in public datasets.
 
 This distinction prevents confusion when something is personally rare but ecologically common, or ecologically sensitive but locally observable.
+
+Visual rule: rarity should primarily be expressed as a card/image frame treatment: color, border, pattern, shine, corner marker, or special frame. It should not consume tag-chip space unless a compact fallback is needed.
 
 ### Visual Flare
 
@@ -547,6 +588,13 @@ Personal achievements should remain private when they depend on exact location, 
 ### Variants
 
 The app should support variant visuals and records.
+
+Card/display rules:
+
+- The active find can show one sex/variant/life-stage icon on the image.
+- If multiple finds/photos exist, use simple carousel controls and dots rather than a separate tall gallery bar.
+- Variant/life-stage tags can still appear in the Variant family when expanded, but the active image should show only its current badge.
+- Future gamification should support collecting all relevant life stages/forms for a creature.
 
 Variant examples:
 
@@ -688,6 +736,11 @@ Reference images in the local repo:
 - `/Users/clarkdever/Documents/code/pokedex/docs/inspiration/200.webp`
 - `/Users/clarkdever/Documents/code/pokedex/docs/inspiration/256.webp`
 - `/Users/clarkdever/Documents/code/pokedex/docs/inspiration/256px-Pokédex_Image_Azurill_SV.webp`
+
+Mockup references in the local repo:
+
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/tag-display-options.html`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/tag-display-options-full-page.png`
 
 External references to revisit during planning:
 
