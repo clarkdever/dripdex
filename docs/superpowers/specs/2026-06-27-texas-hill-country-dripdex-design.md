@@ -959,6 +959,7 @@ Mockup references in the local repo:
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/tag-display-options.html`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/tag-display-options-full-page.png`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-options.html`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-option-1.png`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-options-desktop.png`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-options-mobile.png`
 
