@@ -192,7 +192,8 @@ High-level flow:
 14. System loads web-search comparison thumbnails for the suggested entity and likely lookalikes.
 15. Owner accepts, refines, disagrees, creates a mystery entry, or enters manually.
 16. System updates the draft observation and links it to a confirmed or mystery entry.
-17. Owner saves/publishes the completed observation.
+17. System evaluates lightweight gamification triggers and queues any celebration modals.
+18. Owner saves/publishes the completed observation.
 
 Draft creation is optimistic. Once the photo upload succeeds, DripDex should save a recoverable draft and progressively update it as EXIF extraction, public derivative generation, target locking, AI identification, and owner review complete.
 
@@ -209,6 +210,34 @@ Draft behavior:
 - If the owner leaves after upload, the draft remains recoverable from the private card index.
 - Failed EXIF or AI processing should not hide the draft.
 - Public publishing requires an explicit owner action after review.
+
+### Celebration Hook
+
+Capture should include a lightweight hook for gamified celebration moments.
+
+After an observation is accepted, saved as a mystery, or linked to an existing entry, DripDex should evaluate a small set of achievement-style triggers and queue any earned celebrations. This should be event-driven and optional, not tangled into the scanner state machine.
+
+Example celebration triggers:
+
+- First Find: first saved observation.
+- First of This Type: first creature with a newly collected type tag.
+- Life Cycle Complete: all configured life-stage variants collected for a creature.
+- Bug Collector: milestone count for bug-type or insect observations.
+- Fish Finder: milestone count for fish or water-creature observations.
+- Bird Buddy: milestone count for bird or flying observations.
+- Mystery Maker: saved a mystery observation instead of losing the moment.
+- Local Legend: first rare or elusive find.
+
+Celebration UI should be visually playful and kid-readable:
+
+- Modal or bottom-sheet presentation on mobile.
+- Short title.
+- One-sentence explanation.
+- Creature/photo thumbnail when relevant.
+- Primary action returns to the capture review or creature card.
+- Secondary action can view the collection only when it does not interrupt saving.
+
+Personal-only achievements should remain private. Collection facts that are already public, such as a creature's rarity frame or first public find, can be visually fun in both public and private views.
 
 ### Capture Entry Point
 
