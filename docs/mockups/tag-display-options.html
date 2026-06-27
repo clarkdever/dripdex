@@ -1,0 +1,1102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DripDex House Finch Tag Mockup</title>
+    <style>
+      :root {
+        --shell: #d7192f;
+        --shell-dark: #8f1020;
+        --ink: #141416;
+        --screen: #eff9ee;
+        --glow: #c9ff3d;
+        --cream: #fff3d6;
+        --type: #4e87d9;
+        --food: #e97835;
+        --field: #3c9b7b;
+        --season: #d04b82;
+        --variant: #8559c8;
+        --safety: #d8322c;
+        --common: #47be6b;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: #fff7df;
+        background:
+          radial-gradient(circle at 18% 0%, rgba(201, 255, 61, 0.18), transparent 24rem),
+          radial-gradient(circle at 80% 12%, rgba(255, 210, 74, 0.12), transparent 22rem),
+          linear-gradient(135deg, #111216 0%, #2a252d 46%, #151518 100%);
+      }
+
+      main {
+        width: min(1060px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 32px 0 46px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      header {
+        display: grid;
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 5vw, 4.2rem);
+        line-height: 0.95;
+        letter-spacing: 0;
+      }
+
+      header p {
+        max-width: 820px;
+        color: #ded5c3;
+        font-size: 1rem;
+        line-height: 1.55;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(320px, 480px) minmax(280px, 1fr);
+        gap: 22px;
+        align-items: start;
+      }
+
+      .device {
+        background: linear-gradient(160deg, var(--shell) 0%, #b9162a 56%, var(--shell-dark) 100%);
+        border: 2px solid rgba(255, 255, 255, 0.18);
+        border-radius: 8px;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4);
+        padding: 14px;
+        max-width: 430px;
+      }
+
+      .device-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 4px 2px 14px;
+      }
+
+      .lens {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 35% 28%, #f4ffff 0 13%, transparent 14%),
+          radial-gradient(circle at 43% 38%, #3bc7ff 0 28%, #185d9c 29% 68%, #0e253f 69%);
+        border: 3px solid #fff1d7;
+        box-shadow: 0 0 0 3px #25262d;
+      }
+
+      .lights {
+        display: flex;
+        gap: 7px;
+      }
+
+      .light {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+      }
+
+      .red {
+        background: #ff3946;
+      }
+
+      .yellow {
+        background: #ffd24a;
+      }
+
+      .green {
+        background: #6fff70;
+      }
+
+      .screen {
+        overflow: hidden;
+        background: var(--screen);
+        color: var(--ink);
+        border: 4px solid #252730;
+        border-radius: 6px;
+      }
+
+      .screen-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 12px;
+        background: #1f2329;
+        color: #d9ffd2;
+        font-size: 0.78rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .screen-header span:last-child {
+        color: var(--glow);
+      }
+
+      .photo {
+        position: relative;
+        aspect-ratio: 1 / 1.05;
+        min-height: 0;
+        background:
+          radial-gradient(circle at 52% 34%, rgba(255, 248, 213, 0.95) 0 8%, transparent 9%),
+          linear-gradient(160deg, rgba(44, 87, 62, 0.12), rgba(71, 137, 88, 0.28)),
+          linear-gradient(135deg, #a7c87e 0%, #d0c47a 37%, #7e8f5b 38%, #425136 64%, #b2c46f 65%, #ead693 100%);
+        overflow: hidden;
+      }
+
+      .photo[data-find="female"] {
+        background:
+          radial-gradient(circle at 50% 34%, rgba(255, 248, 213, 0.8) 0 8%, transparent 9%),
+          linear-gradient(160deg, rgba(77, 111, 82, 0.2), rgba(137, 164, 92, 0.32)),
+          linear-gradient(135deg, #8caf76 0%, #d8c988 38%, #787a4f 39%, #5a5139 63%, #b4bd74 64%, #eedda4 100%);
+      }
+
+      .photo[data-find="juvenile"] {
+        background:
+          radial-gradient(circle at 48% 36%, rgba(255, 248, 213, 0.72) 0 8%, transparent 9%),
+          linear-gradient(160deg, rgba(60, 114, 99, 0.2), rgba(109, 142, 106, 0.34)),
+          linear-gradient(135deg, #8fb68d 0%, #ccbd7c 35%, #6c8d71 36%, #3e5b4c 66%, #aac17d 67%, #ead8a5 100%);
+      }
+
+      .photo::before {
+        content: "";
+        position: absolute;
+        inset: 18px;
+        border: 2px solid rgba(201, 255, 61, 0.9);
+        clip-path: polygon(0 0, 38% 0, 38% 2px, 2px 2px, 2px 38%, 0 38%, 0 0, 100% 0, 100% 38%, calc(100% - 2px) 38%, calc(100% - 2px) 2px, 62% 2px, 62% 0, 100% 0, 100% 100%, 62% 100%, 62% calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) 62%, 100% 62%, 100% 100%, 0 100%, 0 62%, 2px 62%, 2px calc(100% - 2px), 38% calc(100% - 2px), 38% 100%, 0 100%);
+        pointer-events: none;
+      }
+
+      .photo[data-find="female"] .bird-head,
+      .photo[data-find="female"] .bird-body {
+        background:
+          radial-gradient(circle at 67% 35%, #141416 0 4%, transparent 5%),
+          repeating-linear-gradient(155deg, rgba(47, 38, 31, 0.35) 0 6px, rgba(238, 211, 162, 0.28) 7px 12px),
+          #a98561;
+      }
+
+      .photo[data-find="juvenile"] .bird-head,
+      .photo[data-find="juvenile"] .bird-body {
+        background:
+          radial-gradient(circle at 67% 35%, #141416 0 4%, transparent 5%),
+          repeating-linear-gradient(155deg, rgba(47, 38, 31, 0.32) 0 5px, rgba(235, 219, 180, 0.3) 6px 11px),
+          #b99b72;
+      }
+
+      .bird {
+        position: absolute;
+        left: 36%;
+        top: 20%;
+        width: 155px;
+        height: 205px;
+        transform: rotate(-7deg);
+        filter: drop-shadow(0 18px 12px rgba(0, 0, 0, 0.35));
+      }
+
+      .bird-body {
+        position: absolute;
+        left: 26px;
+        top: 58px;
+        width: 105px;
+        height: 126px;
+        border-radius: 58% 48% 55% 45%;
+        background:
+          linear-gradient(120deg, rgba(185, 48, 42, 0.9) 0 22%, transparent 23%),
+          radial-gradient(circle at 48% 21%, #c9423d 0 20%, #8b3d36 21% 29%, transparent 30%),
+          linear-gradient(100deg, #c8a37c 0%, #8f6f56 58%, #5c4638 100%);
+      }
+
+      .bird-head {
+        position: absolute;
+        left: 48px;
+        top: 18px;
+        width: 78px;
+        height: 68px;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 67% 35%, #141416 0 4%, transparent 5%),
+          linear-gradient(145deg, #c94340 0 44%, #8b4a3c 45% 67%, #b99b75 68%);
+      }
+
+      .beak {
+        position: absolute;
+        left: 113px;
+        top: 47px;
+        width: 0;
+        height: 0;
+        border-top: 9px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 26px solid #d6b071;
+      }
+
+      .wing {
+        position: absolute;
+        left: 30px;
+        top: 82px;
+        width: 74px;
+        height: 94px;
+        border-radius: 58% 30% 60% 42%;
+        background:
+          repeating-linear-gradient(135deg, rgba(32, 28, 26, 0.42) 0 7px, rgba(255, 236, 176, 0.18) 8px 13px),
+          #6f5643;
+      }
+
+      .tail {
+        position: absolute;
+        left: 44px;
+        top: 166px;
+        width: 55px;
+        height: 78px;
+        background: #4e3d32;
+        clip-path: polygon(12% 0, 100% 0, 78% 100%, 0 94%);
+      }
+
+      .branch {
+        position: absolute;
+        left: 8%;
+        right: 8%;
+        bottom: 71px;
+        height: 12px;
+        border-radius: 999px;
+        background: #5d3f27;
+        transform: rotate(-8deg);
+        box-shadow: 0 7px 0 rgba(0, 0, 0, 0.12);
+      }
+
+      .rarity-frame {
+        position: absolute;
+        inset: 8px;
+        border: 5px solid var(--common);
+        box-shadow:
+          inset 0 0 0 2px rgba(255, 255, 255, 0.72),
+          0 0 22px rgba(71, 190, 107, 0.65);
+        pointer-events: none;
+      }
+
+      .rarity-frame::before {
+        content: "COMMON";
+        position: absolute;
+        left: 12px;
+        top: 10px;
+        background: #151517;
+        color: #bdf7a8;
+        border: 1px solid #bdf7a8;
+        padding: 5px 8px;
+        font-size: 0.68rem;
+        font-weight: 950;
+      }
+
+      .entry-info {
+        display: grid;
+        gap: 8px;
+        padding: 12px 12px 0;
+        background: #fff8e6;
+      }
+
+      .carousel-button {
+        position: absolute;
+        top: 50%;
+        z-index: 4;
+        width: 38px;
+        height: 42px;
+        border: 2px solid #252731;
+        border-radius: 6px;
+        background: rgba(255, 253, 245, 0.92);
+        color: #151517;
+        box-shadow: 3px 3px 0 #252731;
+        cursor: pointer;
+        font-size: 1.25rem;
+        font-weight: 950;
+        transform: translateY(-50%);
+      }
+
+      .carousel-button.prev {
+        left: 16px;
+      }
+
+      .carousel-button.next {
+        right: 16px;
+      }
+
+      .image-dots {
+        position: absolute;
+        left: 50%;
+        bottom: 16px;
+        z-index: 4;
+        display: flex;
+        gap: 6px;
+        transform: translateX(-50%);
+      }
+
+      .image-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 0.62);
+      }
+
+      .image-dot.active {
+        width: 9px;
+        height: 9px;
+        background: #2f87ff;
+        border-color: #eaf4ff;
+        box-shadow: 0 0 10px rgba(47, 135, 255, 0.75);
+      }
+
+      .variant-badge {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        z-index: 3;
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border: 2px solid #252731;
+        border-radius: 7px;
+        background: rgba(255, 253, 245, 0.94);
+        color: #151517;
+        font-size: 1.24rem;
+        font-weight: 950;
+        box-shadow:
+          3px 3px 0 #252731,
+          0 0 18px rgba(201, 255, 61, 0.65);
+      }
+
+      .name-row {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .name-field {
+        display: grid;
+        gap: 4px;
+      }
+
+      .name-field label {
+        color: #5a5143;
+        font-size: 0.7rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .name-display,
+      .name-field input {
+        min-width: 0;
+        width: 100%;
+        min-height: 38px;
+        border: 2px solid #252731;
+        border-radius: 6px;
+        background: #fffdf5;
+        color: #151517;
+        font: inherit;
+        font-weight: 850;
+        padding: 7px 9px;
+      }
+
+      .name-display {
+        display: flex;
+        align-items: center;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .name-field input {
+        display: none;
+      }
+
+      .name-field.editing .name-display {
+        display: none;
+      }
+
+      .name-field.editing input {
+        display: block;
+      }
+
+      .shuffle-name {
+        width: 42px;
+        height: 42px;
+        border: 2px solid #252731;
+        border-radius: 6px;
+        background: #ffd24a;
+        color: #151517;
+        box-shadow: 3px 3px 0 #252731;
+        cursor: pointer;
+        font-size: 1.22rem;
+        font-weight: 950;
+        line-height: 1;
+      }
+
+      .save-status {
+        color: #5a5143;
+        font-size: 0.68rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .entry-info h2 {
+        font-size: 1.42rem;
+        line-height: 1.1;
+      }
+
+      .entry-info p {
+        color: #4a463f;
+        font-size: 0.9rem;
+        line-height: 1.45;
+      }
+
+      .tag-rail {
+        display: grid;
+        gap: 8px;
+        padding: 10px 12px 12px;
+        background: #fff8e6;
+      }
+
+      .icon-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .icon-button {
+        display: grid;
+        grid-template-columns: 34px minmax(0, 1fr);
+        align-items: center;
+        gap: 7px;
+        min-height: 42px;
+        border: 2px solid #252731;
+        border-radius: 6px;
+        background: #fffdf5;
+        color: #151517;
+        box-shadow: 3px 3px 0 #252731;
+        cursor: pointer;
+        padding: 4px 8px 4px 4px;
+        font-weight: 950;
+        text-align: left;
+      }
+
+      .icon-button[aria-pressed="true"] {
+        transform: translate(2px, 2px);
+        box-shadow: 1px 1px 0 #252731;
+        background: #e9ffd1;
+      }
+
+      .emoji {
+        width: 32px;
+        height: 32px;
+        display: grid;
+        place-items: center;
+        border-radius: 5px;
+        color: #fff;
+        font-size: 1.14rem;
+        border: 1px solid rgba(0, 0, 0, 0.28);
+      }
+
+      .type {
+        background: var(--type);
+      }
+
+      .food {
+        background: var(--food);
+      }
+
+      .field {
+        background: var(--field);
+      }
+
+      .season {
+        background: var(--season);
+      }
+
+      .variant {
+        background: var(--variant);
+      }
+
+      .safety {
+        background: var(--safety);
+      }
+
+      .pill-panel {
+        display: none;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+        min-height: 76px;
+      }
+
+      .pill-panel.active {
+        display: grid;
+      }
+
+      .pill {
+        display: inline-grid;
+        grid-template-columns: 26px minmax(0, 1fr);
+        align-items: center;
+        gap: 7px;
+        min-height: 34px;
+        border-radius: 999px;
+        color: #fff;
+        font-size: 0.78rem;
+        font-weight: 950;
+        padding: 5px 10px 5px 5px;
+      }
+
+      .pill span:first-child {
+        display: grid;
+        place-items: center;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .science-panel {
+        background: #fff8e6;
+        border-top: 3px solid #252731;
+        padding: 12px;
+      }
+
+      .science-toggle {
+        width: 100%;
+        min-height: 44px;
+        border: 2px solid #252731;
+        border-radius: 6px;
+        background: #151517;
+        color: var(--glow);
+        box-shadow: 3px 3px 0 #252731;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 950;
+        text-align: left;
+        padding: 9px 11px;
+      }
+
+      .science-content {
+        display: none;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .science-panel.open .science-content {
+        display: grid;
+      }
+
+      .science-card {
+        border: 2px solid #252731;
+        border-radius: 7px;
+        background: #fffdf5;
+        padding: 10px;
+      }
+
+      .science-card h3 {
+        color: #151517;
+        font-size: 0.92rem;
+        margin-bottom: 5px;
+      }
+
+      .science-card p {
+        color: #4c463d;
+        font-size: 0.84rem;
+        line-height: 1.45;
+      }
+
+      .citation-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .citation-chip {
+        border-radius: 999px;
+        background: #e9ffd1;
+        color: #151517;
+        font-size: 0.72rem;
+        font-weight: 900;
+        padding: 5px 8px;
+      }
+
+      .side-panel {
+        display: grid;
+        gap: 14px;
+      }
+
+      .note-card {
+        background: rgba(255, 248, 230, 0.08);
+        border: 1px solid rgba(255, 248, 230, 0.22);
+        border-radius: 8px;
+        padding: 16px;
+      }
+
+      .note-card h3 {
+        color: var(--glow);
+        font-size: 1.05rem;
+        margin-bottom: 8px;
+      }
+
+      .note-card p,
+      .note-card li {
+        color: #e5dccb;
+        font-size: 0.94rem;
+        line-height: 1.55;
+      }
+
+      .note-card ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .legend-grid {
+        display: grid;
+        gap: 8px;
+      }
+
+      .legend-row {
+        display: grid;
+        grid-template-columns: 36px 1fr;
+        align-items: center;
+        gap: 9px;
+      }
+
+      .stage-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .stage {
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        align-items: center;
+        gap: 7px;
+        min-height: 38px;
+        border: 1px solid rgba(255, 248, 230, 0.28);
+        border-radius: 7px;
+        color: #f5ecd9;
+        padding: 6px;
+        font-size: 0.84rem;
+        font-weight: 850;
+      }
+
+      .stage.collected {
+        background: rgba(201, 255, 61, 0.12);
+        border-color: rgba(201, 255, 61, 0.48);
+      }
+
+      .stage.todo {
+        opacity: 0.68;
+      }
+
+      @media (max-width: 920px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .device {
+          max-width: 520px;
+        }
+      }
+
+      @media (max-width: 520px) {
+        main {
+          width: min(100% - 20px, 1060px);
+          padding-top: 20px;
+        }
+
+        .device {
+          padding: 10px;
+        }
+
+        .photo {
+          min-height: 340px;
+        }
+
+        .icon-row {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .pill-panel {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>House Finch Card Tag Revision</h1>
+        <p>
+          Option A revised with emoji placeholder iconography. The image stays clean, rarity becomes the frame,
+          and tag families expand into readable pills only when tapped.
+        </p>
+      </header>
+
+      <section class="layout">
+        <article class="device" aria-label="DripDex House Finch mockup">
+          <div class="device-top">
+            <div class="lens" aria-hidden="true"></div>
+            <div class="lights" aria-hidden="true">
+              <span class="light red"></span>
+              <span class="light yellow"></span>
+              <span class="light green"></span>
+            </div>
+          </div>
+
+          <div class="screen">
+            <div class="screen-header">
+              <span>#023 House Finch</span>
+              <span>Common frame</span>
+            </div>
+
+            <div class="photo" id="find-photo" data-find="male">
+              <div class="variant-badge" id="variant-badge" aria-label="Current find variant">♂️</div>
+              <button class="carousel-button prev" type="button" id="prev-find" aria-label="Previous find">‹</button>
+              <button class="carousel-button next" type="button" id="next-find" aria-label="Next find">›</button>
+              <div class="image-dots" aria-label="Find position">
+                <span class="image-dot active"></span>
+                <span class="image-dot"></span>
+                <span class="image-dot"></span>
+              </div>
+              <div class="rarity-frame"></div>
+              <div class="branch" aria-hidden="true"></div>
+              <div class="bird" aria-hidden="true">
+                <div class="tail"></div>
+                <div class="bird-body"></div>
+                <div class="wing"></div>
+                <div class="bird-head"></div>
+                <div class="beak"></div>
+              </div>
+            </div>
+
+            <div class="entry-info">
+              <div class="name-row">
+                <button class="shuffle-name" type="button" id="shuffle-name" aria-label="Shuffle generated nickname">♻️</button>
+                <div class="name-field" id="name-field">
+                  <label for="creature-name">Nickname</label>
+                  <button class="name-display" type="button" id="name-display">Captain Raspberry</button>
+                  <input id="creature-name" list="name-ideas" value="Captain Raspberry" autocomplete="off" />
+                  <datalist id="name-ideas">
+                    <option value="Porch Chirp"></option>
+                    <option value="Ruby Beak"></option>
+                    <option value="Sunny Seed"></option>
+                    <option value="Feather Tweet"></option>
+                    <option value="Garden Peep"></option>
+                    <option value="Sky Redcap"></option>
+                  </datalist>
+                  <span class="save-status" id="save-status">Autosaved</span>
+                </div>
+              </div>
+              <h2>House Finch</h2>
+              <p>Rosy-headed porch singer that hops through yards, feeders, and open woodland edges.</p>
+            </div>
+
+            <div class="tag-rail">
+              <div class="icon-row" aria-label="Expandable tag families">
+                <button class="icon-button" type="button" data-panel="types" aria-pressed="true">
+                  <span class="emoji type">🪽</span>
+                  <span>Types</span>
+                </button>
+                <button class="icon-button" type="button" data-panel="food" aria-pressed="false">
+                  <span class="emoji food">🔗</span>
+                  <span>Food</span>
+                </button>
+                <button class="icon-button" type="button" data-panel="field" aria-pressed="false">
+                  <span class="emoji field">🌳</span>
+                  <span>Field</span>
+                </button>
+                <button class="icon-button" type="button" data-panel="season" aria-pressed="false">
+                  <span class="emoji season">☀️</span>
+                  <span>Season</span>
+                </button>
+                <button class="icon-button" type="button" data-panel="variant" aria-pressed="false">
+                  <span class="emoji variant">♂️</span>
+                  <span>Variant</span>
+                </button>
+                <button class="icon-button" type="button" data-panel="safety" aria-pressed="false">
+                  <span class="emoji safety">👀</span>
+                  <span>Safety</span>
+                </button>
+              </div>
+
+              <div class="pill-panel active" id="types">
+                <span class="pill type"><span>🪽</span>Flying</span>
+                <span class="pill type"><span>☀️</span>Light</span>
+                <span class="pill type"><span>🎵</span>Singing</span>
+                <span class="pill type"><span>🐦</span>Bird</span>
+              </div>
+
+              <div class="pill-panel" id="food">
+                <span class="pill food"><span>🌾</span>Herbivore</span>
+                <span class="pill food"><span>🍽️</span>Omnivore</span>
+                <span class="pill food"><span>👁️</span>Prey</span>
+                <span class="pill food"><span>🌱</span>Seed Spreader</span>
+              </div>
+
+              <div class="pill-panel" id="field">
+                <span class="pill field"><span>🏡</span>Garden</span>
+                <span class="pill field"><span>🏙️</span>Urban</span>
+                <span class="pill field"><span>🌳</span>Woodland Edge</span>
+                <span class="pill field"><span>🌎</span>Native</span>
+              </div>
+
+              <div class="pill-panel" id="season">
+                <span class="pill season"><span>🌸</span>Spring</span>
+                <span class="pill season"><span>☀️</span>Summer</span>
+                <span class="pill season"><span>🍂</span>Fall</span>
+                <span class="pill season"><span>🔁</span>Year-Round</span>
+              </div>
+
+              <div class="pill-panel" id="variant">
+                <span class="pill variant"><span>♂️</span>Male</span>
+                <span class="pill variant"><span>♀️</span>Female</span>
+                <span class="pill variant"><span>🐣</span>Juvenile</span>
+                <span class="pill variant"><span>🎵</span>Call</span>
+              </div>
+
+              <div class="pill-panel" id="safety">
+                <span class="pill safety"><span>👀</span>Look Only</span>
+                <span class="pill safety"><span>✋</span>Do Not Touch</span>
+                <span class="pill safety"><span>🛡️</span>Location Protected</span>
+                <span class="pill safety"><span>✅</span>Low Risk</span>
+              </div>
+
+            </div>
+
+            <div class="science-panel" id="science-panel">
+              <button class="science-toggle" type="button" id="science-toggle" aria-expanded="false">
+                Would you like to know more?
+              </button>
+              <div class="science-content">
+                <div class="science-card">
+                  <h3>Adult Science Draft</h3>
+                  <p>
+                    House Finches are small seed-eating songbirds often seen around feeders, yards,
+                    open woodland edges, and urban spaces. Males commonly show red to orange-red
+                    color on the head and chest, while females are brown and streaked.
+                  </p>
+                </div>
+                <div class="science-card">
+                  <h3>Identification Clues</h3>
+                  <p>
+                    Look for a short conical bill, streaked belly, bouncing flight, and musical
+                    warbling song. Similar species may include Purple Finch or House Sparrow,
+                    depending on location and plumage.
+                  </p>
+                </div>
+                <div class="science-card">
+                  <h3>Citation Check</h3>
+                  <p>
+                    This is placeholder LLM-style copy for the mockup. Real DripDex facts should
+                    be generated with citations and reviewed before public publishing.
+                  </p>
+                  <div class="citation-row" aria-label="Example citation chips">
+                    <span class="citation-chip">Cornell/eBird TODO</span>
+                    <span class="citation-chip">Audubon TODO</span>
+                    <span class="citation-chip">TPWD TODO</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <aside class="side-panel">
+          <div class="note-card">
+            <h3>Layout Intent</h3>
+            <p>
+              The card only shows family controls until someone asks for more. That keeps the photo inspectable,
+              while still making the ecology layer easy for kids to explore.
+            </p>
+          </div>
+
+          <div class="note-card">
+            <h3>Visual System</h3>
+            <div class="legend-grid">
+              <div class="legend-row"><span class="emoji type">🪽</span><p>Type tags feel bright and collectible.</p></div>
+              <div class="legend-row"><span class="emoji food">🔗</span><p>Food-chain tags teach ecosystem roles.</p></div>
+              <div class="legend-row"><span class="emoji field">🌳</span><p>Field tags cover habitat and behavior.</p></div>
+              <div class="legend-row"><span class="emoji season">☀️</span><p>Season tags are sourced/researched later.</p></div>
+              <div class="legend-row"><span class="emoji variant">♂️</span><p>Variant tags attach to the observed form.</p></div>
+              <div class="legend-row"><span class="emoji safety">👀</span><p>Safety tags stay high-contrast and plain.</p></div>
+            </div>
+          </div>
+
+          <div class="note-card">
+            <h3>Recommendation</h3>
+            <ul>
+              <li>Use this expanding rail on creature cards and detail pages.</li>
+              <li>Use the floating scanner dock only during capture mode.</li>
+              <li>Make rarity a border/frame treatment, not a chip.</li>
+              <li>Keep text labels available because icon-only UI is hard for kids.</li>
+            </ul>
+          </div>
+
+          <div class="note-card">
+            <h3>TODO: Life Stage Collection</h3>
+            <p>
+              Gamification idea: each creature has a mini collection goal for observed forms.
+              Fill the set over time instead of needing it on day one.
+            </p>
+            <div class="stage-grid">
+              <div class="stage collected"><span>♂️</span><span>Male</span></div>
+              <div class="stage collected"><span>♀️</span><span>Female</span></div>
+              <div class="stage collected"><span>🐣</span><span>Juvenile</span></div>
+              <div class="stage todo"><span>🥚</span><span>Egg</span></div>
+              <div class="stage todo"><span>🎵</span><span>Call</span></div>
+              <div class="stage todo"><span>🪹</span><span>Nest</span></div>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script>
+      const buttons = document.querySelectorAll(".icon-button");
+      const panels = document.querySelectorAll(".pill-panel");
+      const nameLists = {
+        flying: ["Sky", "Wing", "Feather", "Cloud", "Glide", "Perch"],
+        light: ["Sunny", "Bright", "Gold", "Dawn", "Spark", "Glow"],
+        singing: ["Chirp", "Tweet", "Song", "Trill", "Peep", "Whistle"],
+        bird: ["Beak", "Plume", "Nest", "Tail", "Redcap", "Hop"],
+        herbivore: ["Seed", "Millet", "Thistle", "Sprout", "Grain", "Berry"],
+        prey: ["Quick", "Hide", "Dash", "Blink", "Scout", "Nimble"],
+        garden: ["Porch", "Fence", "Yard", "Garden", "Patio", "Feeder"],
+        male: ["Ruby", "Rose", "Crimson", "Raspberry", "Red", "Blush"]
+      };
+      const creatureNameTypes = ["flying", "light", "singing", "bird", "herbivore", "prey", "garden", "male"];
+      const finds = [
+        {
+          key: "male",
+          icon: "♂️"
+        },
+        {
+          key: "female",
+          icon: "♀️"
+        },
+        {
+          key: "juvenile",
+          icon: "🐣"
+        }
+      ];
+      let activeFind = 0;
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          buttons.forEach((item) => item.setAttribute("aria-pressed", "false"));
+          panels.forEach((panel) => panel.classList.remove("active"));
+
+          button.setAttribute("aria-pressed", "true");
+          document.getElementById(button.dataset.panel).classList.add("active");
+        });
+      });
+
+      const photo = document.getElementById("find-photo");
+      const variantBadge = document.getElementById("variant-badge");
+      const imageDots = document.querySelectorAll(".image-dot");
+      const sciencePanel = document.getElementById("science-panel");
+      const scienceToggle = document.getElementById("science-toggle");
+
+      function showFind(index) {
+        activeFind = (index + finds.length) % finds.length;
+        const find = finds[activeFind];
+        photo.dataset.find = find.key;
+        variantBadge.textContent = find.icon;
+        imageDots.forEach((dot, dotIndex) => {
+          dot.classList.toggle("active", dotIndex === activeFind);
+        });
+      }
+
+      document.getElementById("prev-find").addEventListener("click", () => showFind(activeFind - 1));
+      document.getElementById("next-find").addEventListener("click", () => showFind(activeFind + 1));
+
+      scienceToggle.addEventListener("click", () => {
+        const isOpen = sciencePanel.classList.toggle("open");
+        scienceToggle.setAttribute("aria-expanded", String(isOpen));
+        scienceToggle.textContent = isOpen ? "Hide the science files" : "Would you like to know more?";
+      });
+
+      const nameStorageKey = "dripdex-house-finch-nickname";
+      const nameField = document.getElementById("name-field");
+      const nameDisplay = document.getElementById("name-display");
+      const nameInput = document.getElementById("creature-name");
+      const shuffleName = document.getElementById("shuffle-name");
+      const saveStatus = document.getElementById("save-status");
+
+      function randomFrom(list) {
+        return list[Math.floor(Math.random() * list.length)];
+      }
+
+      function generateName() {
+        const firstType = randomFrom(creatureNameTypes);
+        const secondTypeChoices = creatureNameTypes.filter((type) => type !== firstType);
+        const secondType = randomFrom(secondTypeChoices);
+        return `${randomFrom(nameLists[firstType])} ${randomFrom(nameLists[secondType])}`;
+      }
+
+      function saveName(name) {
+        const cleanName = name.trim() || generateName();
+        localStorage.setItem(nameStorageKey, cleanName);
+        nameDisplay.textContent = cleanName;
+        nameInput.value = cleanName;
+        saveStatus.textContent = "Autosaved";
+      }
+
+      function editName() {
+        nameField.classList.add("editing");
+        nameInput.focus();
+        nameInput.select();
+      }
+
+      function finishEdit() {
+        saveName(nameInput.value);
+        nameField.classList.remove("editing");
+      }
+
+      const savedName = localStorage.getItem(nameStorageKey) || generateName();
+      saveName(savedName);
+
+      nameDisplay.addEventListener("click", editName);
+      nameInput.addEventListener("blur", finishEdit);
+      nameInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          finishEdit();
+        }
+      });
+      nameInput.addEventListener("input", () => {
+        saveStatus.textContent = "Saving...";
+        localStorage.setItem(nameStorageKey, nameInput.value);
+      });
+      shuffleName.addEventListener("click", () => {
+        nameField.classList.remove("editing");
+        saveName(generateName());
+      });
+    </script>
+  </body>
+</html>
