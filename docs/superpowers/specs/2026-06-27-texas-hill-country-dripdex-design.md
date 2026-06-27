@@ -82,7 +82,7 @@ Expected open-source characteristics:
 - Bring-your-own search provider or comparison images disabled.
 - Configurable storage provider.
 - Configurable auth provider.
-- Standard Postgres/PostGIS-compatible data model.
+- SQLite-first local data model, with Postgres/PostGIS available for the managed SaaS and advanced installs.
 
 ### Managed SaaS Edition
 
@@ -107,7 +107,7 @@ Supabase should be an adapter, not the skeleton of the app.
 Proposed package/service boundaries:
 
 - `core`: domain models, validation, privacy rules, tag taxonomy, rarity scoring.
-- `db`: schema and migrations targeting standard Postgres/PostGIS.
+- `db`: schema, migrations, and repository interfaces, with SQLite as the open-source default.
 - `storage`: original/private image storage and public derivative storage.
 - `auth`: owner/session/role interface.
 - `ai`: identification and fact-generation provider interface.
@@ -182,12 +182,12 @@ High-level flow:
 4. System reads EXIF privately in the background.
 5. System stores original privately if configured.
 6. System creates EXIF-stripped public derivative in the background.
-7. System starts AI identification in the background using the full image and any available date/location context.
+7. System starts Gemini-first AI analysis in the background using the full image and any available date/location context.
 8. Owner taps the subject to target it while background processing continues.
-9. Scanner overlay animates a target lock at the tapped point.
+9. Scanner overlay thanks the owner for helping and records the tap as the owner's target hint.
 10. System updates the draft with the normalized subject point.
-11. AI analysis is updated or refined with the subject point if the first pass has not completed, or a follow-up refinement is queued if it has.
-12. Scanner overlay progressively enhances as model results arrive, including candidate subject regions when available.
+11. When model bounding boxes arrive, DripDex reconciles them against the owner tap by checking whether the tap falls inside a box, then by finding the nearest box when it does not.
+12. Scanner overlay progressively enhances as validated model results arrive, including candidate subject regions when available.
 13. System returns suggested ID, confidence, reasoning, uncertainty, and lookalikes.
 14. System loads web-search comparison thumbnails for the suggested entity and likely lookalikes.
 15. Owner accepts, refines, disagrees, creates a mystery entry, or enters manually.
@@ -236,13 +236,14 @@ Target-lock interaction:
 4. A vertical line travels down from the top edge toward the tapped Y coordinate.
 5. A horizontal line travels in from the left edge toward the tapped X coordinate.
 6. The lines meet at the tapped point to form a crosshair.
-7. The crosshair blinks.
-8. Two corner brackets appear around the target zone, showing only upper-left and lower-right 90 degree angles rather than a full square.
-9. Overlay text resolves to "Subject located."
-10. Target marker fades or collapses into the analysis HUD.
-11. The draft is updated with the tap coordinate as image-relative metadata, and the analysis HUD continues.
+7. Overlay text thanks the owner for helping while AI results continue in the background.
+8. The draft is updated with the tap coordinate as image-relative metadata, and the analysis HUD continues.
+9. When a model box is reconciled with the tap, the crosshair blinks.
+10. Two corner brackets appear around the target zone, showing only upper-left and lower-right 90 degree angles rather than a full square.
+11. Overlay text resolves to "Subject located."
+12. Target marker fades or collapses into the analysis HUD.
 
-This is intentionally not computer vision. The user supplies the subject point, and DripDex makes the moment feel like the device acquired the subject. The point may later help with crop suggestions, model prompts, or image-region analysis, but it should not be treated as proof of identity.
+The tap gesture itself is intentionally not computer vision. The user supplies the subject point, and DripDex makes the moment feel like the device acquired the subject. The point may later help with crop suggestions, model prompts, or image-region analysis, but it should not be treated as proof of identity.
 
 Scanner effects are cosmetic and assistive, not authoritative. Identification remains suggest-and-confirm.
 
@@ -260,11 +261,28 @@ Progressive model-enhanced state:
 
 - If the model returns candidate subjects with approximate regions, DripDex may briefly display ghost brackets, faint outlines, or numbered candidate pings.
 - Candidate regions should be visually subordinate to the user-selected target.
-- If a candidate region overlaps the user's tap target, the overlay can reinforce it with copy such as "Target match likely."
-- If model candidates do not overlap the user's target, DripDex should continue with the user-selected target and avoid arguing in the scan overlay.
+- If a candidate region contains the user's tap target, DripDex should animate the bracket to that region and update copy to "Subject located."
+- If no region contains the tap, DripDex should find the nearest candidate box to the tap and use it as a low-friction suggestion.
+- If the nearest candidate is plausible, DripDex may animate toward it while treating the owner tap as the intent signal.
+- If the nearest candidate is clearly far from the tap, DripDex should continue with the user-selected target and avoid arguing in the scan overlay.
 - Candidate regions can be used for fun HUD feedback and later review, but the user tap remains the authoritative MVP target.
 
 Model-returned subject coordinates should be stored as suggestions, not truth. The schema should allow multiple candidate regions with labels, confidence, and source model so DripDex can improve later without changing the capture UX.
+
+### Target Reconciliation
+
+DripDex should store both the owner target point and any model-returned boxes.
+
+Reconciliation rules:
+
+1. Normalize all coordinates into the same image coordinate space before comparing them. Gemini boxes are expected as `0-1000` normalized coordinates and should be converted into DripDex's internal image-relative format.
+2. If the owner tap falls inside one or more candidate boxes, pick the smallest high-confidence containing box as the active target.
+3. If the tap falls outside all boxes, find the nearest candidate box by distance from the tap to the box edge or center.
+4. If the nearest box is close enough to feel plausible, use it for the visual bracket while recording that the owner tap selected it by proximity.
+5. If all boxes are far away or low-confidence, keep the tap point as the target and store model boxes as alternate suggestions for review.
+6. If no model boxes arrive in a reasonable MVP timeout, accept the tap-only target so the owner can keep moving.
+
+The UI copy should stay simple for kids. It should say "Thanks for helping" after the tap, then "Subject located" only after a target region is reconciled or the tap-only fallback is accepted.
 
 ### Fallback Path: Manual Observation
 
@@ -291,6 +309,8 @@ AI identification is suggest-and-confirm only.
 
 Nothing becomes public as a confirmed ID until the owner approves it.
 
+Gemini should be the first AI provider because its image-understanding flow can return both likely identifications and object bounding boxes. DripDex should still call Gemini through an internal provider interface so a future model can replace it without changing the capture UI.
+
 The AI result should include:
 
 - Suggested common name.
@@ -303,6 +323,61 @@ The AI result should include:
 - Safety note if relevant.
 - Recommended type tags.
 - Recommended rarity inputs or source queries.
+
+### Streaming and Validation
+
+The AI pipeline should support progressive updates, but the browser should not consume raw model substrings as software inputs.
+
+Recommended flow:
+
+1. Server sends Gemini a structured-output prompt that asks for data in the order DripDex can use it: subject regions, identity candidates, existing-entry match inputs, tag suggestions, kid flavor text, adult science facts, and citations.
+2. Server receives model output and converts each complete validated unit into a DripDex scan event.
+3. Each event is validated with a schema such as Zod or JSON Schema before it can update the draft or UI.
+4. Browser receives only DripDex scan events, not raw model text.
+5. If streaming fails or a partial event cannot be validated, DripDex keeps the draft and falls back to the last valid event.
+
+This keeps the scanner feeling fast without trusting half-formed text. Closed-tag parsing is not required for MVP if the backend emits typed events after validation.
+
+Example scan event sequence:
+
+1. `subject_region`: candidate boxes and labels.
+2. `identity_candidates`: possible common/scientific names and confidence.
+3. `existing_match`: whether the likely ID matches an existing DripDex entry.
+4. `tag_suggestions`: type, food-chain, habitat, season, variant, and safety tags.
+5. `kid_flavor`: short card copy.
+6. `science_facts`: cited adult facts.
+7. `scan_complete`: final event for the capture review screen.
+
+### Parallel AI Work
+
+DripDex should start with one Gemini scan for MVP, then fan out independent work once a likely identity is available.
+
+Parallel follow-up tasks can include:
+
+- Existing-entry lookup by common name, scientific name, and aliases.
+- Comparison thumbnail search.
+- Type and food-chain tag suggestion.
+- Kid-friendly flavor text generation.
+- Adult science fact generation with citations.
+- Safety note generation.
+- Rarity input collection from local occurrence or trusted references.
+
+These jobs should update the draft independently as results arrive. Slow citation or fact generation should not block the owner from reviewing the identification.
+
+### Seeded Species Cache
+
+Because DripDex focuses on Texas Hill Country and likely handles hundreds rather than millions of entries, it should cache common generated content.
+
+The cache can include:
+
+- Preloaded common Hill Country species and aliases.
+- Stable kid-friendly voice examples.
+- Tag suggestions.
+- Common lookalikes.
+- Safety notes.
+- Citation-backed fact summaries.
+
+Cache keys should include the scientific name when known, the content type, and a prompt/schema version. Cached content should be editable and refreshable, not treated as permanent truth.
 
 ### Visual Comparison
 
@@ -648,12 +723,13 @@ Recommended stack:
 
 - Next.js App Router for public web/PWA.
 - TypeScript across the app.
-- Postgres with PostGIS for observation/location data.
+- SQLite for the open-source single-owner edition.
+- Postgres with PostGIS for the managed SaaS and advanced multi-user installs.
 - Supabase as the likely managed SaaS provider for auth, database, storage, and Row Level Security.
 - Provider adapters so Supabase can be swapped or self-hosted alternatives can be used.
 - Object storage for originals and public derivatives.
 - Server-side image processing for EXIF stripping and resizing.
-- LLM provider interface for identification and fact generation.
+- Gemini-first LLM provider interface for identification, bounding boxes, and fact generation.
 - Search provider interface for comparison thumbnails.
 
 ### Native App Future
@@ -727,7 +803,6 @@ Questions remaining before implementation planning:
 
 - Which journeys are required for v1 versus later?
 - What is the exact default public geoprivacy cell size and home-zone policy?
-- Which AI provider should be used first?
 - Which search provider should supply comparison thumbnails?
 - How much citation generation is automated in v1?
 - What moderation or review is required before public changes appear, given the single-owner model?
@@ -748,6 +823,12 @@ Mockup references in the local repo:
 
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/tag-display-options.html`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/tag-display-options-full-page.png`
+
+Gemini references:
+
+- `https://ai.google.dev/gemini-api/docs/image-understanding`
+- `https://ai.google.dev/gemini-api/docs/structured-output`
+- `https://ai.google.dev/gemini-api/docs/streaming`
 
 External references to revisit during planning:
 
