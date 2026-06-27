@@ -669,26 +669,35 @@ Likely future path:
 
 Do not over-optimize v1 around native UI reuse. Prioritize public web discoverability, mobile ergonomics, and clean APIs.
 
-## 14. MVP Jobs To Be Discussed Next
+## 14. MVP Jobs To Be Done
 
-The next brainstorming step is to define the jobs to be done for the MVP.
+Prioritized MVP jobs:
 
-Initial candidate jobs:
+1. Capture a find.
+   When I see something interesting outdoors, I want to quickly capture it with a photo or manual note, so I do not lose the moment.
+2. Identify a find.
+   When I upload or record a find, I want help identifying it with AI, comparison images, and a way to correct/refine, so I can avoid bad entries.
+3. Resume unfinished finds.
+   When I get interrupted, I want drafts to appear in my private card index, so I can finish them later.
+4. Search my collection.
+   When I want to find something I have collected, I want to search and filter creature cards, so I can quickly revisit observations, drafts, mysteries, and published entries.
+5. Browse public DripDex.
+   When a visitor opens the site, they want to browse local creatures by category and cards, so they can discover what lives nearby.
+6. Learn from a creature card.
+   When I open a creature, I want a kid-friendly card first and expandable adult science, so it is fun for kids and still useful for adults.
+7. Protect sensitive location data.
+   When an observation has location data, I want exact coordinates kept private and public locations fuzzed, so I can share safely without revealing home or sensitive spots.
+8. Manage creature entries.
+   When an ID is accepted, I want to add it to an existing entry or create/update an entry, so the collection stays organized.
+9. Investigate mysteries.
+   When I cannot identify something confidently, I want to save it as a mystery with notes/candidates, so I can research it later.
 
-- As a public visitor, I want to browse local creatures by category so I can discover what lives around me.
-- As a kid or family member, I want the creature pages to feel fun and approachable so I want to keep exploring.
-- As an adult learner, I want expandable scientific details and citations so I can trust and learn from the app.
-- As the owner, I want to upload a photo and get an AI-assisted ID so I can quickly record an observation.
-- As the owner, I want DripDex to save a draft as soon as my upload succeeds so I do not lose work if I am interrupted.
-- As the owner, I want draft captures to appear in my private card index so I can find, search, filter, and finish them later.
-- As the owner, I want to tap the subject in a photo so DripDex knows what I want identified and the scan interaction feels intentional.
-- As the owner, I want to challenge or refine the AI suggestion so I can avoid bad identifications.
-- As the owner, I want to record observations without photos so I can capture calls, tracks, fleeting sightings, and notes.
-- As the owner, I want exact private GPS and heatmaps so I can understand my own field activity.
-- As the owner, I want public locations fuzzed so I do not reveal my home or sensitive places.
-- As a future self-hosting user, I want the app to run with low infrastructure commitment so I can use it for a family or classroom project.
+Lightweight/non-blocking MVP jobs:
 
-These should be refined into final MVP jobs and user journeys before implementation planning.
+1. Compare multiple finds.
+   When I have several observations of the same creature, I want to browse photos, variants, and life stages, so I can see how my collection is growing.
+2. Search near me.
+   When a public visitor shares approximate location, they want to see local cards nearby, so they can explore their own environment.
 
 ## 15. MVP User Journeys To Be Discussed Next
 
@@ -716,9 +725,7 @@ Candidate MVP journeys:
 
 Questions remaining before implementation planning:
 
-- What are the exact MVP jobs to be done?
 - Which journeys are required for v1 versus later?
-- What is the final controlled type-tag list?
 - What is the exact default public geoprivacy cell size and home-zone policy?
 - Which AI provider should be used first?
 - Which search provider should supply comparison thumbnails?
