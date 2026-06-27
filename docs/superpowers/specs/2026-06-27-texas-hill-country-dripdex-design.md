@@ -493,22 +493,71 @@ This helps future review and makes mystery resolution traceable.
 
 If AI identifies a creature that already exists in DripDex, the system should present a match screen.
 
-The match screen should compare:
+This is the "we already know this one" moment. It should be short, visual, and hard to misuse.
+
+Trigger:
+
+- Gemini suggests a likely match to an existing creature.
+- Manual lookahead selects an existing creature.
+- A refined ID resolves to an existing creature.
+
+The match screen should compare two large image panels:
 
 - Current default DripDex photo.
 - Newly uploaded photo.
+
+Supporting details:
+
 - Suggested ID and confidence.
+- Current entry number.
+- Existing seen count.
+- Relevant variant or life-stage difference when known.
 - Relevant lookalikes.
 
 Owner actions:
 
-- Add as observation photo.
-- Set as new default photo.
-- Create separate entry.
-- Refine ID.
-- Mark as not this species.
+- Add as New Find.
+- Make Card Photo.
+- Not This One.
+- Save as Mystery.
+
+DripDex should recommend the safest likely action:
+
+- If the match is strong and the current default photo is good, recommend Add as New Find.
+- If the new photo is clearer or more representative, recommend Make Card Photo.
+- If confidence is messy, recommend review rather than pushing a destructive choice.
+
+Add as New Find:
+
+- Adds the observation to the existing creature.
+- Adds the photo to the creature carousel.
+- Increments seen count.
+- Attaches variant or life-stage tags to the observation.
+- Keeps exact GPS private.
+- Uses protected public location.
+- Evaluates celebration hooks.
+
+Make Card Photo:
+
+- Performs Add as New Find.
+- Sets the new photo as the default card image.
+- Keeps the previous default photo in the carousel and observation history.
+
+Not This One:
+
+- Opens the Refine ID path.
+- Stores the rejected existing entry in the audit trail.
+- Prevents the same match from being immediately suggested again unless the owner asks for it.
+
+Save as Mystery:
+
+- Creates or updates a mystery entry.
+- Preserves rejected match, candidate list, notes, subject point, and model boxes.
+- Makes the draft searchable by Mystery status.
 
 If the new photo becomes the default, the previous default remains available in the gallery and observation history.
+
+Create Separate Entry should be available only behind a lower-emphasis "More Options" path. Duplicate species entries will make the collection harder to understand, so the default flow should prefer adding a new observation or refining the ID.
 
 ## 8. Mystery Entries and Investigation
 
