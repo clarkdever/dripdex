@@ -147,6 +147,21 @@ The app should avoid naive random-radius display around exact coordinates becaus
 
 Recommended default: use a coarse cell-based obfuscation strategy inspired by citizen-science geoprivacy patterns. A 0.2 degree by 0.2 degree cell is a useful starting point for discussion in the Texas Hill Country, roughly tens of kilometers wide depending on latitude.
 
+Location privacy modes:
+
+- `exact_private`: owner-only exact GPS, EXIF, private map, and heatmap.
+- `public_obscured`: public point generated once inside a stored coarse cell.
+- `public_region_only`: no public point; show only a broad label such as county, region, or "Texas Hill Country."
+- `private_location`: no public location label beyond "Location protected."
+
+MVP defaults:
+
+- Default public mode: `public_obscured`.
+- Default obscuring cell: `0.2 x 0.2 degrees`.
+- Default home-zone mode: `public_region_only`.
+- Default sensitive-species/location mode: `public_region_only` or `private_location`.
+- Public derived points should be generated once at publish time and stored. Do not regenerate a new random point on every page load, because repeated randomization can leak the true center over time.
+
 ### Home Privacy
 
 The owner is specifically concerned about exposing home location.
@@ -155,8 +170,10 @@ The app should support a stronger home privacy mode:
 
 - Owner can define private places such as "home."
 - Observations near a private place get stronger public generalization.
+- Recommended default home-zone radius: `20 km / about 12 miles`.
 - Public labels may be county/region-level rather than "near" a smaller town.
 - Exact points remain visible only in the private logged-in view.
+- Home-zone geometry is owner-only and should never be returned by public APIs.
 
 ### Private Location Display
 
@@ -167,6 +184,53 @@ Logged-in owner view should show:
 - Exact observation map.
 - Private heatmap.
 - Filters by date, category, taxon, place, and privacy level.
+
+### Preferences Page
+
+DripDex needs an owner Preferences page so privacy, safety, and integration choices are explicit instead of scattered through capture screens.
+
+MVP preference groups:
+
+- Location privacy defaults: default public mode, home-zone behavior, sensitive-species behavior, and public label style.
+- Private places: add/edit home and other private zones.
+- Image handling: original retention, public derivative generation, and EXIF stripping reminder.
+- Public sharing: guestbook moderation, public intro visibility defaults, and public map behavior.
+- Safety language: global launch warning, field-safety reminders, and creature safety label visibility.
+- Integrations: iNaturalist export/connect settings.
+
+Preferences rules:
+
+- Safe defaults should be preselected.
+- The owner can make privacy stricter at any time.
+- In MVP, sensitive taxa, nests, dens, roosts, burrows, and home-zone observations should not be downgraded below the required privacy rule.
+- Public previews should show what visitors will see before publishing or exporting.
+
+### iNaturalist Integration
+
+DripDex should support optional iNaturalist sharing for owners who want their observations to contribute to the larger citizen-science community.
+
+Before offering any connection, post, or CSV export, DripDex should explain iNaturalist in plain language:
+
+- iNaturalist is a public citizen-science community where people share nature observations and help each other identify organisms.
+- Shared observations may be visible outside DripDex, including photos, dates, notes, and location information according to the chosen iNaturalist geoprivacy.
+- iNaturalist has its own account, community, licenses, privacy settings, and terms.
+- Kids should use this through a parent/owner account when required by iNaturalist terms and family rules.
+- DripDex will never auto-post observations; the owner chooses what to export or send.
+
+Recommended integration path:
+
+1. MVP: generate an iNaturalist-ready CSV export for selected observations.
+2. MVP: add a per-observation "Prepare for iNaturalist" action that previews exactly what will be shared.
+3. Later: add OAuth/PKCE account connection for direct posting once core DripDex flows are stable.
+4. Later: store sync metadata such as `inat_observation_id`, sync status, last synced time, export errors, and whether the iNaturalist copy uses a different geoprivacy mode.
+
+iNaturalist privacy mapping:
+
+- `public_obscured` maps to iNaturalist `obscured`.
+- `public_region_only` should export as `private` or omit exact coordinates unless the owner intentionally chooses otherwise.
+- `private_location` maps to iNaturalist `private` or no export.
+- Home-zone observations should default to `private` or no coordinates.
+- Public-safe image derivatives should be used by default. Original EXIF should not be uploaded unless the owner explicitly chooses to send it.
 
 ## 5. Add Observation Flow
 
@@ -1059,6 +1123,10 @@ External references to revisit during planning:
 
 - iNaturalist geoprivacy: https://www.inaturalist.org/pages/geoprivacy
 - iNaturalist help on obscured observations: https://help.inaturalist.org/
+- iNaturalist API reference: https://www.inaturalist.org/pages/api+reference
+- iNaturalist observation API notes: https://www.inaturalist.org/pages/api+deprecated
+- iNaturalist CSV import discussion/reference: https://forum.inaturalist.org/t/csv-import-observations-page/65768
+- iNaturalist terms: https://www.inaturalist.org/pages/terms
 - GBIF sensitive species best practices: https://docs.gbif.org/sensitive-species-best-practices/
 - National Park Service poisonous vs. venomous explainer: https://www.nps.gov/cabr/blogs/venomous-versus-poisonous-same-thing-right-wrong.htm
 - CDC/NIOSH poisonous plants guidance: https://www.cdc.gov/niosh/outdoor-workers/about/poisonous-plants.html
