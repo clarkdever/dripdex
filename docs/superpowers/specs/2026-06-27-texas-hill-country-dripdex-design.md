@@ -626,7 +626,82 @@ If the new photo becomes the default, the previous default remains available in 
 
 Create Separate Entry should be available only behind a lower-emphasis "More Options" path. Duplicate species entries will make the collection harder to understand, so the default flow should prefer adding a new observation or refining the ID.
 
-## 8. Mystery Entries and Investigation
+## 8. Manage Creature Entries
+
+Owners need a simple way to clean up, correct, enrich, publish, or hide creature entries so the collection stays accurate and fun.
+
+Entry points:
+
+- Creature detail page: `Edit Entry`.
+- Capture success state: `Review Entry`.
+- Existing-entry match flow after `Add as New Find` or `Make Card Photo`.
+- Mystery resolution: `Promote to Creature`.
+- Owner collection card overflow/menu can be added later if needed.
+
+Editable MVP fields:
+
+- Common name.
+- Scientific name.
+- Generated nickname.
+- Default card photo.
+- Public/private publish status.
+- Category group: Bird, Mammal, Reptile, Amphibian, Fish, Insect, Arachnid, Other Invertebrate, Plant, Fungi.
+- Type, food-chain, habitat/behavior, seasonality, variant/life-stage, and safety tags.
+- Kid flavor text.
+- Rarity/frame treatment.
+- Location privacy mode.
+
+Adult science facts and citations should be reviewable/editable, but the MVP UI should stay simple. Set membership can be added after the entity cache and set-generation work are in place unless it falls out naturally.
+
+Editing UX:
+
+- Use owner-only edit mode on the creature detail page.
+- Keep the public creature card readable; do not turn the main public page into a giant form.
+- Group edit controls into sections such as Identity, Photos, Tags, Safety, Flavor Text, Science & Sources, Privacy, and Sets.
+- Every text input should use lookahead/autocomplete where possible.
+- Tag editing should use selectable chips, not freeform typing.
+- AI suggestions should appear as "Suggested" chips/text with owner approval.
+- Autosave private fields when low-risk, but require explicit `Publish Update` for public-facing changes.
+
+Photo management:
+
+- Owner can view all photos/finds for a creature.
+- Owner can choose the default card photo.
+- Owner can add an alternate photo to the carousel.
+- Owner can remove a public photo from display without deleting the private original.
+- Owner can mark a photo's variant or life-stage.
+- Owner can compare current default versus new photo side by side when replacing the default.
+- Owner can crop any creature photo to the required card image aspect ratio.
+- Crop UI should support zoom and pan so the subject can be centered without changing the original.
+- Crop is non-destructive: store crop metadata and/or generate a public derivative while leaving the private original unchanged.
+- Image derivatives should support original private image, public EXIF-stripped image, card-crop derivative, and thumbnail derivative.
+
+Publishing rules:
+
+- Creature entry statuses: Draft, Published, Hidden, Mystery, Needs Review.
+- Public visitors see only Published entries plus public locked checklist cards.
+- Draft, Hidden, and Needs Review are owner-only.
+- Mystery defaults private until the owner explicitly publishes it.
+- Sensitive location rules can block or modify publish behavior.
+
+AI assist:
+
+- AI can suggest tags, safety labels, rarity inputs, flavor text, science facts, lookalikes, and set candidates.
+- AI cannot publish changes directly.
+- AI-generated facts require citations before appearing in adult science sections.
+- Owner can accept, edit, reject, or regenerate AI suggestions.
+
+Validation rules:
+
+- Common name is required for Published.
+- Category is required for Published.
+- At least one public-safe image or mystery placeholder is required for Published.
+- Location privacy mode is required for any observation with location.
+- Public image must be EXIF-stripped.
+- Adult science facts should warn when source references are missing before publishing.
+- Sensitive safety labels should be owner-confirmed before publishing.
+
+## 9. Mystery Entries and Investigation
 
 The system should support mystery entries for unidentified or uncertain organisms.
 
@@ -658,7 +733,17 @@ When resolved, a mystery entry can be promoted or merged into a confirmed DripDe
 
 Investigation workspace should include shortcuts or references for relevant external tools such as iNaturalist, eBird, BugGuide, and plant databases appropriate to the organism type.
 
-## 9. Public Browsing Experience
+Public mysteries:
+
+- Mysteries default private.
+- Owner can explicitly publish a mystery using the grayscale/question-mark treatment.
+- Owner can enable viewer suggestions for a published mystery.
+- Viewer suggestion form should be simple: suggested name or ID, optional note, optional visitor name, and submit.
+- Suggestions require owner review and do not directly change the mystery identity.
+- The submitter can see a pending state similar to the guestbook behavior.
+- Owner can promote a useful suggestion into a candidate ID in the mystery investigation workspace.
+
+## 10. Public Browsing Experience
 
 ### Primary Browse Mode
 
@@ -806,7 +891,7 @@ Flow:
 
 This view should never reveal private exact coordinates. It should use public fuzzed/generalized locations only.
 
-## 10. Creature Detail Experience
+## 11. Creature Detail Experience
 
 The creature detail page should open as a scan screen rather than a plain article.
 
@@ -852,7 +937,7 @@ Adult/science accordions:
 
 The first view should hook a child. The accordions should reward adult curiosity. The current mockup uses "Would you like to know more?" as the adult-science expansion text; this tone is intentionally playful, while the expanded content should remain citation-backed and reviewable.
 
-## 11. Tags, Rarity, and Game Flavor
+## 12. Tags, Rarity, and Game Flavor
 
 ### Tag Families
 
@@ -963,7 +1048,7 @@ Variant examples:
 - Call.
 - Nest or burrow, with stronger privacy/safety handling.
 
-## 12. Facts and Citations
+## 13. Facts and Citations
 
 LLMs should help generate consistent facts and fun descriptions, but facts must be cited from reputable sources.
 
@@ -989,7 +1074,7 @@ Potential reputable sources:
 - USDA Plants and regional plant databases.
 - Academic or extension sources when relevant.
 
-## 13. Tech Stack Direction
+## 14. Tech Stack Direction
 
 ### Recommended First Build
 
@@ -1025,7 +1110,20 @@ Likely future path:
 
 Do not over-optimize v1 around native UI reuse. Prioritize public web discoverability, mobile ergonomics, and clean APIs.
 
-## 14. MVP Jobs To Be Done
+### Future OSS Community Directory
+
+Not for MVP, but DripDex should consider an OSS community directory and webring-style link component.
+
+Future concept:
+
+- Public directory where owners can list their DripDex sites.
+- Optional site component with Previous DripDex, Random DripDex, Next DripDex, and Join the DripDex ring links.
+- Simple self-submitted metadata such as site name, region, owner display name, public URL, categories, short description, and last updated date.
+- Works for OSS/self-hosted users, teachers, families, nature clubs, and local communities without requiring paid SaaS.
+
+This should stay outside the MVP until the core personal field journal works.
+
+## 15. MVP Jobs To Be Done
 
 Prioritized MVP jobs:
 
@@ -1055,7 +1153,7 @@ Lightweight/non-blocking MVP jobs:
 2. Search near me.
    When a public visitor shares approximate location, they want to see local cards nearby, so they can explore their own environment.
 
-## 15. MVP User Journeys To Be Discussed Next
+## 16. MVP User Journeys To Be Discussed Next
 
 The next step is to walk through the core journeys in detail.
 
@@ -1077,7 +1175,7 @@ Candidate MVP journeys:
 - Owner reviews exact private map and heatmap.
 - Owner edits a creature entry's tags, rarity, flavor text, facts, or default photo.
 
-## 16. Open Design Questions
+## 17. Open Design Questions
 
 Questions remaining before implementation planning:
 
@@ -1088,7 +1186,7 @@ Questions remaining before implementation planning:
 - What moderation or review is required before public changes appear, given the single-owner model?
 - What visual style should be used for the Pokédex-inspired shell while avoiding direct copying of protected Pokémon assets?
 
-## 17. Source References Captured So Far
+## 18. Source References Captured So Far
 
 Reference images in the local repo:
 
