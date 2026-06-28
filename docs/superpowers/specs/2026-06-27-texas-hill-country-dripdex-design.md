@@ -213,12 +213,15 @@ Draft behavior:
 
 ### Celebration Hook
 
-Capture should include a lightweight hook for gamified celebration moments.
+Every completed capture should include a small celebration moment so the app keeps rewarding outdoor curiosity.
 
-After an observation is accepted, saved as a mystery, or linked to an existing entry, DripDex should evaluate a small set of achievement-style triggers and queue any earned celebrations. This should be event-driven and optional, not tangled into the scanner state machine.
+After an observation is accepted, saved as a mystery, manually logged, or linked to an existing entry, DripDex should show a baseline celebration such as "Find logged," "Added to your field journal," or "Mystery saved." Then DripDex should evaluate a small set of achievement-style triggers and queue any earned bonus celebrations. This should be event-driven and optional, not tangled into the scanner state machine.
+
+Draft saves should get a smaller positive confirmation such as "Saved for later," but should not trigger the full celebration stack until the owner completes or intentionally saves the observation.
 
 Example celebration triggers:
 
+- Capture Complete: every saved observation or mystery.
 - First Find: first saved observation.
 - First of This Type: first creature with a newly collected type tag.
 - Life Cycle Complete: all configured life-stage variants collected for a creature.
@@ -655,6 +658,15 @@ Starter set catalog:
 - AI can suggest set membership, but owner approval is required.
 - Set wrappers should render when at least two related cards/finds are present, and completion should be highlighted when all required entries are found.
 
+Set research and generation should be data-first:
+
+1. Build the Hill Country entity cache first, including common species, category, habitats, seasonality, tags, safety labels, food-chain roles, observation contexts, and citations.
+2. Use structured queries to discover candidate groupings from the cache rather than asking an LLM to invent sets from a loose theme.
+3. Generate candidate sets from dimensions such as habitat, location context, behavior, life cycle, food-chain role, seasonality, and plant community.
+4. Use AI only after the structured query step to suggest names, kid descriptions, and adult notes for candidate sets.
+5. Require owner approval before a generated set becomes part of the public collection.
+6. Research and cite each approved set after the candidate set is selected, not before.
+
 ### Collection View Visual Decisions
 
 The approved collection-view direction is Option A, Scanner Grid, from `/docs/mockups/collection-view-options.html`.
@@ -745,6 +757,15 @@ Top hero:
 - Simple "observe safely" note when relevant.
 - Recent/public sighting summary.
 
+Hero media behavior:
+
+- Tapping the hero photo opens a full-screen media viewer.
+- The full-screen viewer supports pinch zoom.
+- The full-screen viewer supports swipe left/right carousel navigation across finds/photos.
+- The full-screen viewer has an obvious close button.
+- The full-screen viewer supports swipe-down or return-intent closing when the image is not zoomed in.
+- When the image is zoomed in, drag gestures pan the image first. Carousel and close gestures should only take over again when the zoom is near the default scale.
+
 Below the hero:
 
 - Photo gallery.
@@ -782,11 +803,21 @@ MVP tag families:
 - Habitat/behavior tags: Woodland, Grassland, Creekside, Pond, Garden, Urban, Porch Light, Roadside, Cave, Burrowing, Climbing, Swimming, Web Builder, Migratory, Native, Introduced, Invasive, Rain-Loving, Drought-Tolerant.
 - Seasonality tags: Spring, Summer, Fall, Winter, Year-Round.
 - Variant/life-stage tags: Male, Female, Juvenile, Adult, Egg, Larva, Nymph, Pupa, Track, Call, Nest, Burrow, Scat, Flower, Bud, Fruit, Seed, New Growth, Dormant, Fruiting Body, Mycelium, Bracket, Lichen Form.
-- Safety/interaction tags: Look Only, Do Not Touch, Venomous, Poisonous, Stinging, Biting, Irritating, Sharp, Fragile, Protected, Allergen, Invasive Concern, Reportable.
+- Safety/interaction tags: Safe to Watch, Do Not Handle, Venomous, Poisonous, Irritates Skin, Stings, Bites, Sharp or Spines, Allergy Risk, Disease Risk, Fragile, Protected, Invasive Concern, Reportable.
 
 Avoid public kid-facing Edible or Medicinal tags in MVP because they can encourage unsafe experimentation.
 
 The final controlled lists should be broad enough for most entries but small enough to avoid tag sprawl.
+
+Safety label rules:
+
+- "Look, Don't Touch" is the global app safety rule shown at launch and in field-safety reminders. It should not be repeated as a creature-specific tag.
+- "Safe to Watch" is the low-risk creature-specific label.
+- "Do Not Handle" is the creature-specific warning for organisms where touching, grabbing, collecting, or disturbing increases risk.
+- "Venomous" means a toxin can be delivered by bite or sting.
+- "Poisonous" means a toxin can harm through eating, touching, inhaling, or absorption.
+- "Irritates Skin" should be used for organisms or plants that commonly cause rash, itching, or contact irritation.
+- "Strong Odor" can be a fun field note, but should not be treated as a safety warning unless a cited source links it to irritation or illness.
 
 ### Generated Nicknames
 
@@ -1029,6 +1060,10 @@ External references to revisit during planning:
 - iNaturalist geoprivacy: https://www.inaturalist.org/pages/geoprivacy
 - iNaturalist help on obscured observations: https://help.inaturalist.org/
 - GBIF sensitive species best practices: https://docs.gbif.org/sensitive-species-best-practices/
+- National Park Service poisonous vs. venomous explainer: https://www.nps.gov/cabr/blogs/venomous-versus-poisonous-same-thing-right-wrong.htm
+- CDC/NIOSH poisonous plants guidance: https://www.cdc.gov/niosh/outdoor-workers/about/poisonous-plants.html
+- Poison Control plant safety reference: https://www.poison.org/articles/plant
+- Texas Parks and Wildlife bites and stings guidance: https://tpwd.texas.gov/education/hunter-education/online-course/preparation-and-survival/bites-and-stings
 - GBIF data quality recommendations: https://techdocs.gbif.org/en/data-publishing/data-quality-recommendations
 - NatureServe conservation status categories: https://www.natureserve.org/nsexplorer/about-the-data/statuses/conservation-status-categories
 - Texas Parks and Wildlife rare species by county: https://tpwd.texas.gov/gis/rtest/
