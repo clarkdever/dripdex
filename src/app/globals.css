@@ -710,3 +710,348 @@ p {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+.creature-journal-shell {
+  width: min(100% - 20px, 1120px);
+  margin: 0 auto;
+  padding: 10px 0 44px;
+}
+
+.creature-device {
+  width: min(100%, 520px);
+  margin: 0 auto;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: linear-gradient(
+    160deg,
+    var(--dripdex-shell) 0%,
+    #b9162a 56%,
+    var(--dripdex-shell-dark) 100%
+  );
+  box-shadow: 0 28px 80px var(--dripdex-shadow);
+  padding: 12px;
+}
+
+.creature-device__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 2px 14px;
+}
+
+.creature-screen {
+  overflow: hidden;
+  border: 4px solid #252730;
+  border-radius: 6px;
+  background: var(--dripdex-cream);
+  color: var(--dripdex-ink);
+}
+
+.creature-screen__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #1f2329;
+  color: #d9ffd2;
+  font-size: 0.78rem;
+  font-weight: 950;
+  padding: 10px 12px;
+  text-transform: uppercase;
+}
+
+.creature-screen__header strong {
+  color: var(--dripdex-lime);
+  white-space: nowrap;
+}
+
+.creature-photo {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  aspect-ratio: 1 / 1.03;
+  background:
+    linear-gradient(135deg, transparent 0 45%, rgba(29, 60, 30, 0.58) 46% 64%, transparent 65%),
+    #bfd371;
+  border: 10px solid #58c96e;
+}
+
+.creature-photo::after {
+  position: absolute;
+  inset: 8px;
+  border: 3px solid rgba(201, 255, 45, 0.86);
+  content: "";
+  pointer-events: none;
+}
+
+.creature-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.creature-photo__rarity {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  background: #182218;
+  color: var(--dripdex-cream);
+  font-size: 0.72rem;
+  font-weight: 950;
+  padding: 6px 9px;
+  text-transform: uppercase;
+}
+
+.creature-photo__arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  display: grid;
+  width: 38px;
+  height: 46px;
+  transform: translateY(-50%);
+  place-items: center;
+  border: 3px solid #252730;
+  border-radius: 7px;
+  background: var(--dripdex-cream);
+  color: var(--dripdex-ink);
+  font-size: 1.6rem;
+  font-weight: 950;
+}
+
+.creature-photo__arrow svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+}
+
+.creature-photo__arrow--previous {
+  left: 10px;
+}
+
+.creature-photo__arrow--next {
+  right: 10px;
+}
+
+.creature-photo__dots {
+  position: absolute;
+  right: 0;
+  bottom: 12px;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+}
+
+.creature-photo__dots button {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 1px solid white;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.creature-photo__dots button.is-active {
+  background: var(--dripdex-blue);
+}
+
+.creature-summary {
+  display: grid;
+  gap: 10px;
+  padding: 18px 14px 14px;
+}
+
+.creature-summary__label {
+  color: #5a5147;
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.creature-summary__nickname {
+  border: 2px solid #252730;
+  border-radius: 6px;
+  background: #fffdf4;
+  font-size: 1.05rem;
+  font-weight: 950;
+  padding: 10px 12px;
+}
+
+.creature-summary h1 {
+  font-size: clamp(1.65rem, 9vw, 2.4rem);
+  font-weight: 950;
+  line-height: 1;
+}
+
+.creature-summary p:last-of-type {
+  color: #3f3f35;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.creature-tags {
+  display: grid;
+  gap: 10px;
+}
+
+.creature-tags__families,
+.creature-tags__values {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.creature-tags__families button {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  border: 3px solid #252730;
+  border-radius: 7px;
+  background: #fffdf4;
+  color: var(--dripdex-ink);
+  font-size: 0.92rem;
+  font-weight: 950;
+  padding: 8px;
+}
+
+.creature-tags__families span {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 6px;
+  color: white;
+}
+
+.creature-tags__families span::before {
+  content: attr(data-icon);
+  font-size: 0;
+}
+
+.creature-tags__families span[data-icon="leaf"] {
+  background: #4e87d9;
+}
+
+.creature-tags__families span[data-icon="chain"] {
+  background: #e97835;
+}
+
+.creature-tags__families span[data-icon="sun"] {
+  background: #d04b82;
+}
+
+.creature-tags__families span[data-icon="eyes"] {
+  background: #d8322c;
+}
+
+.creature-tags__values span {
+  min-width: 0;
+  border-radius: 999px;
+  background: #4e87d9;
+  color: white;
+  font-size: 0.78rem;
+  font-weight: 950;
+  overflow-wrap: anywhere;
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.creature-tags__values span:nth-child(2n) {
+  background: #48a865;
+}
+
+.creature-tags__values span:nth-child(3n) {
+  background: #6b5d75;
+}
+
+.creature-accordion,
+.creature-notes {
+  border-top: 4px solid #252730;
+  padding: 12px 14px;
+}
+
+.creature-accordion summary {
+  border-radius: 6px;
+  background: #111418;
+  color: var(--dripdex-lime);
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 950;
+  padding: 13px;
+}
+
+.creature-accordion p,
+.creature-notes p {
+  margin-top: 12px;
+  color: #3f3f35;
+  line-height: 1.45;
+}
+
+.creature-accordion ul {
+  margin: 12px 0 0;
+  padding-left: 18px;
+}
+
+.creature-accordion a {
+  color: #195da6;
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+.creature-notes h2 {
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.creature-accordion table {
+  width: 100%;
+  margin-top: 12px;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  table-layout: fixed;
+}
+
+.creature-accordion th,
+.creature-accordion td {
+  border-bottom: 1px solid rgba(23, 25, 31, 0.18);
+  padding: 8px 6px;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.creature-accordion th {
+  color: #5a5147;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+.creature-accordion th:first-child,
+.creature-accordion td:first-child {
+  width: 18%;
+}
+
+.creature-accordion th:nth-child(2),
+.creature-accordion td:nth-child(2) {
+  width: 30%;
+}
+
+@media (min-width: 900px) {
+  .creature-journal-shell {
+    padding-top: 30px;
+  }
+
+  .creature-device {
+    max-width: 560px;
+  }
+}
