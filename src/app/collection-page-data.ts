@@ -192,7 +192,7 @@ function resolvePageFixtureRecords(dataset: FixtureDataset): ResolvedFixtureCrea
     );
 }
 
-function createFixtureRecords() {
+export function createFixtureRecords() {
   return resolvePageFixtureRecords(pageFixtureDataset);
 }
 
