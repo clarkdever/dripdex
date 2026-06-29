@@ -1,0 +1,992 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DripDex Mystery Investigation Flow</title>
+    <style>
+      :root {
+        --shell: #d5162e;
+        --shell-dark: #8f1427;
+        --ink: #17181d;
+        --panel: #11161d;
+        --panel-2: #1b2028;
+        --cream: #fbffd8;
+        --muted: #b7c1b8;
+        --glow: #c7ff2d;
+        --blue: #2aa7ff;
+        --purple: #8f58ff;
+        --line: #25262d;
+        --warn: #ffd24a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--cream);
+        background:
+          radial-gradient(circle at top left, rgba(199, 255, 45, 0.12), transparent 28rem),
+          linear-gradient(145deg, #111216 0%, #272113 48%, #101318 100%);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+      }
+
+      button,
+      textarea {
+        font: inherit;
+      }
+
+      .page {
+        width: min(100% - 18px, 960px);
+        margin: 0 auto;
+        padding: 20px 0 34px;
+      }
+
+      .mockup-heading {
+        margin: 0 0 14px;
+      }
+
+      .mockup-heading h1 {
+        margin: 0 0 5px;
+        color: #fff7df;
+        font-size: 1.55rem;
+        line-height: 1.05;
+      }
+
+      .mockup-heading p {
+        margin: 0;
+        max-width: 40rem;
+        color: #d9dfd2;
+        font-size: 0.92rem;
+        line-height: 1.42;
+      }
+
+      .view-stack {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(330px, 430px));
+        justify-content: center;
+        gap: 22px;
+      }
+
+      .view-note {
+        margin: 0 0 9px;
+        color: var(--glow);
+        font-size: 0.72rem;
+        font-weight: 950;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .device {
+        overflow: hidden;
+        background: linear-gradient(160deg, var(--shell) 0%, #b9162a 58%, var(--shell-dark) 100%);
+        border: 2px solid var(--line);
+        border-radius: 8px;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+        padding: 10px;
+      }
+
+      .device-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 4px 2px 12px;
+      }
+
+      .lens-row {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .lens {
+        width: 36px;
+        height: 36px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 35% 28%, #f4ffff 0 13%, transparent 14%),
+          radial-gradient(circle at 43% 38%, #3bc7ff 0 28%, #185d9c 29% 68%, #0e253f 69%);
+        border: 3px solid #fff1d7;
+        box-shadow: 0 0 0 3px #25262d;
+      }
+
+      .deck-name {
+        display: grid;
+        gap: 2px;
+        min-width: 0;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .deck-name span:first-child {
+        color: #fff7df;
+        font-size: 0.7rem;
+        letter-spacing: 0.04em;
+      }
+
+      .deck-name span:last-child {
+        color: var(--glow);
+        font-size: 0.58rem;
+        letter-spacing: 0.02em;
+      }
+
+      .device-tools {
+        display: grid;
+        justify-items: end;
+        gap: 6px;
+      }
+
+      .lights {
+        display: flex;
+        gap: 7px;
+      }
+
+      .light {
+        width: 10px;
+        height: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+      }
+
+      .red {
+        background: #ff3946;
+      }
+
+      .yellow {
+        background: #ffd24a;
+      }
+
+      .green {
+        background: #6fff70;
+      }
+
+      .owner-controls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 6px;
+        max-width: 174px;
+      }
+
+      .owner-link,
+      .mode-button {
+        min-height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        font-size: 0.62rem;
+        font-weight: 950;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .owner-link {
+        padding: 0 9px;
+        color: #fff7df;
+        background: rgba(20, 20, 22, 0.42);
+        border: 1px solid rgba(255, 247, 223, 0.42);
+      }
+
+      .mode-toggle {
+        display: inline-grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 2px;
+        background: #252730;
+        border: 1px solid rgba(255, 247, 223, 0.45);
+        border-radius: 999px;
+      }
+
+      .mode-button {
+        min-width: 48px;
+        padding: 0 8px;
+        color: #fff7df;
+        background: transparent;
+        border: 0;
+      }
+
+      .mode-button.active {
+        color: #141416;
+        background: var(--glow);
+      }
+
+      .screen {
+        overflow: hidden;
+        background: var(--panel);
+        border: 4px solid var(--line);
+        border-radius: 6px;
+      }
+
+      .mystery-header {
+        display: grid;
+        gap: 12px;
+        padding: 16px;
+        background:
+          linear-gradient(135deg, rgba(143, 88, 255, 0.16), transparent 55%),
+          linear-gradient(180deg, #242a32 0%, #161b22 100%);
+        border-bottom: 4px solid var(--shell);
+      }
+
+      .title-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .title-row h2 {
+        margin: 0;
+        color: #fff7df;
+        font-size: 1.22rem;
+        line-height: 1.05;
+      }
+
+      .title-row p {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 0.76rem;
+        font-weight: 750;
+        line-height: 1.25;
+      }
+
+      .status-pill {
+        flex: 0 0 auto;
+        padding: 7px 9px;
+        color: #111318;
+        background: var(--glow);
+        border: 2px solid #111318;
+        border-radius: 999px;
+        font-size: 0.68rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .action-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .primary-action,
+      .secondary-action,
+      .danger-action {
+        min-height: 42px;
+        border-radius: 8px;
+        font-size: 0.76rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .primary-action {
+        color: #111318;
+        background: var(--glow);
+        border: 0;
+        box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.18);
+      }
+
+      .secondary-action {
+        color: #fff7df;
+        background: #262b34;
+        border: 1px solid rgba(255, 247, 223, 0.22);
+      }
+
+      .danger-action {
+        color: #fff7df;
+        background: #4d1f2a;
+        border: 1px solid rgba(255, 247, 223, 0.22);
+      }
+
+      .section {
+        padding: 14px;
+        border-bottom: 1px solid rgba(255, 247, 223, 0.1);
+      }
+
+      .section:last-child {
+        border-bottom: 0;
+      }
+
+      .section-heading {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 9px;
+      }
+
+      .section-heading h3 {
+        margin: 0;
+        color: var(--glow);
+        font-size: 0.88rem;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      .section-heading span,
+      .section-heading a {
+        color: #d9dfd2;
+        font-size: 0.68rem;
+        font-weight: 850;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .mystery-photo {
+        min-height: 210px;
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 50% 44%, rgba(255, 247, 223, 0.86), transparent 3.2rem),
+          radial-gradient(circle at 48% 44%, rgba(199, 255, 45, 0.42), transparent 6rem),
+          linear-gradient(130deg, #3b3f43 0%, #11161d 45%, #262b31 100%);
+        border: 1px solid rgba(199, 255, 45, 0.26);
+        border-radius: 8px;
+        filter: grayscale(1);
+      }
+
+      .mystery-photo.full-color {
+        filter: grayscale(0);
+      }
+
+      .mystery-photo::before {
+        content: "";
+        position: absolute;
+        left: 33%;
+        top: 25%;
+        width: 34%;
+        height: 45%;
+        background:
+          radial-gradient(circle at 50% 24%, #dcecc1 0 18%, transparent 19%),
+          linear-gradient(90deg, transparent 0 42%, #cbd89e 43% 57%, transparent 58%),
+          linear-gradient(35deg, transparent 0 40%, #eef6ce 41% 60%, transparent 61%),
+          linear-gradient(-35deg, transparent 0 40%, #eef6ce 41% 60%, transparent 61%);
+        opacity: 0.8;
+      }
+
+      .question-mark {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: var(--purple);
+        font-size: 8rem;
+        font-weight: 950;
+        opacity: 0.18;
+      }
+
+      .mystery-photo.full-color .question-mark {
+        opacity: 0.1;
+      }
+
+      .photo-caption {
+        position: absolute;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        padding: 7px 9px;
+        color: #fff7df;
+        background: rgba(17, 22, 29, 0.86);
+        border: 1px solid rgba(255, 247, 223, 0.2);
+        border-radius: 7px;
+        font-size: 0.67rem;
+        font-weight: 850;
+      }
+
+      .field-grid,
+      .candidate-list,
+      .source-list,
+      .validation-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .field-row,
+      .candidate-card,
+      .source-card,
+      .validation-card,
+      .resolution-card {
+        display: grid;
+        gap: 5px;
+        padding: 10px;
+        background: var(--panel-2);
+        border: 1px solid rgba(199, 255, 45, 0.2);
+        border-radius: 8px;
+      }
+
+      .field-row {
+        grid-template-columns: auto 1fr;
+        align-items: baseline;
+      }
+
+      .field-row strong,
+      .candidate-card strong,
+      .source-card strong,
+      .validation-card strong,
+      .resolution-card strong {
+        color: #fff7df;
+        font-size: 0.78rem;
+        line-height: 1.15;
+      }
+
+      .field-row span,
+      .candidate-card span,
+      .source-card span,
+      .validation-card span,
+      .resolution-card span {
+        color: var(--muted);
+        font-size: 0.68rem;
+        font-weight: 750;
+        line-height: 1.25;
+      }
+
+      .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .chip {
+        padding: 5px 8px;
+        color: #d9dfd2;
+        background: #222832;
+        border: 1px solid rgba(199, 255, 45, 0.22);
+        border-radius: 999px;
+        font-size: 0.62rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .chip.warn {
+        color: #111318;
+        background: var(--warn);
+      }
+
+      .schema-box,
+      .paste-box {
+        width: 100%;
+        min-height: 210px;
+        resize: vertical;
+        color: #e6eddc;
+        background: #10151c;
+        border: 1px solid rgba(199, 255, 45, 0.28);
+        border-radius: 8px;
+        padding: 10px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+        font-size: 0.68rem;
+        line-height: 1.45;
+      }
+
+      .paste-box::placeholder {
+        color: #a9b2aa;
+        opacity: 0.72;
+      }
+
+      .schema-box {
+        min-height: 180px;
+        color: #b8c3ba;
+      }
+
+      .validation-card.ok {
+        border-color: rgba(199, 255, 45, 0.56);
+      }
+
+      .validation-card.fail {
+        border-color: rgba(255, 210, 74, 0.6);
+      }
+
+      .resolution-card {
+        border-color: rgba(42, 167, 255, 0.45);
+      }
+
+      .cta-stack {
+        display: grid;
+        gap: 8px;
+      }
+
+      .bottom-nav {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        background: #232832;
+        border-top: 3px solid #343a45;
+      }
+
+      .nav-item {
+        min-height: 48px;
+        display: grid;
+        place-items: center;
+        color: #d9dfd2;
+        border: 0;
+        border-right: 1px solid rgba(255, 247, 223, 0.1);
+        background: transparent;
+        font-size: 0.64rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .nav-item:last-child {
+        border-right: 0;
+      }
+
+      .nav-item.active {
+        color: #111318;
+        background: var(--glow);
+      }
+
+      @media (max-width: 390px) {
+        .page {
+          width: min(100% - 14px, 430px);
+          padding-top: 14px;
+        }
+
+        .view-stack {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .owner-controls {
+          max-width: 146px;
+        }
+
+        .owner-link,
+        .mode-button {
+          min-height: 26px;
+          font-size: 0.56rem;
+        }
+
+        .mode-button {
+          min-width: 42px;
+          padding: 0 6px;
+        }
+
+        .mystery-header,
+        .section {
+          padding: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="mockup-heading">
+        <h1>Mystery Investigation Flow</h1>
+        <p>
+          Owner workflow for unresolved finds: inspect the mystery, hand off to an
+          external chatbot, paste structured output, then resolve or keep investigating.
+        </p>
+      </header>
+
+      <div class="view-stack">
+        <article>
+          <p class="view-note">Mystery Detail</p>
+          <section class="device" aria-label="Mystery detail mockup">
+            <div class="device-top">
+              <div class="lens-row">
+                <div class="lens" aria-hidden="true"></div>
+                <div class="deck-name">
+                  <span>Hill Country DripDex</span>
+                  <span>Mystery Investigation</span>
+                </div>
+              </div>
+              <div class="device-tools">
+                <div class="lights" aria-hidden="true">
+                  <span class="light red"></span>
+                  <span class="light yellow"></span>
+                  <span class="light green"></span>
+                </div>
+                <div class="owner-controls" aria-label="Owner access and view mode">
+                  <a class="owner-link" href="#owner">Owner</a>
+                  <span class="mode-toggle" role="group" aria-label="View mode">
+                    <button class="mode-button" type="button" aria-pressed="false">Public</button>
+                    <button class="mode-button active" type="button" aria-pressed="true">Private</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="screen">
+              <section class="mystery-header">
+                <div class="title-row">
+                  <div>
+                    <h2>Porch Light Mystery</h2>
+                    <p>Unknown winged insect. Needs owner review.</p>
+                  </div>
+                  <div class="status-pill">Needs ID</div>
+                </div>
+                <div class="action-row">
+                  <button class="primary-action" type="button">Ask AI Again</button>
+                  <button class="secondary-action" type="button">Add Candidate</button>
+                </div>
+              </section>
+
+              <section class="section" aria-labelledby="mystery-photo-heading">
+                <div class="section-heading">
+                  <h3 id="mystery-photo-heading">Mystery Photo</h3>
+                  <span>Tap for Color</span>
+                </div>
+                <div class="mystery-photo" aria-label="Greyscale mystery photo">
+                  <div class="question-mark" aria-hidden="true">?</div>
+                  <div class="photo-caption">Public view: grayscale with protected location.</div>
+                </div>
+              </section>
+
+              <section class="section" aria-labelledby="context-heading">
+                <div class="section-heading">
+                  <h3 id="context-heading">Known Clues</h3>
+                  <span>Private</span>
+                </div>
+                <div class="field-grid">
+                  <div class="field-row">
+                    <strong>Date</strong>
+                    <span>June 27, after sunset</span>
+                  </div>
+                  <div class="field-row">
+                    <strong>Place</strong>
+                    <span>Exact GPS hidden from public prompt</span>
+                  </div>
+                  <div class="field-row">
+                    <strong>Notes</strong>
+                    <span>Small green insect at porch light. Wings held like a tent.</span>
+                  </div>
+                </div>
+              </section>
+
+              <section class="section" aria-labelledby="candidate-heading">
+                <div class="section-heading">
+                  <h3 id="candidate-heading">Candidate IDs</h3>
+                  <a href="#history">History</a>
+                </div>
+                <div class="candidate-list">
+                  <article class="candidate-card">
+                    <strong>Green Lacewing</strong>
+                    <span>Viewer suggestion. Not confirmed.</span>
+                    <div class="chip-row">
+                      <span class="chip">Likely</span>
+                      <span class="chip">Insect</span>
+                    </div>
+                  </article>
+                  <article class="candidate-card">
+                    <strong>Small green moth</strong>
+                    <span>AI suggestion rejected once. Still saved in history.</span>
+                    <div class="chip-row">
+                      <span class="chip warn">Rejected</span>
+                    </div>
+                  </article>
+                </div>
+              </section>
+
+              <nav class="bottom-nav" aria-label="Mystery workflow navigation">
+                <button class="nav-item active" type="button">Detail</button>
+                <button class="nav-item" type="button">Prompt</button>
+                <button class="nav-item" type="button">Paste</button>
+                <button class="nav-item" type="button">Resolve</button>
+              </nav>
+            </div>
+          </section>
+        </article>
+
+        <article>
+          <p class="view-note">External LLM Handoff</p>
+          <section class="device" aria-label="External LLM handoff mockup">
+            <div class="device-top">
+              <div class="lens-row">
+                <div class="lens" aria-hidden="true"></div>
+                <div class="deck-name">
+                  <span>Hill Country DripDex</span>
+                  <span>Mystery Investigation</span>
+                </div>
+              </div>
+              <div class="device-tools">
+                <div class="lights" aria-hidden="true">
+                  <span class="light red"></span>
+                  <span class="light yellow"></span>
+                  <span class="light green"></span>
+                </div>
+                <div class="owner-controls" aria-label="Owner access and view mode">
+                  <a class="owner-link" href="#owner-prompt">Owner</a>
+                  <span class="mode-toggle" role="group" aria-label="View mode">
+                    <button class="mode-button" type="button" aria-pressed="false">Public</button>
+                    <button class="mode-button active" type="button" aria-pressed="true">Private</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="screen">
+              <section class="mystery-header">
+                <div class="title-row">
+                  <div>
+                    <h2>Ask Your Chatbot</h2>
+                    <p>Copy a safe prompt, download the photo, and investigate elsewhere.</p>
+                  </div>
+                  <div class="status-pill">Safe Copy</div>
+                </div>
+                <div class="action-row">
+                  <button class="primary-action" type="button">Copy Prompt for LLM</button>
+                  <button class="secondary-action" type="button">Download Photo</button>
+                </div>
+              </section>
+
+              <section class="section" aria-labelledby="prompt-preview-heading">
+                <div class="section-heading">
+                  <h3 id="prompt-preview-heading">Prompt Preview</h3>
+                  <span>No Exact GPS</span>
+                </div>
+                <textarea class="schema-box" readonly>I am trying to identify a Texas Hill Country organism from an EXIF-stripped photo.
+
+Observation:
+- Broad place: Texas Hill Country
+- Date/season: late June, after sunset
+- Context: porch light
+- Owner notes: small green insect, wings held like a tent
+- Candidate history: Green Lacewing suggested; small green moth rejected once
+
+Return only JSON matching the DripDex mystery-resolution schema. Include citations from reputable sources.</textarea>
+              </section>
+
+              <section class="section" aria-labelledby="source-links-heading">
+                <div class="section-heading">
+                  <h3 id="source-links-heading">Research Links</h3>
+                  <span>Optional</span>
+                </div>
+                <div class="source-list">
+                  <article class="source-card">
+                    <strong>BugGuide</strong>
+                    <span>Good for insects and arachnids.</span>
+                  </article>
+                  <article class="source-card">
+                    <strong>TPWD / NatureServe</strong>
+                    <span>Good for Texas wildlife context.</span>
+                  </article>
+                  <article class="source-card">
+                    <strong>Custom owner links</strong>
+                    <span>Add trusted local references later.</span>
+                  </article>
+                </div>
+              </section>
+
+              <section class="section" aria-labelledby="handoff-rules-heading">
+                <div class="section-heading">
+                  <h3 id="handoff-rules-heading">Privacy Rule</h3>
+                  <span>Default</span>
+                </div>
+                <article class="validation-card ok">
+                  <strong>Photo download is public-safe</strong>
+                  <span>Use an EXIF-stripped analysis copy unless the owner deliberately exports the private original.</span>
+                </article>
+              </section>
+
+              <nav class="bottom-nav" aria-label="Mystery workflow navigation">
+                <button class="nav-item" type="button">Detail</button>
+                <button class="nav-item active" type="button">Prompt</button>
+                <button class="nav-item" type="button">Paste</button>
+                <button class="nav-item" type="button">Resolve</button>
+              </nav>
+            </div>
+          </section>
+        </article>
+
+        <article>
+          <p class="view-note">Paste And Lint</p>
+          <section class="device" aria-label="Paste and lint external LLM output mockup">
+            <div class="device-top">
+              <div class="lens-row">
+                <div class="lens" aria-hidden="true"></div>
+                <div class="deck-name">
+                  <span>Hill Country DripDex</span>
+                  <span>Mystery Investigation</span>
+                </div>
+              </div>
+              <div class="device-tools">
+                <div class="lights" aria-hidden="true">
+                  <span class="light red"></span>
+                  <span class="light yellow"></span>
+                  <span class="light green"></span>
+                </div>
+                <div class="owner-controls" aria-label="Owner access and view mode">
+                  <a class="owner-link" href="#owner-paste">Owner</a>
+                  <span class="mode-toggle" role="group" aria-label="View mode">
+                    <button class="mode-button" type="button" aria-pressed="false">Public</button>
+                    <button class="mode-button active" type="button" aria-pressed="true">Private</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="screen">
+              <section class="mystery-header">
+                <div class="title-row">
+                  <div>
+                    <h2>Paste Resolution</h2>
+                    <p>Bring back structured output from an external chatbot.</p>
+                  </div>
+                  <div class="status-pill">Lint</div>
+                </div>
+                <div class="action-row">
+                  <button class="primary-action" type="button">Check Schema</button>
+                  <button class="secondary-action" type="button">Copy Repair Prompt</button>
+                </div>
+              </section>
+
+              <section class="section" aria-labelledby="paste-heading">
+                <div class="section-heading">
+                  <h3 id="paste-heading">Paste Resolution from LLM</h3>
+                  <span>JSON Only</span>
+                </div>
+                <textarea
+                  class="paste-box"
+                  placeholder='{
+  "commonName": "Green Lacewing",
+  "scientificName": "Chrysoperla rufilabris",
+  "confidence": 0.74,
+  "reasoningForOwner": "Short explanation here.",
+  "suggestedCategory": "Insect",
+  "suggestedTags": ["Flying", "Predator", "Light"],
+  "lookalikes": ["Brown Lacewing"],
+  "citations": [{"label": "BugGuide", "url": "https://bugguide.net/"}],
+  "safetyLabels": ["Do Not Touch"],
+  "notes": "Needs owner confirmation."
+}'></textarea>
+              </section>
+
+              <section class="section" aria-labelledby="lint-heading">
+                <div class="section-heading">
+                  <h3 id="lint-heading">Schema Check</h3>
+                  <span>Example State</span>
+                </div>
+                <div class="validation-list">
+                  <article class="validation-card fail">
+                    <strong>Missing citations[0].url</strong>
+                    <span>DripDex needs a source URL before science facts can be shown publicly.</span>
+                  </article>
+                  <article class="validation-card fail">
+                    <strong>confidence must be 0 to 1</strong>
+                    <span>Ask the external chatbot to return a decimal like 0.74.</span>
+                  </article>
+                  <article class="validation-card ok">
+                    <strong>Repair prompt ready</strong>
+                    <span>Copy the pasted JSON, schema, and errors back to the chatbot for a patch.</span>
+                  </article>
+                </div>
+              </section>
+
+              <nav class="bottom-nav" aria-label="Mystery workflow navigation">
+                <button class="nav-item" type="button">Detail</button>
+                <button class="nav-item" type="button">Prompt</button>
+                <button class="nav-item active" type="button">Paste</button>
+                <button class="nav-item" type="button">Resolve</button>
+              </nav>
+            </div>
+          </section>
+        </article>
+
+        <article>
+          <p class="view-note">Resolve Candidate</p>
+          <section class="device" aria-label="Resolve candidate mockup">
+            <div class="device-top">
+              <div class="lens-row">
+                <div class="lens" aria-hidden="true"></div>
+                <div class="deck-name">
+                  <span>Hill Country DripDex</span>
+                  <span>Mystery Investigation</span>
+                </div>
+              </div>
+              <div class="device-tools">
+                <div class="lights" aria-hidden="true">
+                  <span class="light red"></span>
+                  <span class="light yellow"></span>
+                  <span class="light green"></span>
+                </div>
+                <div class="owner-controls" aria-label="Owner access and view mode">
+                  <a class="owner-link" href="#owner-resolve">Owner</a>
+                  <span class="mode-toggle" role="group" aria-label="View mode">
+                    <button class="mode-button" type="button" aria-pressed="false">Public</button>
+                    <button class="mode-button active" type="button" aria-pressed="true">Private</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="screen">
+              <section class="mystery-header">
+                <div class="title-row">
+                  <div>
+                    <h2>Review Candidate</h2>
+                    <p>External output is valid. Owner still decides.</p>
+                  </div>
+                  <div class="status-pill">Valid</div>
+                </div>
+                <div class="action-row">
+                  <button class="primary-action" type="button">Log to Green Lacewing Entry</button>
+                  <button class="secondary-action" type="button">Create Duplicate Entry</button>
+                </div>
+              </section>
+
+              <section class="section" aria-labelledby="candidate-summary-heading">
+                <div class="section-heading">
+                  <h3 id="candidate-summary-heading">Suggested Identity</h3>
+                  <span>74 Percent</span>
+                </div>
+                <article class="resolution-card">
+                  <strong>Green Lacewing</strong>
+                  <span>Chrysoperla rufilabris</span>
+                  <div class="chip-row">
+                    <span class="chip">Insect</span>
+                    <span class="chip">Flying</span>
+                    <span class="chip">Predator</span>
+                    <span class="chip">Light</span>
+                  </div>
+                </article>
+              </section>
+
+              <section class="section" aria-labelledby="reasoning-heading">
+                <div class="section-heading">
+                  <h3 id="reasoning-heading">Why It Fits</h3>
+                  <span>Owner Review</span>
+                </div>
+                <div class="field-grid">
+                  <div class="field-row">
+                    <strong>Reason</strong>
+                    <span>Wing shape, pale green body, and porch-light context point toward a green lacewing.</span>
+                  </div>
+                  <div class="field-row">
+                    <strong>Lookalikes</strong>
+                    <span>Brown lacewing, small green moth.</span>
+                  </div>
+                  <div class="field-row">
+                    <strong>Sources</strong>
+                    <span>BugGuide and owner-confirmed observation notes.</span>
+                  </div>
+                </div>
+              </section>
+
+              <section class="section" aria-labelledby="final-actions-heading">
+                <div class="section-heading">
+                  <h3 id="final-actions-heading">Decision</h3>
+                  <span>Append History</span>
+                </div>
+                <div class="cta-stack">
+                  <button class="primary-action" type="button">Log to Green Lacewing Entry</button>
+                  <button class="secondary-action" type="button">Create Duplicate Green Lacewing Entry</button>
+                  <button class="danger-action" type="button">Reject Suggestion</button>
+                </div>
+              </section>
+
+              <nav class="bottom-nav" aria-label="Mystery workflow navigation">
+                <button class="nav-item" type="button">Detail</button>
+                <button class="nav-item" type="button">Prompt</button>
+                <button class="nav-item" type="button">Paste</button>
+                <button class="nav-item active" type="button">Resolve</button>
+              </nav>
+            </div>
+          </section>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>

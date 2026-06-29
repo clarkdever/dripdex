@@ -842,6 +842,15 @@ External chatbot handoff:
 - If the pasted response is invalid, show simple validation errors and provide a `Copy Repair Prompt` action that includes the pasted response, the validation errors, and the schema so the owner can ask the external chatbot to patch its answer.
 - Pasted external chatbot output is always treated as a candidate suggestion until the owner confirms it.
 
+Designer handoff greybox:
+
+- The mystery investigation mockup shows four standalone views: Mystery Detail, External LLM Handoff, Paste And Lint, and Resolve Candidate.
+- Mystery Detail focuses on the photo, known clues, candidate ID history, and owner actions.
+- External LLM Handoff gives the owner `Copy Prompt for LLM` and `Download Photo` actions without requiring DripDex to host a chat interface.
+- Paste And Lint shows the `Paste Resolution from LLM` text area with a visible grey schema example and schema validation results.
+- Resolve Candidate reuses the agreed resolution CTAs: `Log to <Species Name> Entry`, `Create Duplicate <Species Name> Entry`, and `Reject Suggestion`.
+- The external chatbot path is a helper, not an authority. Its output becomes a candidate suggestion and is appended to history only after owner action.
+
 Expected pasted response example:
 
 ```json
@@ -1412,6 +1421,12 @@ Mockup references in the local repo:
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/private-journal-dashboard-map-tab.png`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/private-journal-dashboard-history-tab.png`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/private-journal-dashboard-prefs-tab.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/mystery-investigation-flow.html`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/mystery-investigation-flow-all-views.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/mystery-investigation-detail-view.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/mystery-investigation-llm-handoff-view.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/mystery-investigation-paste-lint-view.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/mystery-investigation-resolve-view.png`
 
 Gemini references:
 
