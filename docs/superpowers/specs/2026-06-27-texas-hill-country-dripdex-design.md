@@ -1012,6 +1012,62 @@ Approved public collection states:
 4. Intro hidden: Hide Intro is the primary/default intro CTA; it dismisses the intro and stores that preference in a cookie so returning visitors land closer to the collection. Reference: `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-intro-hidden.png`.
 5. Favorites and grouped collection: Front Row favorites, category jump menu, collapsible organism groups, and Featured Sets in the approved Option A visual language. Reference: `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-favorites-groups.png`.
 
+### Collection Index Contract
+
+The collection index is the main browsing surface and should be fixture-backed before it is database-backed. The open fixture pack in `/docs/fixtures` is the first contract between entities, photos, observations, history logs, and cards.
+
+MVP collection index data inputs:
+
+- Creature records from `docs/fixtures/metadata/creatures`.
+- Photo records from `docs/fixtures/metadata/photos`.
+- Observation records from `docs/fixtures/metadata/observations`.
+- History records from `docs/fixtures/metadata/history`.
+- The fixture manifest from `docs/fixtures/metadata/fixture-manifest.json` for test/demo loading.
+
+Card rendering contract:
+
+- Every rendered creature card resolves a creature record.
+- Every published or mystery card resolves a default photo record.
+- Every default photo resolves public-safe `card`, `thumbnail`, and `full` image paths.
+- Public cards use EXIF-stripped fixture/source copies or web derivatives only.
+- Private originals and future owner uploads are never read by the public collection component.
+- `needsHumanValidation` is visible to internal tooling and tests, but not surfaced as kid-facing copy.
+
+Search and filter contract:
+
+- Search should match common name, scientific name, generated nickname, category, status, type tags, food-chain tags, seasonality, safety labels, and DripDex number.
+- Every text input should use lookahead/autocomplete when practical.
+- Primary filters: All, Found, Favorites, Drafts, Mysteries.
+- Secondary filters behind the filter menu: category, rarity, safety label, seasonality, food-chain role, status, and type tag.
+- Category grouping remains visible after filtering when more than one category has results.
+- Empty states should stay high-level and kid-readable, such as "No finds here yet" rather than technical filter language.
+
+Card tap routing:
+
+- Published card opens the creature journal page.
+- Draft card opens the resume/review flow.
+- Mystery card opens the mystery investigation page.
+- Locked checklist card is disabled or opens a lightweight "not found yet" view.
+- New badge clears after the first open. In MVP, public visitor state can be local browser state.
+
+Collection progress contract:
+
+- Progress uses confirmed found creatures divided by total checklist plus appended confirmed unseeded creatures.
+- Draft and Mystery entries appear in the private collection but do not count as Found.
+- Confirmed unseeded species append to the next available number and increment both found and total count.
+- Favorites do not affect progress.
+
+Testing contract:
+
+- The fixture manifest loads.
+- Every creature resolves its default photo when required by status.
+- Every photo resolves existing image files.
+- Public image files do not expose EXIF/GPS.
+- Synthetic EXIF fixtures remain separate under `tests/fixtures/exif`.
+- Search matches all supported fields.
+- Mystery, Draft, Published, Locked, New, and Favorite states produce the expected card treatment.
+- Card tap routing returns the correct destination for each status.
+
 Public intro behavior:
 
 - The intro explains DripDex as a personal Hill Country field journal and open-source project.
@@ -1395,7 +1451,107 @@ Candidate MVP journeys:
 - Owner reviews exact private map and heatmap.
 - Owner edits a creature entry's tags, rarity, flavor text, facts, or default photo.
 
-## 17. Open Design Questions
+## 17. MVP Build Coordination
+
+DripDex should use GitHub Issues as the coordination layer for the MVP build, especially if multiple LLM sessions or tools work in parallel. GitHub Projects can track issues, pull requests, notes, boards, tables, and roadmaps in one adaptable project, so it is a good lightweight fit before adding heavier project management tools.
+
+### Issue Hierarchy
+
+Use a small number of parent issues for MVP epics:
+
+1. Data model and fixture loading.
+2. Collection index and card browsing.
+3. Creature journal page.
+4. Capture and draft flow.
+5. EXIF, image processing, and location privacy.
+6. Identification and AI provider adapter.
+7. Mystery investigation.
+8. Private journal dashboard.
+9. Public intro, guestbook, and publishing rules.
+10. Deployment and OSS self-hosting docs.
+
+Each parent issue should have sub-issues that are small enough for one agent/session to complete without broad context. GitHub's own Copilot guidance favors clearly structured, smaller tasks with acceptance criteria over broad, cross-repository work for coding agents.
+
+### Issue Template
+
+Use issue forms rather than free-form issues once MVP work begins. GitHub issue forms support typed fields, default labels, required fields, dropdowns, and checkboxes, which should reduce fuzzy task handoffs between human and agent sessions.
+
+Recommended fields:
+
+- Goal: one-sentence user value.
+- Scope: exact files or modules expected to change.
+- Out of scope: what this issue should not touch.
+- Inputs: relevant spec sections, fixture files, mockups, or source links.
+- Acceptance criteria: checklist written in observable behavior.
+- Tests/verification: exact command or manual check required.
+- Agent lane: Codex, Claude, Gemini, human, or unassigned.
+- Work type: frontend design, backend/data, AI integration, tests, docs, research.
+- Risk: privacy/security, UX, data migration, licensing, or low.
+- Dependencies: blocked by or related issues.
+- Handoff notes: what future sessions need to know.
+
+### Project Fields
+
+Create one GitHub Project for the MVP build. Recommended fields:
+
+- Status: Backlog, Ready, In Progress, Review, Blocked, Done.
+- Priority: P0, P1, P2.
+- MVP slice: Collection, Creature Page, Capture, AI, Privacy, Journal, Public Site, DevOps.
+- Agent lane: Codex, Claude, Gemini, human.
+- Worktree/branch: branch name for active work.
+- Risk: privacy/security, license/content, visual quality, data contract, low.
+- Verification: not started, local checks pass, screenshots captured, needs review.
+
+This keeps parallel agent work visible without creating a heavyweight process.
+
+### Multi-LLM Collaboration Model
+
+Use agents by lane rather than letting every model touch everything:
+
+- Codex: backend/data contracts, tests, image/EXIF processing, privacy logic, schema validation, GitHub issue maintenance, integration.
+- Claude: frontend interaction alternatives, copy polish, component structure review, accessibility review, second-pass implementation on isolated UI issues.
+- Gemini: visual design exploration, multimodal identification prompts, comparison of photo/capture flows, UI critique from screenshots.
+- Human owner: final product taste, safety/privacy decisions, source validation, merge approval.
+
+Parallel work rules:
+
+- One issue, one branch, one agent/session.
+- Use git worktrees or separate branches for simultaneous work so concurrent edits do not collide.
+- Give each issue an explicit write scope.
+- Avoid assigning multiple agents to the same files unless one is doing read-only review.
+- Require a handoff comment before pausing or ending a session: changed files, decisions made, tests run, blockers, and next recommended action.
+- Prefer small PRs tied to one issue over bundled multi-feature PRs.
+- Use draft PRs for agent work until a human reviews screenshots, tests, and privacy-sensitive code.
+
+### Frontend Exploration Workflow
+
+It is reasonable to have Gemini and Claude take separate swings at frontend design while Codex works backend/non-UI functionality, but the work should be intentionally constrained:
+
+1. Create one design exploration parent issue.
+2. Create separate sub-issues for Claude and Gemini with the same source material and acceptance criteria.
+3. Require each design agent to produce screenshots, rationale, and a short "what to steal" summary.
+4. Do not merge both implementations. Treat them as competing sketches.
+5. Human owner chooses direction.
+6. Codex or a designated frontend session integrates the chosen design into the main app.
+
+This preserves creative breadth without letting the codebase become a collage of incompatible styles.
+
+### Recommended MVP Build Order
+
+Start with the parts that make every later task easier:
+
+1. Repository scaffold and app shell.
+2. Fixture loader and typed data contracts.
+3. Collection index and card browsing.
+4. Creature journal page.
+5. EXIF/image processing tests and utilities.
+6. Capture draft persistence.
+7. Identification adapter and mystery workflow.
+8. Private journal dashboard and map.
+9. Guestbook/public publishing controls.
+10. OSS deployment and GitHub Pages docs.
+
+## 18. Open Design Questions
 
 Questions remaining before implementation planning:
 
@@ -1405,8 +1561,9 @@ Questions remaining before implementation planning:
 - How much citation generation is automated in v1?
 - What moderation or review is required before public changes appear, given the single-owner model?
 - What visual style should be used for the Pokédex-inspired shell while avoiding direct copying of protected Pokémon assets?
+- What exact GitHub Project fields and issue forms should be created before implementation starts?
 
-## 18. Source References Captured So Far
+## 19. Source References Captured So Far
 
 Reference images in the local repo:
 
@@ -1416,6 +1573,17 @@ Reference images in the local repo:
 - `/Users/clarkdever/Documents/code/pokedex/docs/inspiration/200.webp`
 - `/Users/clarkdever/Documents/code/pokedex/docs/inspiration/256.webp`
 - `/Users/clarkdever/Documents/code/pokedex/docs/inspiration/256px-Pokédex_Image_Azurill_SV.webp`
+
+Build coordination references:
+
+- GitHub Projects documentation: `https://docs.github.com/en/issues/planning-and-tracking-with-projects`
+- GitHub Projects overview: `https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects`
+- GitHub sub-issues documentation: `https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/adding-sub-issues`
+- GitHub parent issue and sub-issue progress fields: `https://docs.github.com/en/issues/planning-and-tracking-with-projects/understanding-fields/about-parent-issue-and-sub-issue-progress-fields`
+- GitHub issue forms syntax: `https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms`
+- GitHub Copilot task best practices: `https://docs.github.com/copilot/how-tos/agents/copilot-coding-agent/best-practices-for-using-copilot-to-work-on-tasks`
+- GitHub Copilot general prompting best practices: `https://docs.github.com/en/copilot/get-started/best-practices`
+- Claude Code common workflows: `https://code.claude.com/docs/en/common-workflows`
 
 Mockup references in the local repo:
 
