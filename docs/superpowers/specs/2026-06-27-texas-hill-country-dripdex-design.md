@@ -829,6 +829,41 @@ Mystery workspace:
 - Show external research shortcuts for eBird, BugGuide, plant databases, TPWD, NatureServe, and custom owner links where relevant.
 - Provide simple actions: Add Candidate, Ask AI Again, Mark Likely, Confirm ID, and Keep Mystery.
 
+External chatbot handoff:
+
+- Provide a `Copy Prompt for LLM` button so the owner can paste a specialized mystery-resolution prompt into their preferred chatbot.
+- Provide a `Download Photo` button for the selected mystery image. This should download an EXIF-stripped analysis copy by default, not the private original.
+- The copied prompt should include the mystery context, broad public-safe location, date/season, owner notes, current candidate history, requested citation behavior, and the exact structured response schema DripDex expects.
+- The copied prompt should avoid exact GPS and home-zone details by default. If the owner ever chooses to include precise private data, it should be an explicit advanced action, not the normal MVP path.
+- Provide a `Paste Resolution from LLM` text area where the owner can paste the external chatbot's structured answer.
+- The paste field should show a light grey example of the expected output directly in the field, not hidden in a tooltip.
+- DripDex should parse and lint the pasted response against the mystery-resolution schema before using it as software input.
+- If the pasted response is valid, show a human-review summary and then reuse the normal resolution CTAs: `Log to <Species Name> Entry`, `Create Duplicate <Species Name> Entry`, or `Reject Suggestion`.
+- If the pasted response is invalid, show simple validation errors and provide a `Copy Repair Prompt` action that includes the pasted response, the validation errors, and the schema so the owner can ask the external chatbot to patch its answer.
+- Pasted external chatbot output is always treated as a candidate suggestion until the owner confirms it.
+
+Expected pasted response example:
+
+```json
+{
+  "commonName": "Green Lacewing",
+  "scientificName": "Chrysoperla rufilabris",
+  "confidence": 0.74,
+  "reasoningForOwner": "The wing shape, pale green body, and porch-light context match a green lacewing more closely than a moth.",
+  "suggestedCategory": "Insect",
+  "suggestedTags": ["Flying", "Predator", "Pollinator", "Light"],
+  "lookalikes": ["Brown Lacewing", "Small green moth"],
+  "citations": [
+    {
+      "label": "BugGuide green lacewing reference",
+      "url": "https://bugguide.net/"
+    }
+  ],
+  "safetyLabels": ["Do Not Touch"],
+  "notes": "Needs owner confirmation from photo details."
+}
+```
+
 Candidate ID fields:
 
 - Common name.
