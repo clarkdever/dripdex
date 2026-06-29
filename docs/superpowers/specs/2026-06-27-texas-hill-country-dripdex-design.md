@@ -232,6 +232,34 @@ iNaturalist privacy mapping:
 - Home-zone observations should default to `private` or no coordinates.
 - Public-safe image derivatives should be used by default. Original EXIF should not be uploaded unless the owner explicitly chooses to send it.
 
+### Owner Login and Private Journal
+
+Owner access should be quiet in the public UI but obvious once active.
+
+MVP behavior:
+
+- Public visitors can browse published data without logging in.
+- The red device chrome includes a low-emphasis `Owner Login` link and a `Public / Private` view toggle.
+- `Owner Login` can also be reached directly from `/journal` or `/admin`.
+- After login, public pages gain owner-only controls while preserving a public preview mode.
+- The `Public / Private` toggle lets the owner switch between visitor-safe preview and private journal mode.
+- `/journal` should exist as the owner's work queue for drafts, review tasks, private maps, preferences, and moderation.
+- Public collection/detail pages should also expose relevant owner controls when logged in, so the owner does not need to leave the creature page to fix obvious issues.
+
+Owner-only work queue items:
+
+- Draft captures.
+- Mystery entries.
+- AI identification suggestions.
+- Rejected or unresolved AI suggestions.
+- Public mystery suggestions.
+- Pending guestbook entries.
+- Facts or adult-science sections missing citations.
+- Entries with sensitive location warnings.
+- iNaturalist export/posting candidates.
+
+Private journal mode can show exact GPS, EXIF, private heatmaps, internal notes, and unpublished history. Public preview mode should show only the same public-safe data a visitor would see.
+
 ## 5. Add Observation Flow
 
 ### Preferred Path: Upload Photo
@@ -1149,6 +1177,42 @@ Recommended stack:
 - Gemini-first LLM provider interface for identification, bounding boxes, and fact generation.
 - Search provider interface for comparison thumbnails.
 
+### Auth Direction
+
+Use an auth adapter instead of coupling DripDex directly to one provider.
+
+Preferred direction:
+
+- OSS MVP should support single-owner login.
+- Research target for the OSS web app: Better Auth, because it is TypeScript-first and has documented support for email/password, social OAuth, and passkey/WebAuthn plugins.
+- Managed SaaS target: Supabase Auth, because it fits the existing Supabase SaaS direction and supports common hosted auth flows, including password, OAuth, and passkey/WebAuthn options.
+- Auth.js remains a candidate for OAuth/session handling, but should only become the OSS default if password and passkey support stay simple.
+- If no library gives us password, passkey, and OAuth cleanly in the OSS stack, the MVP fallback is simple owner password plus passkey, with OAuth left behind the adapter for later.
+
+Open-source auth should optimize for a parent, teacher, or hobbyist who wants one owner account, low configuration, and no hosted dependency. SaaS auth can optimize for multiple users, invitations, recovery, and billing.
+
+### Map Direction
+
+Use a map adapter so the private journal map can start simple and evolve later.
+
+Researched FOSS candidates:
+
+1. Leaflet plus Leaflet.heat.
+   Best OSS MVP fit. Leaflet is mature, small, well documented, and easy for AI-assisted implementation. Leaflet.heat provides a simple heatmap layer for owner-only private heatmaps.
+2. MapLibre GL JS.
+   Strong future candidate when we want vector maps, richer styling, PMTiles-style workflows, or closer continuity with native/mobile map stacks. Heatmap layers are built in, but setup is heavier than Leaflet.
+3. OpenLayers.
+   Mature and powerful with heatmap support, but more API surface than DripDex needs for a single-owner MVP.
+4. deck.gl HeatmapLayer.
+   Excellent for large data visualization, but overkill for hundreds of observations and a simple private field-journal heatmap.
+
+Recommendation:
+
+- Use Leaflet plus Leaflet.heat for OSS MVP private map and heatmap.
+- Keep the adapter boundary clean enough to swap to MapLibre later if vector/offline/native needs become important.
+- Do not hardcode production reliance on public OpenStreetMap tile servers. Map libraries are free/open-source; tile hosting has separate usage rules. The OSS version should allow a configurable tile URL, with public OSM tiles acceptable for low-traffic demo/dev use only.
+- Exact points and heatmaps are owner-only. Public maps, if added, must use stored public-safe derived locations or broad regions.
+
 ### Project Documentation Site
 
 The project should include a GitHub Pages branch or published docs site linked from the public intro panel. It should explain what DripDex is, show the approved mockups, describe the open-source/self-host path, and give a lightweight "build your own DripDex" guide for parents, teachers, and local nature clubs.
@@ -1276,6 +1340,18 @@ Gemini references:
 External references to revisit during planning:
 
 - iNaturalist geoprivacy: https://www.inaturalist.org/pages/geoprivacy
+- Leaflet: https://leafletjs.com/
+- Leaflet.heat: https://github.com/Leaflet/Leaflet.heat
+- MapLibre GL JS: https://maplibre.org/maplibre-gl-js/docs/
+- MapLibre heatmap layer example: https://maplibre.org/maplibre-gl-js/docs/examples/heatmap-layer/
+- OpenLayers: https://openlayers.org/
+- OpenLayers heatmap example: https://openlayers.org/en/latest/examples/heatmap-earthquakes.html
+- deck.gl HeatmapLayer: https://deck.gl/docs/api-reference/aggregation-layers/heatmap-layer
+- OpenStreetMap tile usage policy: https://operations.osmfoundation.org/policies/tiles/
+- Better Auth: https://www.better-auth.com/
+- Auth.js: https://authjs.dev/
+- Supabase Auth: https://supabase.com/docs/guides/auth
+- Supabase passkeys/WebAuthn: https://supabase.com/docs/guides/auth/auth-webauthn
 - iNaturalist help on obscured observations: https://help.inaturalist.org/
 - iNaturalist API reference: https://www.inaturalist.org/pages/api+reference
 - iNaturalist observation API notes: https://www.inaturalist.org/pages/api+deprecated
