@@ -10,5 +10,7 @@ Use GitHub Issues as the coordination layer for DripDex MVP work.
 - Human owner makes final product taste, privacy, safety, source-validation, and merge decisions.
 - Frontend exploration outputs from Claude/Gemini are competing sketches, not parallel code to merge together.
 - Prefer small draft PRs tied to one issue.
+- For Codex-owned MVP PRs, run `/code-review` when implementation is done, fix every actionable finding, rerun verification, then use GitHub automerge when available or direct squash merge when private-repo branch protection/automerge is unavailable.
+- Escalate merges only for product taste, privacy/safety decisions, secrets, destructive data changes, or unclear requirements.
 - Require verification evidence before marking work done.
 - Keep MVP lightweight and YAGNI: fixture-backed first, low infrastructure, no heavyweight process beyond GitHub Issues/Projects coordination.

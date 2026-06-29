@@ -1,6 +1,5 @@
-blank_issues_enabled: true
+blank_issues_enabled: false
 contact_links:
   - name: DripDex MVP design spec
     url: https://github.com/clarkdever/dripdex/blob/main/docs/superpowers/specs/2026-06-27-texas-hill-country-dripdex-design.md
     about: Read the current product/design source of truth before opening implementation issues.
-
