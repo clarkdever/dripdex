@@ -738,10 +738,48 @@ Public mysteries:
 - Mysteries default private.
 - Owner can explicitly publish a mystery using the grayscale/question-mark treatment.
 - Owner can enable viewer suggestions for a published mystery.
-- Viewer suggestion form should be simple: suggested name or ID, optional note, optional visitor name, and submit.
+- Viewer suggestion form should be simple: suggested name or ID, optional note, optional visitor name, submit, and a visibility toggle for owner-only versus public-after-approval.
 - Suggestions require owner review and do not directly change the mystery identity.
 - The submitter can see a pending state similar to the guestbook behavior.
 - Owner can promote a useful suggestion into a candidate ID in the mystery investigation workspace.
+- Approved public suggestions can be visible to other visitors when the owner allows it.
+
+Mystery card image behavior:
+
+- Mystery cards show available images in grayscale by default.
+- Tapping/clicking the mystery image toggles it to full color for the current page session.
+- On page reload, the image returns to grayscale.
+- When full color is active, the purple question mark overlay drops to 10% opacity so the image can be inspected.
+
+Mystery workspace:
+
+- Show original photo or no-photo observation summary.
+- Show owner notes, date/season, private exact location for owner, and protected public location preview if public.
+- Show AI candidate history and owner-refined candidate list.
+- Show public viewer suggestions when enabled.
+- Show external research shortcuts for iNaturalist, eBird, BugGuide, plant databases, TPWD, NatureServe, and custom owner links where relevant.
+- Provide simple actions: Add Candidate, Ask AI Again, Prepare for iNaturalist, Mark Likely, Confirm ID, and Keep Mystery.
+
+Candidate ID fields:
+
+- Common name.
+- Scientific name when known.
+- Source: AI, Owner, Public Suggestion, iNaturalist, eBird, BugGuide, or Other Source.
+- Status: Suggested, Likely, Rejected, Confirmed.
+- Notes and source links.
+
+Mystery resolution actions:
+
+- Primary CTA: `Log to <Species Name> Entry`. This adds the photo and observation to the existing creature entry and resolves the mystery.
+- Secondary CTA: `Create Duplicate <Species Name> Entry`. This is lower-emphasis and should be used only when the owner intentionally wants a separate entry.
+- Secondary CTA: `Reject Suggestion`. This keeps the observation a mystery and logs the rejected suggestion to the history log.
+
+Resolution behavior:
+
+- Resolved mysteries redirect to the resolved creature page.
+- The resolved creature history records `Mystery Resolved`, original mystery title, resolution date, accepted candidate/source, and rejected suggestions when relevant.
+- If the mystery resolves to a new confirmed creature outside the seeded checklist, assign the next available number and increment the total possible collection count.
+- Found count increments only when the mystery is confirmed.
 
 ## 10. Public Browsing Experience
 
@@ -921,6 +959,8 @@ Below the hero:
 - Variants.
 - Observation timeline.
 - Public generalized map.
+- Creature journal history.
+- Owner notes.
 - Expandable adult/science sections.
 
 Adult/science accordions:
@@ -936,6 +976,22 @@ Adult/science accordions:
 - Sources and citations.
 
 The first view should hook a child. The accordions should reward adult curiosity. The current mockup uses "Would you like to know more?" as the adult-science expansion text; this tone is intentionally playful, while the expanded content should remain citation-backed and reviewable.
+
+Creature journal history:
+
+- Creature detail pages should act like living journal pages for that creature type.
+- Add a History accordion with a simple date/activity table.
+- Example activities: First Found, New Sighting Added, New Photo Added, Card Photo Changed, Mystery Resolved, ID Changed, Safety Label Added, Facts Updated, Added to Set, Public Suggestion Accepted, and Exported to iNaturalist.
+- Important events should be append-only. Later edits can add new history events rather than rewriting what happened.
+- History supports both owner audit needs and kid-friendly "look what happened" storytelling.
+
+Notes:
+
+- Creature detail should support freeform owner notes.
+- Notes default private.
+- Owner can choose whether a note is public.
+- Notes may later attach to creature entry, observation/find, mystery investigation, or candidate ID.
+- MVP should start with one private creature-level notes field and one observation-level note field.
 
 ## 12. Tags, Rarity, and Game Flavor
 
