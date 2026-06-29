@@ -172,6 +172,12 @@ describe("fixture domain schemas", () => {
       }).success
     ).toBe(false);
     expect(
+      fixtureManifestSchema.safeParse({
+        ...manifest,
+        exifTddFixturesUseSyntheticCoordinates: false
+      }).success
+    ).toBe(false);
+    expect(
       photoSchema.safeParse({
         ...photo,
         processing: {

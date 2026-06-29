@@ -337,7 +337,7 @@ export const fixtureManifestSchema = z
     description: nonEmptyString,
     humanValidationRequired: z.boolean(),
     publicFixtureImagesExifStripped: z.literal(true),
-    exifTddFixturesUseSyntheticCoordinates: z.boolean(),
+    exifTddFixturesUseSyntheticCoordinates: z.literal(true),
     creatures: z.array(manifestCreatureSchema).min(1)
   })
   .strict();
