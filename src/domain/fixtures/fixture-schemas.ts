@@ -5,7 +5,19 @@ import { z } from "zod";
 
 const nonEmptyString = z.string().min(1);
 const nullableString = z.string().min(1).nullable();
-const fixtureDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
+const fixtureDate = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/)
+  .refine((value) => {
+    const [year, month, day] = value.split("-").map(Number);
+    const date = new Date(Date.UTC(year, month - 1, day));
+
+    return (
+      date.getUTCFullYear() === year &&
+      date.getUTCMonth() === month - 1 &&
+      date.getUTCDate() === day
+    );
+  }, "Expected a real calendar date");
 const fixtureImageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 
 export const creatureStatusValues = [
@@ -371,6 +383,23 @@ export type FixtureValidationResult =
       errors: string[];
     };
 
+type FixtureIndex = {
+  creaturesById: Map<string, Creature>;
+  photosById: Map<string, Photo>;
+  observationsById: Map<string, Observation>;
+  historiesById: Map<string, History>;
+};
+
+type EntryOwner =
+  | {
+      kind: "creature";
+      id: string;
+    }
+  | {
+      kind: "mystery";
+      id: string;
+    };
+
 function formatSchemaErrors(error: z.ZodError): string[] {
   return error.issues.map((issue) => {
     const path = issue.path.length > 0 ? issue.path.join(".") : "root";
@@ -421,6 +450,325 @@ function validateFixtureImagePath(
   }
 }
 
+function createFixtureIndex(dataset: FixtureDataset): FixtureIndex {
+  return {
+    creaturesById: new Map(dataset.creatures.map((creature) => [creature.id, creature])),
+    photosById: new Map(dataset.photos.map((photo) => [photo.id, photo])),
+    observationsById: new Map(
+      dataset.observations.map((observation) => [observation.id, observation])
+    ),
+    historiesById: new Map(dataset.histories.map((history) => [history.id, history]))
+  };
+}
+
+function getEntryOwner(
+  record: Pick<Photo | Observation, "creatureId" | "mysteryId">
+): EntryOwner | null {
+  if (record.creatureId !== null && record.mysteryId !== null) {
+    return null;
+  }
+
+  if (record.creatureId !== null) {
+    return {
+      kind: "creature",
+      id: record.creatureId
+    };
+  }
+
+  if (record.mysteryId !== null) {
+    return {
+      kind: "mystery",
+      id: record.mysteryId
+    };
+  }
+
+  return null;
+}
+
+function sameOwner(a: EntryOwner, b: EntryOwner) {
+  return a.kind === b.kind && a.id === b.id;
+}
+
+function ownsEntry(
+  record: Pick<Photo | Observation, "creatureId" | "mysteryId">,
+  owner: EntryOwner
+) {
+  const recordOwner = getEntryOwner(record);
+
+  return recordOwner !== null && sameOwner(recordOwner, owner);
+}
+
+function describeEntryOwner(owner: EntryOwner | null) {
+  if (owner === null) {
+    return "no exclusive creatureId or mysteryId";
+  }
+
+  return `${owner.kind}Id ${owner.id}`;
+}
+
+function validateDuplicates(dataset: FixtureDataset): string[] {
+  return [
+    ...findDuplicateIds(dataset.creatures, "creature"),
+    ...findDuplicateIds(dataset.photos, "photo"),
+    ...findDuplicateIds(dataset.observations, "observation"),
+    ...findDuplicateIds(dataset.histories, "history")
+  ];
+}
+
+function validateManifestReferences(
+  dataset: FixtureDataset,
+  index: FixtureIndex
+): string[] {
+  const errors: string[] = [];
+
+  for (const manifestCreature of dataset.manifest.creatures) {
+    if (!index.creaturesById.has(manifestCreature.id)) {
+      errors.push(`Manifest references missing creatureId ${manifestCreature.id}`);
+    }
+    validateFixtureImagePath(
+      errors,
+      `Manifest creature ${manifestCreature.id}`,
+      "webImage",
+      manifestCreature.webImage,
+      "docs/fixtures/web-images"
+    );
+  }
+
+  return errors;
+}
+
+function validateCreatureReferences(
+  dataset: FixtureDataset,
+  index: FixtureIndex
+): string[] {
+  const errors: string[] = [];
+
+  for (const creature of dataset.creatures) {
+    const creatureOwner: EntryOwner = {
+      kind: creature.status === "mystery" ? "mystery" : "creature",
+      id: creature.id
+    };
+    const defaultPhoto = index.photosById.get(creature.defaultPhotoId);
+
+    if (!defaultPhoto) {
+      errors.push(
+        `Creature ${creature.id} references missing defaultPhotoId ${creature.defaultPhotoId}`
+      );
+    } else {
+      if (!creature.photoIds.includes(creature.defaultPhotoId)) {
+        errors.push(
+          `Creature ${creature.id} defaultPhotoId ${creature.defaultPhotoId} must be listed in its photoIds`
+        );
+      }
+      if (!ownsEntry(defaultPhoto, creatureOwner)) {
+        errors.push(
+          `Creature ${creature.id} defaultPhotoId ${defaultPhoto.id} belongs to ${describeEntryOwner(getEntryOwner(defaultPhoto))}`
+        );
+      }
+    }
+
+    for (const photoId of creature.photoIds) {
+      const photo = index.photosById.get(photoId);
+
+      if (!photo) {
+        errors.push(`Creature ${creature.id} references missing photoId ${photoId}`);
+      } else if (!ownsEntry(photo, creatureOwner)) {
+        errors.push(
+          `Creature ${creature.id} photoId ${photo.id} belongs to ${describeEntryOwner(getEntryOwner(photo))}`
+        );
+      }
+    }
+
+    for (const observationId of creature.observationIds) {
+      const observation = index.observationsById.get(observationId);
+
+      if (!observation) {
+        errors.push(
+          `Creature ${creature.id} references missing observationId ${observationId}`
+        );
+      } else if (!ownsEntry(observation, creatureOwner)) {
+        errors.push(
+          `Creature ${creature.id} observationId ${observation.id} belongs to ${describeEntryOwner(getEntryOwner(observation))}`
+        );
+      }
+    }
+
+    const history = index.historiesById.get(creature.historyId);
+    if (!history) {
+      errors.push(
+        `Creature ${creature.id} references missing historyId ${creature.historyId}`
+      );
+    } else if (history.creatureId !== creature.id) {
+      errors.push(
+        `Creature ${creature.id} historyId ${history.id} belongs to creatureId ${history.creatureId}`
+      );
+    }
+  }
+
+  return errors;
+}
+
+function validatePhotoReferences(dataset: FixtureDataset, index: FixtureIndex): string[] {
+  const errors: string[] = [];
+
+  for (const photo of dataset.photos) {
+    const owner = getEntryOwner(photo);
+
+    if (photo.creatureId === null && photo.mysteryId === null) {
+      errors.push(`Photo ${photo.id} must reference either creatureId or mysteryId`);
+    }
+
+    if (photo.creatureId !== null && photo.mysteryId !== null) {
+      errors.push(`Photo ${photo.id} must not reference both creatureId and mysteryId`);
+    }
+
+    if (photo.creatureId !== null && !index.creaturesById.has(photo.creatureId)) {
+      errors.push(`Photo ${photo.id} references missing creatureId ${photo.creatureId}`);
+    }
+
+    if (photo.mysteryId !== null && !index.creaturesById.has(photo.mysteryId)) {
+      errors.push(`Photo ${photo.id} references missing mysteryId ${photo.mysteryId}`);
+    }
+
+    const observation = index.observationsById.get(photo.observationId);
+    if (!observation) {
+      errors.push(
+        `Photo ${photo.id} references missing observationId ${photo.observationId}`
+      );
+    } else if (owner !== null && !ownsEntry(observation, owner)) {
+      errors.push(
+        `Photo ${photo.id} observationId ${observation.id} belongs to ${describeEntryOwner(getEntryOwner(observation))}`
+      );
+    }
+
+    if (owner !== null && owner.kind === "creature") {
+      const creature = index.creaturesById.get(owner.id);
+      if (creature && !creature.photoIds.includes(photo.id)) {
+        errors.push(
+          `Photo ${photo.id} belongs to creatureId ${owner.id} but is not listed in that creature's photoIds`
+        );
+      }
+    }
+
+    validateFixtureImagePath(
+      errors,
+      `Photo ${photo.id}`,
+      "files.sourceCopy",
+      photo.files.sourceCopy,
+      "docs/fixtures/source-images"
+    );
+    validateFixtureImagePath(
+      errors,
+      `Photo ${photo.id}`,
+      "files.full",
+      photo.files.full,
+      "docs/fixtures/web-images"
+    );
+    validateFixtureImagePath(
+      errors,
+      `Photo ${photo.id}`,
+      "files.card",
+      photo.files.card,
+      "docs/fixtures/web-images"
+    );
+    validateFixtureImagePath(
+      errors,
+      `Photo ${photo.id}`,
+      "files.thumbnail",
+      photo.files.thumbnail,
+      "docs/fixtures/web-images"
+    );
+  }
+
+  return errors;
+}
+
+function validateObservationReferences(
+  dataset: FixtureDataset,
+  index: FixtureIndex
+): string[] {
+  const errors: string[] = [];
+
+  for (const observation of dataset.observations) {
+    const owner = getEntryOwner(observation);
+
+    if (observation.creatureId === null && observation.mysteryId === null) {
+      errors.push(
+        `Observation ${observation.id} must reference either creatureId or mysteryId`
+      );
+    }
+
+    if (observation.creatureId !== null && observation.mysteryId !== null) {
+      errors.push(
+        `Observation ${observation.id} must not reference both creatureId and mysteryId`
+      );
+    }
+
+    if (
+      observation.creatureId !== null &&
+      !index.creaturesById.has(observation.creatureId)
+    ) {
+      errors.push(
+        `Observation ${observation.id} references missing creatureId ${observation.creatureId}`
+      );
+    }
+
+    if (
+      observation.mysteryId !== null &&
+      !index.creaturesById.has(observation.mysteryId)
+    ) {
+      errors.push(
+        `Observation ${observation.id} references missing mysteryId ${observation.mysteryId}`
+      );
+    }
+
+    for (const photoId of observation.photoIds) {
+      const photo = index.photosById.get(photoId);
+
+      if (!photo) {
+        errors.push(`Observation ${observation.id} references missing photoId ${photoId}`);
+      } else if (photo.observationId !== observation.id) {
+        errors.push(
+          `Observation ${observation.id} photoId ${photo.id} belongs to observationId ${photo.observationId}`
+        );
+      } else if (owner !== null && !ownsEntry(photo, owner)) {
+        errors.push(
+          `Observation ${observation.id} photoId ${photo.id} belongs to ${describeEntryOwner(getEntryOwner(photo))}`
+        );
+      }
+    }
+
+    if (owner !== null && owner.kind === "creature") {
+      const creature = index.creaturesById.get(owner.id);
+      if (creature && !creature.observationIds.includes(observation.id)) {
+        errors.push(
+          `Observation ${observation.id} belongs to creatureId ${owner.id} but is not listed in that creature's observationIds`
+        );
+      }
+    }
+  }
+
+  return errors;
+}
+
+function validateHistoryReferences(dataset: FixtureDataset, index: FixtureIndex): string[] {
+  const errors: string[] = [];
+
+  for (const history of dataset.histories) {
+    const creature = index.creaturesById.get(history.creatureId);
+
+    if (!creature) {
+      errors.push(`History ${history.id} references missing creatureId ${history.creatureId}`);
+    } else if (creature.historyId !== history.id) {
+      errors.push(
+        `History ${history.id} belongs to creatureId ${history.creatureId} but is not referenced by that creature's historyId`
+      );
+    }
+  }
+
+  return errors;
+}
+
 export function validateFixtureDataset(input: unknown): FixtureValidationResult {
   const parsed = fixtureDatasetSchema.safeParse(input);
 
@@ -432,164 +780,15 @@ export function validateFixtureDataset(input: unknown): FixtureValidationResult 
     };
   }
 
-  const creaturesById = new Map(
-    parsed.data.creatures.map((creature) => [creature.id, creature])
-  );
-  const photosById = new Map(parsed.data.photos.map((photo) => [photo.id, photo]));
-  const observationsById = new Map(
-    parsed.data.observations.map((observation) => [observation.id, observation])
-  );
-  const historiesById = new Map(
-    parsed.data.histories.map((history) => [history.id, history])
-  );
+  const index = createFixtureIndex(parsed.data);
   const referenceErrors = [
-    ...findDuplicateIds(parsed.data.creatures, "creature"),
-    ...findDuplicateIds(parsed.data.photos, "photo"),
-    ...findDuplicateIds(parsed.data.observations, "observation"),
-    ...findDuplicateIds(parsed.data.histories, "history")
+    ...validateDuplicates(parsed.data),
+    ...validateManifestReferences(parsed.data, index),
+    ...validateCreatureReferences(parsed.data, index),
+    ...validatePhotoReferences(parsed.data, index),
+    ...validateObservationReferences(parsed.data, index),
+    ...validateHistoryReferences(parsed.data, index)
   ];
-
-  for (const manifestCreature of parsed.data.manifest.creatures) {
-    if (!creaturesById.has(manifestCreature.id)) {
-      referenceErrors.push(
-        `Manifest references missing creatureId ${manifestCreature.id}`
-      );
-    }
-    validateFixtureImagePath(
-      referenceErrors,
-      `Manifest creature ${manifestCreature.id}`,
-      "webImage",
-      manifestCreature.webImage,
-      "docs/fixtures/web-images"
-    );
-  }
-
-  for (const creature of parsed.data.creatures) {
-    if (!photosById.has(creature.defaultPhotoId)) {
-      referenceErrors.push(
-        `Creature ${creature.id} references missing defaultPhotoId ${creature.defaultPhotoId}`
-      );
-    }
-
-    for (const photoId of creature.photoIds) {
-      if (!photosById.has(photoId)) {
-        referenceErrors.push(
-          `Creature ${creature.id} references missing photoId ${photoId}`
-        );
-      }
-    }
-
-    for (const observationId of creature.observationIds) {
-      if (!observationsById.has(observationId)) {
-        referenceErrors.push(
-          `Creature ${creature.id} references missing observationId ${observationId}`
-        );
-      }
-    }
-
-    if (!historiesById.has(creature.historyId)) {
-      referenceErrors.push(
-        `Creature ${creature.id} references missing historyId ${creature.historyId}`
-      );
-    }
-  }
-
-  for (const photo of parsed.data.photos) {
-    if (photo.creatureId === null && photo.mysteryId === null) {
-      referenceErrors.push(
-        `Photo ${photo.id} must reference either creatureId or mysteryId`
-      );
-    }
-
-    if (photo.creatureId !== null && !creaturesById.has(photo.creatureId)) {
-      referenceErrors.push(
-        `Photo ${photo.id} references missing creatureId ${photo.creatureId}`
-      );
-    }
-
-    if (photo.mysteryId !== null && !creaturesById.has(photo.mysteryId)) {
-      referenceErrors.push(
-        `Photo ${photo.id} references missing mysteryId ${photo.mysteryId}`
-      );
-    }
-
-    if (!observationsById.has(photo.observationId)) {
-      referenceErrors.push(
-        `Photo ${photo.id} references missing observationId ${photo.observationId}`
-      );
-    }
-
-    validateFixtureImagePath(
-      referenceErrors,
-      `Photo ${photo.id}`,
-      "files.sourceCopy",
-      photo.files.sourceCopy,
-      "docs/fixtures/source-images"
-    );
-    validateFixtureImagePath(
-      referenceErrors,
-      `Photo ${photo.id}`,
-      "files.full",
-      photo.files.full,
-      "docs/fixtures/web-images"
-    );
-    validateFixtureImagePath(
-      referenceErrors,
-      `Photo ${photo.id}`,
-      "files.card",
-      photo.files.card,
-      "docs/fixtures/web-images"
-    );
-    validateFixtureImagePath(
-      referenceErrors,
-      `Photo ${photo.id}`,
-      "files.thumbnail",
-      photo.files.thumbnail,
-      "docs/fixtures/web-images"
-    );
-  }
-
-  for (const observation of parsed.data.observations) {
-    if (observation.creatureId === null && observation.mysteryId === null) {
-      referenceErrors.push(
-        `Observation ${observation.id} must reference either creatureId or mysteryId`
-      );
-    }
-
-    if (
-      observation.creatureId !== null &&
-      !creaturesById.has(observation.creatureId)
-    ) {
-      referenceErrors.push(
-        `Observation ${observation.id} references missing creatureId ${observation.creatureId}`
-      );
-    }
-
-    if (
-      observation.mysteryId !== null &&
-      !creaturesById.has(observation.mysteryId)
-    ) {
-      referenceErrors.push(
-        `Observation ${observation.id} references missing mysteryId ${observation.mysteryId}`
-      );
-    }
-
-    for (const photoId of observation.photoIds) {
-      if (!photosById.has(photoId)) {
-        referenceErrors.push(
-          `Observation ${observation.id} references missing photoId ${photoId}`
-        );
-      }
-    }
-  }
-
-  for (const history of parsed.data.histories) {
-    if (!creaturesById.has(history.creatureId)) {
-      referenceErrors.push(
-        `History ${history.id} references missing creatureId ${history.creatureId}`
-      );
-    }
-  }
 
   if (referenceErrors.length > 0) {
     return {

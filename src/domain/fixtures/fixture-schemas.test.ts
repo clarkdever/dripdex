@@ -5,6 +5,8 @@ import { describe, expect, it } from "vitest";
 
 import {
   type Creature,
+  type Observation,
+  type Photo,
   creatureStatusValues,
   fixtureManifestSchema,
   locationPrivacyValues,
@@ -89,6 +91,19 @@ describe("fixture domain schemas", () => {
     ).toBe(false);
   });
 
+  it("rejects impossible fixture calendar dates", () => {
+    const manifest = readJsonFile(
+      join(metadataRoot, "fixture-manifest.json")
+    ) as Record<string, unknown>;
+
+    expect(
+      fixtureManifestSchema.safeParse({
+        ...manifest,
+        generatedAt: "2026-99-99"
+      }).success
+    ).toBe(false);
+  });
+
   it("reports a useful error for a missing default photo reference", () => {
     const manifest = fixtureManifestSchema.parse(
       readJsonFile(join(metadataRoot, "fixture-manifest.json"))
@@ -155,6 +170,143 @@ describe("fixture domain schemas", () => {
         "Photo photo-house-finch-001 references missing creatureId creature-does-not-exist",
         "Photo photo-house-finch-001 references missing observationId obs-does-not-exist",
         "Photo photo-house-finch-001 files.card path does not exist: docs/fixtures/web-images/does-not-exist.jpg"
+      ])
+    );
+  });
+
+  it("rejects fixture graph references owned by a different creature", () => {
+    const dataset = readFixtureDataset();
+    const [americanSnout] = dataset.creatures as Creature[];
+    const houseFinchPhoto = (dataset.photos as Photo[]).find(
+      (photo) => photo.id === "photo-house-finch-001"
+    );
+    const houseFinchObservation = (dataset.observations as Observation[]).find(
+      (observation) => observation.id === "obs-house-finch-001"
+    );
+
+    if (!houseFinchPhoto || !houseFinchObservation) {
+      throw new Error("Expected house finch fixture graph");
+    }
+
+    const result = validateFixtureDataset({
+      ...dataset,
+      creatures: (dataset.creatures as Creature[]).map((creature) =>
+        creature.id === americanSnout.id
+          ? {
+              ...creature,
+              defaultPhotoId: houseFinchPhoto.id,
+              observationIds: [houseFinchObservation.id]
+            }
+          : creature
+      )
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        "Creature american-snout defaultPhotoId photo-house-finch-001 must be listed in its photoIds",
+        "Creature american-snout defaultPhotoId photo-house-finch-001 belongs to creatureId house-finch",
+        "Creature american-snout observationId obs-house-finch-001 belongs to creatureId house-finch"
+      ])
+    );
+  });
+
+  it("rejects observation photo references owned by a different observation", () => {
+    const dataset = readFixtureDataset();
+    const americanSnoutObservation = (dataset.observations as Observation[]).find(
+      (observation) => observation.id === "obs-american-snout-001"
+    );
+    const houseFinchPhoto = (dataset.photos as Photo[]).find(
+      (photo) => photo.id === "photo-house-finch-001"
+    );
+
+    if (!americanSnoutObservation || !houseFinchPhoto) {
+      throw new Error("Expected american snout observation and house finch photo");
+    }
+
+    const result = validateFixtureDataset({
+      ...dataset,
+      observations: (dataset.observations as Observation[]).map((observation) =>
+        observation.id === americanSnoutObservation.id
+          ? {
+              ...observation,
+              photoIds: [houseFinchPhoto.id]
+            }
+          : observation
+      )
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors).toContain(
+      "Observation obs-american-snout-001 photoId photo-house-finch-001 belongs to observationId obs-house-finch-001"
+    );
+  });
+
+  it("rejects fixture records with both creature and mystery owners", () => {
+    const dataset = readFixtureDataset();
+    const photo = (dataset.photos as Photo[]).find(
+      (candidate) => candidate.id === "photo-american-snout-001"
+    );
+    const observation = (dataset.observations as Observation[]).find(
+      (candidate) => candidate.id === "obs-american-snout-001"
+    );
+
+    if (!photo || !observation) {
+      throw new Error("Expected american snout fixture graph");
+    }
+
+    const result = validateFixtureDataset({
+      ...dataset,
+      photos: (dataset.photos as Photo[]).map((candidate) =>
+        candidate.id === photo.id
+          ? {
+              ...candidate,
+              mysteryId: "mystery-white-shelf-fungus"
+            }
+          : candidate
+      ),
+      observations: (dataset.observations as Observation[]).map((candidate) =>
+        candidate.id === observation.id
+          ? {
+              ...candidate,
+              mysteryId: "mystery-white-shelf-fungus"
+            }
+          : candidate
+      )
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        "Photo photo-american-snout-001 must not reference both creatureId and mysteryId",
+        "Observation obs-american-snout-001 must not reference both creatureId and mysteryId"
+      ])
+    );
+  });
+
+  it("rejects fixture records omitted from their owning creature lists", () => {
+    const dataset = readFixtureDataset();
+
+    const result = validateFixtureDataset({
+      ...dataset,
+      creatures: (dataset.creatures as Creature[]).map((creature) =>
+        creature.id === "american-snout"
+          ? {
+              ...creature,
+              photoIds: ["photo-house-finch-001"],
+              observationIds: ["obs-house-finch-001"],
+              historyId: "history-house-finch"
+            }
+          : creature
+      )
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        "Photo photo-american-snout-001 belongs to creatureId american-snout but is not listed in that creature's photoIds",
+        "Observation obs-american-snout-001 belongs to creatureId american-snout but is not listed in that creature's observationIds",
+        "History history-american-snout belongs to creatureId american-snout but is not referenced by that creature's historyId"
       ])
     );
   });
