@@ -714,14 +714,15 @@ Every MVP issue should include:
 
 ## GitHub Artifact Creation Order
 
-- [ ] Create labels.
-- [ ] Create parent epic issues.
-- [ ] Create child issues.
-- [ ] Add issue comments linking child issues to parent issues if sub-issue API is unavailable.
-- [ ] Create issue forms under `.github/ISSUE_TEMPLATE`.
-- [ ] Create a lightweight project setup note if GitHub Project automation is not available through CLI.
-- [ ] Commit issue form files.
-- [ ] Push documentation and issue template changes.
+- [x] Create labels.
+- [x] Create parent epic issues.
+- [x] Create child issues.
+- [x] Link child issues from parent issue bodies when sub-issue API is unavailable.
+- [x] Create issue forms under `.github/ISSUE_TEMPLATE`.
+- [x] Create a lightweight project setup note because GitHub Project automation requires the GitHub CLI `project` scope.
+- [x] Commit issue form files.
+- [x] Push documentation and issue template changes.
+- [x] Create local GitHub issue index at `docs/github-issues-index.md`.
 
 ## Notes For GitHub Creation
 
@@ -730,3 +731,13 @@ Every MVP issue should include:
 - Do not create implementation branches until the issue hierarchy exists.
 - Do not assign Claude/Gemini work until their design exploration issue bodies are ready and scoped.
 
+## Created GitHub Artifacts
+
+- Labels: all labels listed in this plan were created, plus `risk:low`.
+- Parent epics: `#1` through `#10`.
+- Child task/design issues: `#11` through `#35`.
+- Issue forms: `.github/ISSUE_TEMPLATE/mvp-epic.yml` and `.github/ISSUE_TEMPLATE/mvp-task.yml`.
+- Project setup fallback: `docs/github-project-setup.md`.
+- Issue index fallback: `docs/github-issues-index.md`.
+
+GitHub Project creation was not automated in this pass because `gh project` requires the `project` token scope. To enable it later, run `gh auth refresh -s project`, then use `docs/github-project-setup.md` as the field/view checklist.
