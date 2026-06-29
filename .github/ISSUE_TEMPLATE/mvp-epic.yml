@@ -1,0 +1,94 @@
+name: DripDex MVP Epic
+description: Parent issue for an MVP slice that will be decomposed into scoped sub-issues.
+title: "Epic: "
+labels:
+  - type:epic
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: One sentence describing the user or project value.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What this epic includes.
+    validations:
+      required: true
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of scope
+      description: What this epic explicitly does not include.
+    validations:
+      required: true
+  - type: textarea
+    id: child_issues
+    attributes:
+      label: Child issues
+      description: List child issues or planned sub-issues.
+      value: |
+        - [ ] 
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - P0
+        - P1
+        - P2
+    validations:
+      required: true
+  - type: dropdown
+    id: mvp_slice
+    attributes:
+      label: MVP slice
+      options:
+        - Data Contracts
+        - Collection
+        - Creature Page
+        - Capture
+        - AI
+        - Privacy
+        - Journal
+        - Public Site
+        - DevOps
+    validations:
+      required: true
+  - type: dropdown
+    id: agent_lane
+    attributes:
+      label: Agent lane
+      options:
+        - Codex
+        - Claude
+        - Gemini
+        - Human
+        - Unassigned
+    validations:
+      required: true
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Risk
+      options:
+        - privacy/security
+        - license/content
+        - visual quality
+        - data contract
+        - low
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Link the spec sections, plan file, mockups, fixtures, or source docs.
+    validations:
+      required: true
+

@@ -1,0 +1,110 @@
+name: DripDex MVP Task
+description: One scoped work item for one agent/session.
+title: "Task: "
+labels:
+  - type:task
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: One sentence of user value.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Exact files/modules expected to change.
+    validations:
+      required: true
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of scope
+      description: What this issue must not touch.
+    validations:
+      required: true
+  - type: textarea
+    id: inputs
+    attributes:
+      label: Inputs
+      description: Relevant spec sections, fixture files, mockups, or source links.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Observable behavior checklist.
+      value: |
+        - [ ] 
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Tests / verification
+      description: Exact command or manual check required before marking done.
+    validations:
+      required: true
+  - type: dropdown
+    id: agent_lane
+    attributes:
+      label: Agent lane
+      options:
+        - Codex
+        - Claude
+        - Gemini
+        - Human
+        - Unassigned
+    validations:
+      required: true
+  - type: dropdown
+    id: work_type
+    attributes:
+      label: Work type
+      options:
+        - frontend design
+        - backend/data
+        - AI integration
+        - tests
+        - docs
+        - research
+        - integration
+    validations:
+      required: true
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Risk
+      options:
+        - privacy/security
+        - license/content
+        - visual quality
+        - data contract
+        - low
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: Blocked by or related issues.
+      value: "None."
+    validations:
+      required: true
+  - type: textarea
+    id: handoff
+    attributes:
+      label: Handoff notes
+      description: Fill before pausing or closing work.
+      value: |
+        Changed files:
+        Decisions:
+        Verification:
+        Blockers:
+        Next action:
+    validations:
+      required: false
+
