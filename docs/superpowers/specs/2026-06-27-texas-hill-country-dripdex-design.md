@@ -835,6 +835,7 @@ External chatbot handoff:
 - Provide a `Download Photo` button for the selected mystery image. This should download an EXIF-stripped analysis copy by default, not the private original.
 - The copied prompt should ask the external LLM to inspect the attached/downloaded photo first, then use DripDex's notes as supporting context.
 - The copied prompt should include the mystery context, broad public-safe location, date/season, owner notes, current candidate history, requested citation behavior, and the exact structured response schema DripDex expects.
+- The copied prompt should include a compact example output object in the expected schema, because external LLMs will otherwise invent nearby-but-incompatible shapes.
 - The copied prompt should avoid exact GPS and home-zone details by default. If the owner ever chooses to include precise private data, it should be an explicit advanced action, not the normal MVP path.
 - Provide a `Paste Resolution from LLM` text area where the owner can paste the external chatbot's structured answer.
 - The paste field should show a light grey example of the expected output directly in the field, not hidden in a tooltip.

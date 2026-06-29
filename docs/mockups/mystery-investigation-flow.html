@@ -493,6 +493,10 @@
         color: #b8c3ba;
       }
 
+      .schema-box.prompt-preview {
+        min-height: 330px;
+      }
+
       .validation-card.ok {
         border-color: rgba(199, 255, 45, 0.56);
       }
@@ -737,7 +741,7 @@
                   <h3 id="prompt-preview-heading">Prompt Preview</h3>
                   <span>No Exact GPS</span>
                 </div>
-                <textarea class="schema-box" readonly>I am trying to identify a Texas Hill Country organism from an EXIF-stripped photo. Please inspect the attached/downloaded photo first, then use the notes below as supporting context.
+                <textarea class="schema-box prompt-preview" readonly>I am trying to identify a Texas Hill Country organism from an EXIF-stripped photo. Please inspect the attached/downloaded photo first, then use the notes below as supporting context.
 
 Observation:
 - Broad place: Texas Hill Country
@@ -746,7 +750,21 @@ Observation:
 - Owner notes: small green insect, wings held like a tent
 - Candidate history: Green Lacewing suggested; small green moth rejected once
 
-Return only JSON matching the DripDex mystery-resolution schema. Include citations from reputable sources.</textarea>
+Return only JSON matching this example shape. Include citations from reputable sources.
+
+Example:
+{
+  "commonName": "Green Lacewing",
+  "scientificName": "Chrysoperla rufilabris",
+  "confidence": 0.74,
+  "reasoningForOwner": "Wing shape and porch-light context fit a green lacewing.",
+  "suggestedCategory": "Insect",
+  "suggestedTags": ["Flying", "Predator", "Light"],
+  "lookalikes": ["Brown Lacewing", "Small green moth"],
+  "citations": [{"label": "BugGuide", "url": "https://bugguide.net/"}],
+  "safetyLabels": ["Do Not Touch"],
+  "notes": "Needs owner confirmation from photo details."
+}</textarea>
               </section>
 
               <section class="section" aria-labelledby="source-links-heading">
