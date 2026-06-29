@@ -846,6 +846,18 @@ External chatbot handoff:
 - If normalization succeeds, show a human-review summary and then reuse the normal resolution CTAs: `Log to <Species Name> Entry`, `Create Duplicate <Species Name> Entry`, or `Reject Suggestion`.
 - Pasted external chatbot output and DripDex-normalized output are always treated as candidate suggestions until the owner confirms them.
 
+Production prompt design TODO:
+
+- Treat the greybox prompt as a placeholder interaction example, not the production prompt.
+- Design the production prompt deliberately based on the prompt's purpose and current best practices for multimodal identification workflows.
+- Do not assume the external chatbot knows what DripDex is. Use plain language such as "I am trying to identify this organism from a photo."
+- Keep the external prompt focused on identification, not DripDex internals. Ask for the likely organism, confidence, visible evidence, lookalikes, useful follow-up questions, and reputable sources.
+- Tell the external LLM to inspect the attached/downloaded image first, then use location, date/season, habitat/context, owner notes, candidate history, and broad public-safe region as supporting evidence.
+- Tell the external LLM to ask the owner clarifying questions when the image or context is insufficient to identify to species.
+- Tell the external LLM to use any available web search or browsing tools to verify the identification and sources instead of relying only on model memory.
+- Ask for reputable source links when possible, but do not require exact DripDex schema from the external LLM because DripDex will normalize the pasted response.
+- Version the production prompt so DripDex can improve it without invalidating old mystery history.
+
 Designer handoff greybox:
 
 - The mystery investigation mockup shows four standalone views: Mystery Detail, External LLM Handoff, Paste And Normalize, and Resolve Candidate.
