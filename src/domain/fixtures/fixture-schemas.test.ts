@@ -1,0 +1,398 @@
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
+
+import { describe, expect, it } from "vitest";
+
+import {
+  type Creature,
+  type Observation,
+  type Photo,
+  creatureStatusValues,
+  fixtureManifestSchema,
+  locationPrivacyValues,
+  observationSchema,
+  photoSchema,
+  validateFixtureDataset
+} from "./fixture-schemas";
+
+const metadataRoot = join(process.cwd(), "docs/fixtures/metadata");
+
+function readJsonFile(path: string): unknown {
+  return JSON.parse(readFileSync(path, "utf8"));
+}
+
+function readJsonDirectory(directory: string): unknown[] {
+  const absoluteDirectory = join(metadataRoot, directory);
+
+  return readdirSync(absoluteDirectory)
+    .filter((fileName) => fileName.endsWith(".json"))
+    .sort()
+    .map((fileName) => readJsonFile(join(absoluteDirectory, fileName)));
+}
+
+function readFixtureDataset() {
+  return {
+    manifest: readJsonFile(join(metadataRoot, "fixture-manifest.json")),
+    creatures: readJsonDirectory("creatures"),
+    photos: readJsonDirectory("photos"),
+    observations: readJsonDirectory("observations"),
+    histories: readJsonDirectory("history")
+  };
+}
+
+describe("fixture domain schemas", () => {
+  it("accepts every existing fixture metadata file", () => {
+    const result = validateFixtureDataset(readFixtureDataset());
+
+    expect(result.success).toBe(true);
+    expect(result.errors).toEqual([]);
+  });
+
+  it("includes the planned creature status values", () => {
+    expect(creatureStatusValues).toEqual([
+      "published",
+      "draft",
+      "hidden",
+      "mystery",
+      "needs_review"
+    ]);
+  });
+
+  it("accepts only canonical location privacy values", () => {
+    expect(locationPrivacyValues).toEqual([
+      "exact_private",
+      "public_obscured",
+      "public_region_only",
+      "private_location"
+    ]);
+
+    const observation = readJsonDirectory("observations")[0] as Record<
+      string,
+      unknown
+    >;
+
+    for (const locationPrivacy of locationPrivacyValues) {
+      expect(
+        observationSchema.safeParse({ ...observation, locationPrivacy }).success
+      ).toBe(true);
+    }
+
+    expect(
+      observationSchema.safeParse({
+        ...observation,
+        locationPrivacy: "private_exact"
+      }).success
+    ).toBe(false);
+    expect(
+      observationSchema.safeParse({
+        ...observation,
+        locationPrivacy: "obscured"
+      }).success
+    ).toBe(false);
+  });
+
+  it("rejects impossible fixture calendar dates", () => {
+    const manifest = readJsonFile(
+      join(metadataRoot, "fixture-manifest.json")
+    ) as Record<string, unknown>;
+
+    expect(
+      fixtureManifestSchema.safeParse({
+        ...manifest,
+        generatedAt: "2026-99-99"
+      }).success
+    ).toBe(false);
+  });
+
+  it("reports a useful error for a missing default photo reference", () => {
+    const manifest = fixtureManifestSchema.parse(
+      readJsonFile(join(metadataRoot, "fixture-manifest.json"))
+    );
+    const [firstCreature] = readJsonDirectory("creatures") as Creature[];
+    const creature = {
+      ...firstCreature,
+      defaultPhotoId: "photo-does-not-exist"
+    };
+
+    const result = validateFixtureDataset({
+      manifest,
+      creatures: [creature],
+      photos: readJsonDirectory("photos"),
+      observations: readJsonDirectory("observations"),
+      histories: readJsonDirectory("history")
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors).toContain(
+      "Creature american-snout references missing defaultPhotoId photo-does-not-exist"
+    );
+  });
+
+  it("reports broken fixture graph references and missing image paths", () => {
+    const dataset = readFixtureDataset();
+    const [firstCreature] = dataset.creatures as Creature[];
+    const brokenCreature = {
+      ...firstCreature,
+      photoIds: ["photo-does-not-exist"],
+      observationIds: ["obs-does-not-exist"],
+      historyId: "history-does-not-exist"
+    };
+    const firstPhoto = (dataset.photos as Array<Record<string, unknown>>).find(
+      (photo) => photo.id === "photo-house-finch-001"
+    );
+    if (!firstPhoto) {
+      throw new Error("Expected photo-house-finch-001 fixture");
+    }
+    const brokenPhoto = {
+      ...firstPhoto,
+      observationId: "obs-does-not-exist",
+      creatureId: "creature-does-not-exist",
+      files: {
+        ...(firstPhoto.files as Record<string, unknown>),
+        card: "docs/fixtures/web-images/does-not-exist.jpg"
+      }
+    };
+
+    const result = validateFixtureDataset({
+      ...dataset,
+      creatures: [brokenCreature],
+      photos: [brokenPhoto],
+      observations: [],
+      histories: []
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        "Creature american-snout references missing photoId photo-does-not-exist",
+        "Creature american-snout references missing observationId obs-does-not-exist",
+        "Creature american-snout references missing historyId history-does-not-exist",
+        "Photo photo-house-finch-001 references missing creatureId creature-does-not-exist",
+        "Photo photo-house-finch-001 references missing observationId obs-does-not-exist",
+        "Photo photo-house-finch-001 files.card path does not exist: docs/fixtures/web-images/does-not-exist.jpg"
+      ])
+    );
+  });
+
+  it("rejects fixture graph references owned by a different creature", () => {
+    const dataset = readFixtureDataset();
+    const [americanSnout] = dataset.creatures as Creature[];
+    const houseFinchPhoto = (dataset.photos as Photo[]).find(
+      (photo) => photo.id === "photo-house-finch-001"
+    );
+    const houseFinchObservation = (dataset.observations as Observation[]).find(
+      (observation) => observation.id === "obs-house-finch-001"
+    );
+
+    if (!houseFinchPhoto || !houseFinchObservation) {
+      throw new Error("Expected house finch fixture graph");
+    }
+
+    const result = validateFixtureDataset({
+      ...dataset,
+      creatures: (dataset.creatures as Creature[]).map((creature) =>
+        creature.id === americanSnout.id
+          ? {
+              ...creature,
+              defaultPhotoId: houseFinchPhoto.id,
+              observationIds: [houseFinchObservation.id]
+            }
+          : creature
+      )
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        "Creature american-snout defaultPhotoId photo-house-finch-001 must be listed in its photoIds",
+        "Creature american-snout defaultPhotoId photo-house-finch-001 belongs to creatureId house-finch",
+        "Creature american-snout observationId obs-house-finch-001 belongs to creatureId house-finch"
+      ])
+    );
+  });
+
+  it("rejects observation photo references owned by a different observation", () => {
+    const dataset = readFixtureDataset();
+    const americanSnoutObservation = (dataset.observations as Observation[]).find(
+      (observation) => observation.id === "obs-american-snout-001"
+    );
+    const houseFinchPhoto = (dataset.photos as Photo[]).find(
+      (photo) => photo.id === "photo-house-finch-001"
+    );
+
+    if (!americanSnoutObservation || !houseFinchPhoto) {
+      throw new Error("Expected american snout observation and house finch photo");
+    }
+
+    const result = validateFixtureDataset({
+      ...dataset,
+      observations: (dataset.observations as Observation[]).map((observation) =>
+        observation.id === americanSnoutObservation.id
+          ? {
+              ...observation,
+              photoIds: [houseFinchPhoto.id]
+            }
+          : observation
+      )
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors).toContain(
+      "Observation obs-american-snout-001 photoId photo-house-finch-001 belongs to observationId obs-house-finch-001"
+    );
+  });
+
+  it("rejects fixture records with both creature and mystery owners", () => {
+    const dataset = readFixtureDataset();
+    const photo = (dataset.photos as Photo[]).find(
+      (candidate) => candidate.id === "photo-american-snout-001"
+    );
+    const observation = (dataset.observations as Observation[]).find(
+      (candidate) => candidate.id === "obs-american-snout-001"
+    );
+
+    if (!photo || !observation) {
+      throw new Error("Expected american snout fixture graph");
+    }
+
+    const result = validateFixtureDataset({
+      ...dataset,
+      photos: (dataset.photos as Photo[]).map((candidate) =>
+        candidate.id === photo.id
+          ? {
+              ...candidate,
+              mysteryId: "mystery-white-shelf-fungus"
+            }
+          : candidate
+      ),
+      observations: (dataset.observations as Observation[]).map((candidate) =>
+        candidate.id === observation.id
+          ? {
+              ...candidate,
+              mysteryId: "mystery-white-shelf-fungus"
+            }
+          : candidate
+      )
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        "Photo photo-american-snout-001 must not reference both creatureId and mysteryId",
+        "Observation obs-american-snout-001 must not reference both creatureId and mysteryId"
+      ])
+    );
+  });
+
+  it("rejects fixture records omitted from their owning creature lists", () => {
+    const dataset = readFixtureDataset();
+
+    const result = validateFixtureDataset({
+      ...dataset,
+      creatures: (dataset.creatures as Creature[]).map((creature) =>
+        creature.id === "american-snout"
+          ? {
+              ...creature,
+              photoIds: ["photo-house-finch-001"],
+              observationIds: ["obs-house-finch-001"],
+              historyId: "history-house-finch"
+            }
+          : creature
+      )
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        "Photo photo-american-snout-001 belongs to creatureId american-snout but is not listed in that creature's photoIds",
+        "Observation obs-american-snout-001 belongs to creatureId american-snout but is not listed in that creature's observationIds",
+        "History history-american-snout belongs to creatureId american-snout but is not referenced by that creature's historyId"
+      ])
+    );
+  });
+
+  it("requires public fixture image EXIF flags to be true", () => {
+    const manifest = readJsonFile(
+      join(metadataRoot, "fixture-manifest.json")
+    ) as Record<string, unknown>;
+    const photo = readJsonDirectory("photos")[0] as Record<string, unknown>;
+
+    expect(
+      fixtureManifestSchema.safeParse({
+        ...manifest,
+        publicFixtureImagesExifStripped: false
+      }).success
+    ).toBe(false);
+    expect(
+      fixtureManifestSchema.safeParse({
+        ...manifest,
+        exifTddFixturesUseSyntheticCoordinates: false
+      }).success
+    ).toBe(false);
+    expect(
+      photoSchema.safeParse({
+        ...photo,
+        processing: {
+          ...(photo.processing as Record<string, unknown>),
+          sourceCopyExifStripped: false
+        }
+      }).success
+    ).toBe(false);
+    expect(
+      photoSchema.safeParse({
+        ...photo,
+        processing: {
+          ...(photo.processing as Record<string, unknown>),
+          webDerivativesExifStripped: false
+        }
+      }).success
+    ).toBe(false);
+  });
+
+  it("rejects image paths outside the fixture image roots", () => {
+    const dataset = readFixtureDataset();
+    const firstPhoto = (dataset.photos as Array<Record<string, unknown>>).find(
+      (photo) => photo.id === "photo-american-snout-001"
+    );
+    if (!firstPhoto) {
+      throw new Error("Expected photo-american-snout-001 fixture");
+    }
+
+    const result = validateFixtureDataset({
+      ...dataset,
+      photos: [
+        {
+          ...firstPhoto,
+          files: {
+            ...(firstPhoto.files as Record<string, unknown>),
+            card: "README.md"
+          }
+        }
+      ]
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors).toContain(
+      "Photo photo-american-snout-001 files.card path must be under docs/fixtures/web-images"
+    );
+  });
+
+  it("rejects normalized subject boxes that extend outside image bounds", () => {
+    const photo = readJsonDirectory("photos")[0] as Record<string, unknown>;
+    const result = photoSchema.safeParse({
+      ...photo,
+      subject: {
+        subjectPointNormalized: null,
+        subjectBoxNormalized: {
+          x: 0.75,
+          y: 0.75,
+          width: 0.5,
+          height: 0.5
+        },
+        source: "user"
+      }
+    });
+
+    expect(result.success).toBe(false);
+  });
+});
