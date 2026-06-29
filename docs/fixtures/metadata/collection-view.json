@@ -1,0 +1,35 @@
+{
+  "favoriteCreatureIds": [
+    "house-finch",
+    "american-snout",
+    "texas-bluebonnet"
+  ],
+  "newCreatureIds": [
+    "house-finch"
+  ],
+  "checklistMode": "allPublishedFound",
+  "draftCards": [
+    {
+      "sourceCreatureId": "texas-brown-tarantula",
+      "id": "draft-false-widow",
+      "dripdexNumber": "041",
+      "commonName": "False Widow",
+      "scientificName": "Steatoda sp."
+    }
+  ],
+  "lockedCards": [
+    {
+      "id": "locked-ladder-backed-woodpecker",
+      "dripdexNumber": "019",
+      "category": "bird",
+      "commonName": "Ladder-backed Woodpecker",
+      "scientificName": "Dryobates scalaris"
+    },
+    {
+      "id": "locked-june-beetle",
+      "dripdexNumber": "063",
+      "category": "insect",
+      "commonName": "June Beetle"
+    }
+  ]
+}

@@ -4,18 +4,23 @@ import { describe, expect, it } from "vitest";
 import HomePage from "./page";
 
 describe("HomePage", () => {
-  it("renders the DripDex public landing route", () => {
+  it("renders the fixture-backed DripDex collection route", () => {
     render(<HomePage />);
 
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: /hill country dripdex/i
+        name: /collection/i
       })
     ).toBeInTheDocument();
-    expect(screen.getByText(/gotta catch'em y'all/i)).toBeInTheDocument();
     expect(
-      screen.getByText(/a personal texas hill country field journal/i)
+      screen.getByText(/gotta catch'em y'all/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("article", { name: /Texas Spiny Lizard Found/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("article", { name: /Ladder-backed Woodpecker Locked/i })
     ).toBeInTheDocument();
   });
 });
