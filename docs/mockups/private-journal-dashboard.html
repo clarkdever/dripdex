@@ -41,7 +41,7 @@
       }
 
       .page {
-        width: min(100% - 18px, 430px);
+        width: min(100% - 18px, 960px);
         margin: 0 auto;
         padding: 20px 0 34px;
       }
@@ -73,6 +73,22 @@
         border-radius: 8px;
         box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
         padding: 10px;
+      }
+
+      .view-stack {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(330px, 430px));
+        justify-content: center;
+        gap: 22px;
+      }
+
+      .view-note {
+        margin: 0 0 9px;
+        color: var(--glow);
+        font-size: 0.72rem;
+        font-weight: 950;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
       }
 
       .device-top {
@@ -443,6 +459,63 @@
           auto;
       }
 
+      .map-canvas.full {
+        height: 314px;
+      }
+
+      .map-tools {
+        display: grid;
+        gap: 8px;
+        padding: 10px;
+        background: #171c24;
+        border-bottom: 1px solid rgba(255, 247, 223, 0.1);
+      }
+
+      .toggle-row,
+      .privacy-row,
+      .pref-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .toggle-row strong,
+      .privacy-row strong,
+      .pref-row strong {
+        color: #fff7df;
+        font-size: 0.75rem;
+      }
+
+      .toggle-row span,
+      .privacy-row span,
+      .pref-row span {
+        color: var(--muted);
+        font-size: 0.65rem;
+        font-weight: 750;
+      }
+
+      .switch {
+        width: 48px;
+        height: 26px;
+        position: relative;
+        flex: 0 0 auto;
+        background: #2b3039;
+        border: 1px solid rgba(255, 247, 223, 0.24);
+        border-radius: 999px;
+      }
+
+      .switch::after {
+        content: "";
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 16px;
+        height: 16px;
+        background: var(--glow);
+        border-radius: 50%;
+      }
+
       .home-zone {
         position: absolute;
         inset: 18px 54px 34px 44px;
@@ -520,6 +593,105 @@
         text-transform: uppercase;
       }
 
+      .observation-list,
+      .history-list,
+      .pref-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .observation-row,
+      .history-row,
+      .pref-card {
+        display: grid;
+        gap: 5px;
+        padding: 10px;
+        background: var(--panel-2);
+        border: 1px solid rgba(199, 255, 45, 0.2);
+        border-radius: 8px;
+      }
+
+      .observation-row {
+        grid-template-columns: 1fr auto;
+        align-items: center;
+      }
+
+      .observation-row strong,
+      .history-row strong,
+      .pref-card strong {
+        color: #fff7df;
+        font-size: 0.78rem;
+        line-height: 1.15;
+      }
+
+      .observation-row span,
+      .history-row span,
+      .pref-card span {
+        color: var(--muted);
+        font-size: 0.68rem;
+        font-weight: 750;
+        line-height: 1.25;
+      }
+
+      .coordinate-pill {
+        padding: 6px 8px;
+        color: #111318;
+        background: var(--glow);
+        border-radius: 999px;
+        font-size: 0.58rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .history-row {
+        grid-template-columns: auto 1fr;
+        align-items: start;
+      }
+
+      .history-date {
+        min-width: 54px;
+        padding: 6px 5px;
+        color: #111318;
+        background: var(--glow);
+        border-radius: 7px;
+        font-size: 0.58rem;
+        font-weight: 950;
+        line-height: 1.1;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .history-copy {
+        display: grid;
+        gap: 3px;
+      }
+
+      .pref-card {
+        grid-template-columns: 1fr auto;
+        align-items: center;
+      }
+
+      .pref-card.wide {
+        grid-template-columns: 1fr;
+      }
+
+      .select-pill {
+        min-width: 96px;
+        padding: 7px 9px;
+        color: #fff7df;
+        background: #272d36;
+        border: 1px solid rgba(255, 247, 223, 0.22);
+        border-radius: 999px;
+        font-size: 0.62rem;
+        font-weight: 950;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .danger-note {
+        color: #ffd24a;
+      }
+
       .activity-item {
         display: grid;
         grid-template-columns: 11px 1fr;
@@ -586,6 +758,10 @@
           padding-top: 14px;
         }
 
+        .view-stack {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
         .mockup-heading h1 {
           font-size: 1.35rem;
         }
@@ -634,7 +810,10 @@
         </p>
       </header>
 
-      <section class="device" aria-label="DripDex private journal mockup">
+      <div class="view-stack">
+        <article>
+          <p class="view-note">Queue Tab</p>
+          <section class="device" aria-label="DripDex private journal queue mockup">
         <div class="device-top">
           <div class="lens-row">
             <div class="lens" aria-hidden="true"></div>
@@ -786,7 +965,382 @@
             <button class="nav-item" type="button">Prefs</button>
           </nav>
         </div>
-      </section>
+          </section>
+        </article>
+
+        <article>
+          <p class="view-note">Map Tab</p>
+          <section class="device" aria-label="DripDex private journal map mockup">
+            <div class="device-top">
+              <div class="lens-row">
+                <div class="lens" aria-hidden="true"></div>
+                <div class="deck-name">
+                  <span>Hill Country DripDex</span>
+                  <span>Private Field Journal</span>
+                </div>
+              </div>
+              <div class="device-tools">
+                <div class="lights" aria-hidden="true">
+                  <span class="light red"></span>
+                  <span class="light yellow"></span>
+                  <span class="light green"></span>
+                </div>
+                <div class="owner-controls" aria-label="Owner access and view mode">
+                  <a class="owner-link" href="#owner-map">Owner</a>
+                  <span class="mode-toggle" role="group" aria-label="View mode">
+                    <button class="mode-button" type="button" aria-pressed="false">Public</button>
+                    <button class="mode-button active" type="button" aria-pressed="true">Private</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="screen">
+              <section class="journal-header">
+                <div class="journal-title-row">
+                  <div class="journal-title">
+                    <h2>Exact Map</h2>
+                    <p>Owner-only points, heat, and home-zone checks.</p>
+                  </div>
+                  <div class="review-pill">Private</div>
+                </div>
+                <div class="primary-actions">
+                  <button class="add-find" type="button">Add Find</button>
+                  <button class="small-action" type="button">Export</button>
+                </div>
+                <div class="filter-row" aria-label="Map filters">
+                  <span class="filter-chip">All Dates</span>
+                  <span class="filter-chip">All Types</span>
+                  <span class="filter-chip">Heat On</span>
+                  <span class="filter-chip">Home Zone</span>
+                </div>
+              </section>
+
+              <section class="section" aria-labelledby="full-map-heading">
+                <div class="section-heading">
+                  <h3 id="full-map-heading">Field Heatmap</h3>
+                  <span>Exact GPS</span>
+                </div>
+                <article class="map-card">
+                  <div class="map-tools">
+                    <div class="toggle-row">
+                      <div>
+                        <strong>Show public-safe preview</strong>
+                        <span>Compare what visitors can see.</span>
+                      </div>
+                      <span class="switch" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                  <div class="map-canvas full" aria-label="Full private map preview">
+                    <div class="home-zone" aria-hidden="true"></div>
+                    <span class="heat-pin one" aria-hidden="true"></span>
+                    <span class="heat-pin two" aria-hidden="true"></span>
+                    <span class="heat-pin three" aria-hidden="true"></span>
+                    <div class="map-label">Tap a point to open the observation journal page.</div>
+                  </div>
+                </article>
+              </section>
+
+              <section class="section" aria-labelledby="observations-heading">
+                <div class="section-heading">
+                  <h3 id="observations-heading">Nearest Points</h3>
+                  <a href="#filters">Filter</a>
+                </div>
+                <div class="observation-list">
+                  <article class="observation-row">
+                    <div>
+                      <strong>House Finch</strong>
+                      <span>Today, 6:42 PM. Backyard feeder.</span>
+                    </div>
+                    <span class="coordinate-pill">Exact</span>
+                  </article>
+                  <article class="observation-row">
+                    <div>
+                      <strong>False Widow</strong>
+                      <span>Yesterday, 9:14 PM. Porch light.</span>
+                    </div>
+                    <span class="coordinate-pill">Home</span>
+                  </article>
+                  <article class="observation-row">
+                    <div>
+                      <strong>Green Anole</strong>
+                      <span>Jun 24. Trail edge.</span>
+                    </div>
+                    <span class="coordinate-pill">Safe</span>
+                  </article>
+                </div>
+              </section>
+
+              <nav class="bottom-nav" aria-label="Private journal navigation">
+                <button class="nav-item" type="button">Queue</button>
+                <button class="nav-item active" type="button">Map</button>
+                <button class="nav-item" type="button">History</button>
+                <button class="nav-item" type="button">Prefs</button>
+              </nav>
+            </div>
+          </section>
+        </article>
+
+        <article>
+          <p class="view-note">History Tab</p>
+          <section class="device" aria-label="DripDex private journal history mockup">
+            <div class="device-top">
+              <div class="lens-row">
+                <div class="lens" aria-hidden="true"></div>
+                <div class="deck-name">
+                  <span>Hill Country DripDex</span>
+                  <span>Private Field Journal</span>
+                </div>
+              </div>
+              <div class="device-tools">
+                <div class="lights" aria-hidden="true">
+                  <span class="light red"></span>
+                  <span class="light yellow"></span>
+                  <span class="light green"></span>
+                </div>
+                <div class="owner-controls" aria-label="Owner access and view mode">
+                  <a class="owner-link" href="#owner-history">Owner</a>
+                  <span class="mode-toggle" role="group" aria-label="View mode">
+                    <button class="mode-button" type="button" aria-pressed="false">Public</button>
+                    <button class="mode-button active" type="button" aria-pressed="true">Private</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="screen">
+              <section class="journal-header">
+                <div class="journal-title-row">
+                  <div class="journal-title">
+                    <h2>Field History</h2>
+                    <p>Everything that changed in the journal.</p>
+                  </div>
+                  <div class="review-pill">Ledger</div>
+                </div>
+                <div class="primary-actions">
+                  <button class="add-find" type="button">Add Find</button>
+                  <button class="small-action" type="button">Export</button>
+                </div>
+                <div class="filter-row" aria-label="History filters">
+                  <span class="filter-chip">All Activity</span>
+                  <span class="filter-chip">This Month</span>
+                  <span class="filter-chip">Creature</span>
+                </div>
+              </section>
+
+              <section class="section" aria-labelledby="ledger-heading">
+                <div class="section-heading">
+                  <h3 id="ledger-heading">Activity Ledger</h3>
+                  <a href="#search-history">Search</a>
+                </div>
+                <div class="history-list">
+                  <article class="history-row">
+                    <div class="history-date">Today<br />6:42</div>
+                    <div class="history-copy">
+                      <strong>House Finch photo added</strong>
+                      <span>New sighting logged. Photo kept as alternate, default unchanged.</span>
+                    </div>
+                  </article>
+                  <article class="history-row">
+                    <div class="history-date">Today<br />5:10</div>
+                    <div class="history-copy">
+                      <strong>Guest book note approved</strong>
+                      <span>Science class note moved from pending to public guest book.</span>
+                    </div>
+                  </article>
+                  <article class="history-row">
+                    <div class="history-date">Jun 27</div>
+                    <div class="history-copy">
+                      <strong>Mystery suggestion rejected</strong>
+                      <span>AI candidate "Grass Spider" rejected and saved to history.</span>
+                    </div>
+                  </article>
+                  <article class="history-row">
+                    <div class="history-date">Jun 24</div>
+                    <div class="history-copy">
+                      <strong>Location privacy upgraded</strong>
+                      <span>Near-home observation changed to region-only public display.</span>
+                    </div>
+                  </article>
+                  <article class="history-row">
+                    <div class="history-date">Jun 21</div>
+                    <div class="history-copy">
+                      <strong>First found: Green Anole</strong>
+                      <span>New creature card created and added to Reptiles group.</span>
+                    </div>
+                  </article>
+                </div>
+              </section>
+
+              <section class="section" aria-labelledby="history-summary-heading">
+                <div class="section-heading">
+                  <h3 id="history-summary-heading">Journal Summary</h3>
+                  <span>Private</span>
+                </div>
+                <div class="stats-grid" aria-label="History summary">
+                  <div class="stat">
+                    <strong>18</strong>
+                    <span>Finds</span>
+                  </div>
+                  <div class="stat">
+                    <strong>7</strong>
+                    <span>Edits</span>
+                  </div>
+                  <div class="stat">
+                    <strong>4</strong>
+                    <span>IDs</span>
+                  </div>
+                  <div class="stat">
+                    <strong>2</strong>
+                    <span>Notes</span>
+                  </div>
+                </div>
+              </section>
+
+              <nav class="bottom-nav" aria-label="Private journal navigation">
+                <button class="nav-item" type="button">Queue</button>
+                <button class="nav-item" type="button">Map</button>
+                <button class="nav-item active" type="button">History</button>
+                <button class="nav-item" type="button">Prefs</button>
+              </nav>
+            </div>
+          </section>
+        </article>
+
+        <article>
+          <p class="view-note">Prefs Tab</p>
+          <section class="device" aria-label="DripDex private journal preferences mockup">
+            <div class="device-top">
+              <div class="lens-row">
+                <div class="lens" aria-hidden="true"></div>
+                <div class="deck-name">
+                  <span>Hill Country DripDex</span>
+                  <span>Private Field Journal</span>
+                </div>
+              </div>
+              <div class="device-tools">
+                <div class="lights" aria-hidden="true">
+                  <span class="light red"></span>
+                  <span class="light yellow"></span>
+                  <span class="light green"></span>
+                </div>
+                <div class="owner-controls" aria-label="Owner access and view mode">
+                  <a class="owner-link" href="#owner-prefs">Owner</a>
+                  <span class="mode-toggle" role="group" aria-label="View mode">
+                    <button class="mode-button" type="button" aria-pressed="false">Public</button>
+                    <button class="mode-button active" type="button" aria-pressed="true">Private</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="screen">
+              <section class="journal-header">
+                <div class="journal-title-row">
+                  <div class="journal-title">
+                    <h2>Preferences</h2>
+                    <p>Privacy, safety, and public controls.</p>
+                  </div>
+                  <div class="review-pill">Owner</div>
+                </div>
+                <div class="primary-actions">
+                  <button class="add-find" type="button">Save Changes</button>
+                  <button class="small-action" type="button">Cancel</button>
+                </div>
+              </section>
+
+              <section class="section" aria-labelledby="privacy-prefs-heading">
+                <div class="section-heading">
+                  <h3 id="privacy-prefs-heading">Location Privacy</h3>
+                  <span>Required</span>
+                </div>
+                <div class="pref-list">
+                  <article class="pref-card">
+                    <div>
+                      <strong>Default public location</strong>
+                      <span>Stored once as an obscured point.</span>
+                    </div>
+                    <span class="select-pill">Obscured</span>
+                  </article>
+                  <article class="pref-card">
+                    <div>
+                      <strong>Home-zone finds</strong>
+                      <span>Protect observations near private places.</span>
+                    </div>
+                    <span class="select-pill">Region Only</span>
+                  </article>
+                  <article class="pref-card">
+                    <div>
+                      <strong>Private map tiles</strong>
+                      <span>Configurable provider for self-hosting.</span>
+                    </div>
+                    <span class="select-pill">Leaflet</span>
+                  </article>
+                </div>
+              </section>
+
+              <section class="section" aria-labelledby="sharing-prefs-heading">
+                <div class="section-heading">
+                  <h3 id="sharing-prefs-heading">Sharing</h3>
+                  <span>Opt In</span>
+                </div>
+                <div class="pref-list">
+                  <article class="pref-card">
+                    <div>
+                      <strong>Guest book moderation</strong>
+                      <span>New notes wait for approval.</span>
+                    </div>
+                    <span class="switch" aria-hidden="true"></span>
+                  </article>
+                  <article class="pref-card">
+                    <div>
+                      <strong>Public intro panel</strong>
+                      <span>Let visitors hide the welcome message.</span>
+                    </div>
+                    <span class="switch" aria-hidden="true"></span>
+                  </article>
+                  <article class="pref-card wide">
+                    <strong>Safety launch screen</strong>
+                    <span class="danger-note">
+                      Safety first. Do not touch. Be aware of your surroundings.
+                    </span>
+                  </article>
+                </div>
+              </section>
+
+              <section class="section" aria-labelledby="system-prefs-heading">
+                <div class="section-heading">
+                  <h3 id="system-prefs-heading">System</h3>
+                  <a href="#advanced">Advanced</a>
+                </div>
+                <div class="pref-list">
+                  <article class="pref-card">
+                    <div>
+                      <strong>AI provider</strong>
+                      <span>Identification and facts.</span>
+                    </div>
+                    <span class="select-pill">Gemini</span>
+                  </article>
+                  <article class="pref-card">
+                    <div>
+                      <strong>Auth mode</strong>
+                      <span>OSS single-owner setup.</span>
+                    </div>
+                    <span class="select-pill">Passkey</span>
+                  </article>
+                </div>
+              </section>
+
+              <nav class="bottom-nav" aria-label="Private journal navigation">
+                <button class="nav-item" type="button">Queue</button>
+                <button class="nav-item" type="button">Map</button>
+                <button class="nav-item" type="button">History</button>
+                <button class="nav-item active" type="button">Prefs</button>
+              </nav>
+            </div>
+          </section>
+        </article>
+      </div>
     </main>
   </body>
 </html>

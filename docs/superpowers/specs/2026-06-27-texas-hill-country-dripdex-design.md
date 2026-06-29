@@ -196,7 +196,10 @@ MVP preference groups:
 - Image handling: original retention, public derivative generation, and EXIF stripping reminder.
 - Public sharing: guestbook moderation, public intro visibility defaults, and public map behavior.
 - Safety language: global launch warning, field-safety reminders, and creature safety label visibility.
-- Integrations: iNaturalist export/connect settings.
+
+Future preference groups:
+
+- Future integrations: external export/connect settings after MVP.
 
 Preferences rules:
 
@@ -205,11 +208,11 @@ Preferences rules:
 - In MVP, sensitive taxa, nests, dens, roosts, burrows, and home-zone observations should not be downgraded below the required privacy rule.
 - Public previews should show what visitors will see before publishing or exporting.
 
-### iNaturalist Integration
+### Future Integration TODO: iNaturalist
 
-DripDex should support optional iNaturalist sharing for owners who want their observations to contribute to the larger citizen-science community.
+iNaturalist is no longer part of the MVP. Keep it in the TODO pile as a future optional integration for owners who want their observations to contribute to the larger citizen-science community.
 
-Before offering any connection, post, or CSV export, DripDex should explain iNaturalist in plain language:
+Future requirements before offering any connection, post, or CSV export:
 
 - iNaturalist is a public citizen-science community where people share nature observations and help each other identify organisms.
 - Shared observations may be visible outside DripDex, including photos, dates, notes, and location information according to the chosen iNaturalist geoprivacy.
@@ -217,12 +220,12 @@ Before offering any connection, post, or CSV export, DripDex should explain iNat
 - Kids should use this through a parent/owner account when required by iNaturalist terms and family rules.
 - DripDex will never auto-post observations; the owner chooses what to export or send.
 
-Recommended integration path:
+Future integration path:
 
-1. MVP: generate an iNaturalist-ready CSV export for selected observations.
-2. MVP: add a per-observation "Prepare for iNaturalist" action that previews exactly what will be shared.
-3. Later: add OAuth/PKCE account connection for direct posting once core DripDex flows are stable.
-4. Later: store sync metadata such as `inat_observation_id`, sync status, last synced time, export errors, and whether the iNaturalist copy uses a different geoprivacy mode.
+1. Generate an iNaturalist-ready CSV export for selected observations.
+2. Add a per-observation "Prepare for iNaturalist" action that previews exactly what will be shared.
+3. Add OAuth/PKCE account connection for direct posting only after core DripDex flows are stable.
+4. Store sync metadata such as `inat_observation_id`, sync status, last synced time, export errors, and whether the iNaturalist copy uses a different geoprivacy mode.
 
 iNaturalist privacy mapping:
 
@@ -256,7 +259,6 @@ Owner-only work queue items:
 - Pending guestbook entries.
 - Facts or adult-science sections missing citations.
 - Entries with sensitive location warnings.
-- iNaturalist export/posting candidates.
 
 Private journal mode can show exact GPS, EXIF, private heatmaps, internal notes, and unpublished history. Public preview mode should show only the same public-safe data a visitor would see.
 
@@ -275,7 +277,7 @@ Recommended MVP layout:
 4. Recent field notes.
    Show a chronological activity log: first found, new sighting, photo added, mystery resolved, rejected suggestion, privacy changed, guestbook approved, and source added.
 5. Preferences shortcut.
-   Provide a direct path to location privacy, home zones, tile provider, iNaturalist export/connect, guestbook moderation, and safety settings.
+   Provide a direct path to location privacy, home zones, tile provider, guestbook moderation, and safety settings.
 
 Navigation:
 
@@ -289,6 +291,15 @@ Design rules:
 - The dashboard should stay owner-focused and high-level. Internal processing states belong in logs/debug views, not primary kid-facing language.
 - Exact coordinates and private heatmaps must never render in public mode.
 - Any public publishing task should include a public-preview check before changes go live.
+
+Designer handoff greybox:
+
+- The private journal mockup now shows four standalone tab views: Queue, Map, History, and Prefs.
+- Queue remains the default landing tab.
+- Map is exact-location and owner-only.
+- History is an append-only activity ledger for observations, creature-card changes, suggestions, privacy changes, and notes.
+- Prefs covers MVP owner controls only: location privacy, home-zone behavior, private map tiles, guestbook moderation, public intro visibility, safety launch screen, AI provider, and auth mode.
+- iNaturalist is intentionally absent from the MVP preferences and private journal tabs.
 
 ## 5. Add Observation Flow
 
@@ -789,7 +800,7 @@ Statuses:
 
 When resolved, a mystery entry can be promoted or merged into a confirmed DripDex entry without losing observation history.
 
-Investigation workspace should include shortcuts or references for relevant external tools such as iNaturalist, eBird, BugGuide, and plant databases appropriate to the organism type.
+Investigation workspace should include shortcuts or references for relevant external tools such as eBird, BugGuide, TPWD, NatureServe, and plant databases appropriate to the organism type. iNaturalist shortcuts belong in the future integration TODO pile, not the MVP.
 
 Public mysteries:
 
@@ -815,14 +826,14 @@ Mystery workspace:
 - Show owner notes, date/season, private exact location for owner, and protected public location preview if public.
 - Show AI candidate history and owner-refined candidate list.
 - Show public viewer suggestions when enabled.
-- Show external research shortcuts for iNaturalist, eBird, BugGuide, plant databases, TPWD, NatureServe, and custom owner links where relevant.
-- Provide simple actions: Add Candidate, Ask AI Again, Prepare for iNaturalist, Mark Likely, Confirm ID, and Keep Mystery.
+- Show external research shortcuts for eBird, BugGuide, plant databases, TPWD, NatureServe, and custom owner links where relevant.
+- Provide simple actions: Add Candidate, Ask AI Again, Mark Likely, Confirm ID, and Keep Mystery.
 
 Candidate ID fields:
 
 - Common name.
 - Scientific name when known.
-- Source: AI, Owner, Public Suggestion, iNaturalist, eBird, BugGuide, or Other Source.
+- Source: AI, Owner, Public Suggestion, eBird, BugGuide, TPWD, NatureServe, Plant Database, or Other Source.
 - Status: Suggested, Likely, Rejected, Confirmed.
 - Notes and source links.
 
@@ -1039,7 +1050,7 @@ Creature journal history:
 
 - Creature detail pages should act like living journal pages for that creature type.
 - Add a History accordion with a simple date/activity table.
-- Example activities: First Found, New Sighting Added, New Photo Added, Card Photo Changed, Mystery Resolved, ID Changed, Safety Label Added, Facts Updated, Added to Set, Public Suggestion Accepted, and Exported to iNaturalist.
+- Example activities: First Found, New Sighting Added, New Photo Added, Card Photo Changed, Mystery Resolved, ID Changed, Safety Label Added, Facts Updated, Added to Set, Public Suggestion Accepted, and External Export Prepared.
 - Important events should be append-only. Later edits can add new history events rather than rewriting what happened.
 - History supports both owner audit needs and kid-friendly "look what happened" storytelling.
 
@@ -1183,7 +1194,6 @@ Potential reputable sources:
 - USFWS.
 - Cornell/eBird for birds.
 - BugGuide for insects and arachnids.
-- iNaturalist as a discovery/reference aid, not sole authority.
 - GBIF for occurrence data.
 - USDA Plants and regional plant databases.
 - Academic or extension sources when relevant.
@@ -1362,6 +1372,11 @@ Mockup references in the local repo:
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-favorites-groups.png`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/private-journal-dashboard.html`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/private-journal-dashboard-viewport.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/private-journal-dashboard-all-tabs.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/private-journal-dashboard-queue-tab.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/private-journal-dashboard-map-tab.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/private-journal-dashboard-history-tab.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/private-journal-dashboard-prefs-tab.png`
 
 Gemini references:
 
