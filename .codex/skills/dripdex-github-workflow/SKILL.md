@@ -52,6 +52,7 @@ When Claude and Gemini both explore frontend design:
 - Record the issue number in branch names when practical, for example `codex/12-fixture-loader`.
 - Before commit/push, run the issue's verification steps and `git status -sb`.
 - Before merging Codex-owned MVP work, run a `/code-review` pass, fix every actionable finding, rerun verification, then merge without waiting for routine human review.
+- If `/code-review` finds a large or out-of-scope issue, research it enough to write a useful follow-up issue with scope, acceptance criteria, verification, risk, and dependencies instead of expanding the current PR.
 - Use GitHub automerge when available, or direct squash merge when private-repo branch protection/automerge is unavailable, for Codex-owned MVP PRs after code review and verification pass. Escalate only for product taste, privacy/safety decisions, secrets, destructive data changes, or unclear requirements.
 - Before stopping, leave a handoff comment or note.
 

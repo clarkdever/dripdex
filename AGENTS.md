@@ -13,6 +13,7 @@ Core workflow:
 - Keep write scopes explicit.
 - Prefer small draft PRs tied to one issue.
 - For Codex-owned MVP PRs, run `/code-review` when implementation is done, fix every actionable finding, rerun verification, then use GitHub automerge when available or direct squash merge when private-repo branch protection/automerge is unavailable.
+- If `/code-review` finds a large or out-of-scope issue, research it enough to create a scoped follow-up GitHub issue instead of expanding the current PR.
 - Escalate merges only for product taste, privacy/safety decisions, secrets, destructive data changes, or unclear requirements.
 - Leave handoff notes before pausing or stopping work.
 - Run verification before claiming completion.
