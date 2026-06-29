@@ -1,0 +1,20 @@
+{
+  "id": "history-white-tailed-deer",
+  "creatureId": "white-tailed-deer",
+  "events": [
+    {
+      "id": "event-white-tailed-deer-first-found",
+      "type": "first_found",
+      "date": "2026-06-29",
+      "label": "First fixture record created",
+      "details": "Created from public source image pack for DripDex contract testing."
+    },
+    {
+      "id": "event-white-tailed-deer-photo-added",
+      "type": "photo_added",
+      "date": "2026-06-29",
+      "label": "Default photo added",
+      "details": "Photo source: https://commons.wikimedia.org/wiki/File:White-tailed_deer_(24820987930).jpg"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "id": "photo-texas-spiny-lizard-001",
+  "creatureId": "texas-spiny-lizard",
+  "mysteryId": null,
+  "observationId": "obs-texas-spiny-lizard-001",
+  "role": "default",
+  "status": "published",
+  "needsHumanValidation": true,
+  "source": {
+    "sourceHtmlUrl": "https://commons.wikimedia.org/wiki/File:Sceloporus_olivaceus_Wildflower_Center_Austin_Texas_2024.jpg",
+    "directImageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/6d/Sceloporus_olivaceus_Wildflower_Center_Austin_Texas_2024.jpg",
+    "license": "CC BY 4.0",
+    "author": "Larry D. Moore",
+    "sourceCaveat": "Strong Austin/Wildflower Center locality fit.",
+    "accessedAt": "2026-06-29"
+  },
+  "files": {
+    "sourceCopy": "docs/fixtures/source-images/texas-spiny-lizard.jpg",
+    "full": "docs/fixtures/web-images/texas-spiny-lizard-full.jpg",
+    "card": "docs/fixtures/web-images/texas-spiny-lizard-card.jpg",
+    "thumbnail": "docs/fixtures/web-images/texas-spiny-lizard-thumb.jpg"
+  },
+  "dimensions": {
+    "sourceCopy": {
+      "width": 3000,
+      "height": 2000
+    },
+    "full": {
+      "width": 1600,
+      "height": 1067
+    },
+    "card": {
+      "width": 800,
+      "height": 840
+    },
+    "thumbnail": {
+      "width": 512,
+      "height": 512
+    }
+  },
+  "processing": {
+    "sourceCopyExifStripped": true,
+    "webDerivativesExifStripped": true,
+    "fullMaxDimensionPx": 1600,
+    "cardAspectRatio": "20:21",
+    "thumbnailAspectRatio": "1:1",
+    "processedAt": "2026-06-29"
+  },
+  "subject": {
+    "subjectPointNormalized": null,
+    "subjectBoxNormalized": null,
+    "source": "not_set_for_fixture"
+  }
+}

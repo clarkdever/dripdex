@@ -1,0 +1,60 @@
+{
+  "id": "western-mosquitofish",
+  "dripdexNumber": "011",
+  "status": "published",
+  "publicVisibility": "public",
+  "needsHumanValidation": true,
+  "commonName": "Western Mosquitofish",
+  "scientificName": "Gambusia affinis",
+  "sourceKnownName": null,
+  "category": "fish",
+  "displayName": {
+    "generatedNickname": "Ripple Nibbler",
+    "customName": null
+  },
+  "defaultPhotoId": "photo-western-mosquitofish-001",
+  "tags": {
+    "typeTags": [
+      "Water",
+      "Light",
+      "Normal"
+    ],
+    "foodChainTags": [
+      "Predator",
+      "Carnivore",
+      "Prey"
+    ],
+    "seasonality": [
+      "Year Round"
+    ],
+    "safetyLabels": [
+      "Look Closely"
+    ]
+  },
+  "rarity": {
+    "rank": "Common",
+    "source": "fixture"
+  },
+  "flavorText": "A tiny pond patrol fish that hunts mosquito larvae near the surface where kids can sometimes spot the ripples first.",
+  "adultScience": {
+    "summary": "Fixture placeholder. Production content should be generated from cited research and reviewed before publication.",
+    "citations": [
+      {
+        "label": "Source image validation page",
+        "url": "https://www.fws.gov/media/western-mosquitofish"
+      }
+    ]
+  },
+  "variants": {
+    "sex": [],
+    "lifeStages": [],
+    "plantOrFungusStages": []
+  },
+  "photoIds": [
+    "photo-western-mosquitofish-001"
+  ],
+  "observationIds": [
+    "obs-western-mosquitofish-001"
+  ],
+  "historyId": "history-western-mosquitofish"
+}

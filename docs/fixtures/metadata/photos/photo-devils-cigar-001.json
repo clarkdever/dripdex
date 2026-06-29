@@ -1,0 +1,54 @@
+{
+  "id": "photo-devils-cigar-001",
+  "creatureId": "devils-cigar",
+  "mysteryId": null,
+  "observationId": "obs-devils-cigar-001",
+  "role": "default",
+  "status": "published",
+  "needsHumanValidation": true,
+  "source": {
+    "sourceHtmlUrl": "https://commons.wikimedia.org/wiki/File:Devil%27s_cigar_Chorioactis_geaster.jpg",
+    "directImageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/18/Devil%27s_cigar_Chorioactis_geaster.jpg",
+    "license": "CC BY 3.0",
+    "author": "Tim Jones",
+    "sourceCaveat": "Rare and regionally special; excellent for rarity treatment but not an everyday find.",
+    "accessedAt": "2026-06-29"
+  },
+  "files": {
+    "sourceCopy": "docs/fixtures/source-images/devils-cigar.jpg",
+    "full": "docs/fixtures/web-images/devils-cigar-full.jpg",
+    "card": "docs/fixtures/web-images/devils-cigar-card.jpg",
+    "thumbnail": "docs/fixtures/web-images/devils-cigar-thumb.jpg"
+  },
+  "dimensions": {
+    "sourceCopy": {
+      "width": 864,
+      "height": 736
+    },
+    "full": {
+      "width": 864,
+      "height": 736
+    },
+    "card": {
+      "width": 800,
+      "height": 840
+    },
+    "thumbnail": {
+      "width": 512,
+      "height": 512
+    }
+  },
+  "processing": {
+    "sourceCopyExifStripped": true,
+    "webDerivativesExifStripped": true,
+    "fullMaxDimensionPx": 1600,
+    "cardAspectRatio": "20:21",
+    "thumbnailAspectRatio": "1:1",
+    "processedAt": "2026-06-29"
+  },
+  "subject": {
+    "subjectPointNormalized": null,
+    "subjectBoxNormalized": null,
+    "source": "not_set_for_fixture"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "giant-redheaded-centipede",
+  "dripdexNumber": "010",
+  "status": "published",
+  "publicVisibility": "public",
+  "needsHumanValidation": true,
+  "commonName": "Giant Redheaded Centipede",
+  "scientificName": "Scolopendra heros",
+  "sourceKnownName": null,
+  "category": "other-invertebrate",
+  "displayName": {
+    "generatedNickname": "Red Helmet",
+    "customName": null
+  },
+  "defaultPhotoId": "photo-giant-redheaded-centipede-001",
+  "tags": {
+    "typeTags": [
+      "Bug",
+      "Ground",
+      "Dark",
+      "Poison"
+    ],
+    "foodChainTags": [
+      "Predator",
+      "Carnivore"
+    ],
+    "seasonality": [
+      "Spring",
+      "Summer",
+      "Fall"
+    ],
+    "safetyLabels": [
+      "Do Not Touch",
+      "Venomous",
+      "Bites"
+    ]
+  },
+  "rarity": {
+    "rank": "Uncommon",
+    "source": "fixture"
+  },
+  "flavorText": "A many-legged night hunter with serious warning colors and a very strong case for admiring from far away.",
+  "adultScience": {
+    "summary": "Fixture placeholder. Production content should be generated from cited research and reviewed before publication.",
+    "citations": [
+      {
+        "label": "Source image validation page",
+        "url": "https://commons.wikimedia.org/wiki/File:Scolopendra_heros.jpg"
+      }
+    ]
+  },
+  "variants": {
+    "sex": [],
+    "lifeStages": [],
+    "plantOrFungusStages": []
+  },
+  "photoIds": [
+    "photo-giant-redheaded-centipede-001"
+  ],
+  "observationIds": [
+    "obs-giant-redheaded-centipede-001"
+  ],
+  "historyId": "history-giant-redheaded-centipede"
+}

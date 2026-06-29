@@ -1,0 +1,60 @@
+{
+  "id": "devils-cigar",
+  "dripdexNumber": "009",
+  "status": "published",
+  "publicVisibility": "public",
+  "needsHumanValidation": true,
+  "commonName": "Devil's Cigar",
+  "scientificName": "Chorioactis geaster",
+  "sourceKnownName": null,
+  "category": "fungus-lichen",
+  "displayName": {
+    "generatedNickname": "Star Puff",
+    "customName": null
+  },
+  "defaultPhotoId": "photo-devils-cigar-001",
+  "tags": {
+    "typeTags": [
+      "Fungi",
+      "Dark",
+      "Ground"
+    ],
+    "foodChainTags": [
+      "Decomposer"
+    ],
+    "seasonality": [
+      "Fall",
+      "Winter"
+    ],
+    "safetyLabels": [
+      "Do Not Touch",
+      "Do Not Eat"
+    ]
+  },
+  "rarity": {
+    "rank": "Rare",
+    "source": "fixture"
+  },
+  "flavorText": "A strange Texas fungus that opens like a smoky little star, earning one of the best names in the whole field guide.",
+  "adultScience": {
+    "summary": "Fixture placeholder. Production content should be generated from cited research and reviewed before publication.",
+    "citations": [
+      {
+        "label": "Source image validation page",
+        "url": "https://commons.wikimedia.org/wiki/File:Devil%27s_cigar_Chorioactis_geaster.jpg"
+      }
+    ]
+  },
+  "variants": {
+    "sex": [],
+    "lifeStages": [],
+    "plantOrFungusStages": []
+  },
+  "photoIds": [
+    "photo-devils-cigar-001"
+  ],
+  "observationIds": [
+    "obs-devils-cigar-001"
+  ],
+  "historyId": "history-devils-cigar"
+}

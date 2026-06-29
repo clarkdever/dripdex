@@ -1,0 +1,20 @@
+{
+  "id": "history-texas-brown-tarantula",
+  "creatureId": "texas-brown-tarantula",
+  "events": [
+    {
+      "id": "event-texas-brown-tarantula-first-found",
+      "type": "first_found",
+      "date": "2026-06-29",
+      "label": "First fixture record created",
+      "details": "Created from public source image pack for DripDex contract testing."
+    },
+    {
+      "id": "event-texas-brown-tarantula-photo-added",
+      "type": "photo_added",
+      "date": "2026-06-29",
+      "label": "Default photo added",
+      "details": "Photo source: https://commons.wikimedia.org/wiki/File:Lost_Maples_Tarantula_2021.jpg"
+    }
+  ]
+}

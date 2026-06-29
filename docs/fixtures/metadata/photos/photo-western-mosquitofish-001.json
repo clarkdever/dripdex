@@ -1,0 +1,54 @@
+{
+  "id": "photo-western-mosquitofish-001",
+  "creatureId": "western-mosquitofish",
+  "mysteryId": null,
+  "observationId": "obs-western-mosquitofish-001",
+  "role": "default",
+  "status": "published",
+  "needsHumanValidation": true,
+  "source": {
+    "sourceHtmlUrl": "https://www.fws.gov/media/western-mosquitofish",
+    "directImageUrl": "https://www.fws.gov/sites/default/files/styles/max_1300x1300/public/images/2017-08/28463.jpg?itok=4gnkWMCk",
+    "license": "U.S. Fish & Wildlife Service public media; verify page terms",
+    "author": "U.S. Fish & Wildlife Service",
+    "sourceCaveat": "Government media source; verify exact page terms before treating as canonical.",
+    "accessedAt": "2026-06-29"
+  },
+  "files": {
+    "sourceCopy": "docs/fixtures/source-images/western-mosquitofish.jpg",
+    "full": "docs/fixtures/web-images/western-mosquitofish-full.jpg",
+    "card": "docs/fixtures/web-images/western-mosquitofish-card.jpg",
+    "thumbnail": "docs/fixtures/web-images/western-mosquitofish-thumb.jpg"
+  },
+  "dimensions": {
+    "sourceCopy": {
+      "width": 1300,
+      "height": 867
+    },
+    "full": {
+      "width": 1300,
+      "height": 867
+    },
+    "card": {
+      "width": 800,
+      "height": 840
+    },
+    "thumbnail": {
+      "width": 512,
+      "height": 512
+    }
+  },
+  "processing": {
+    "sourceCopyExifStripped": true,
+    "webDerivativesExifStripped": true,
+    "fullMaxDimensionPx": 1600,
+    "cardAspectRatio": "20:21",
+    "thumbnailAspectRatio": "1:1",
+    "processedAt": "2026-06-29"
+  },
+  "subject": {
+    "subjectPointNormalized": null,
+    "subjectBoxNormalized": null,
+    "source": "not_set_for_fixture"
+  }
+}

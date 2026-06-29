@@ -1,0 +1,54 @@
+{
+  "id": "photo-mystery-white-shelf-fungus-001",
+  "creatureId": null,
+  "mysteryId": "mystery-white-shelf-fungus",
+  "observationId": "obs-mystery-white-shelf-fungus-001",
+  "role": "default",
+  "status": "mystery",
+  "needsHumanValidation": true,
+  "source": {
+    "sourceHtmlUrl": "https://www.nps.gov/media/photo/gallery-item.htm?gid=0F9DE195-2BCF-4249-8DEB-DBA24C7C2BA0&id=eb676636-2edd-442f-a74e-39ac26b3259a&pg=0",
+    "directImageUrl": "https://www.nps.gov/npgallery/GetAsset/eb676636-2edd-442f-a74e-39ac26b3259a",
+    "license": "National Park Service public media; verify page terms",
+    "author": "NPS Photo",
+    "sourceCaveat": "Intentionally unresolved in DripDex so it can exercise the mystery workflow.",
+    "accessedAt": "2026-06-29"
+  },
+  "files": {
+    "sourceCopy": "docs/fixtures/source-images/mystery-white-shelf-fungus.jpg",
+    "full": "docs/fixtures/web-images/mystery-white-shelf-fungus-full.jpg",
+    "card": "docs/fixtures/web-images/mystery-white-shelf-fungus-card.jpg",
+    "thumbnail": "docs/fixtures/web-images/mystery-white-shelf-fungus-thumb.jpg"
+  },
+  "dimensions": {
+    "sourceCopy": {
+      "width": 2048,
+      "height": 1536
+    },
+    "full": {
+      "width": 1600,
+      "height": 1200
+    },
+    "card": {
+      "width": 800,
+      "height": 840
+    },
+    "thumbnail": {
+      "width": 512,
+      "height": 512
+    }
+  },
+  "processing": {
+    "sourceCopyExifStripped": true,
+    "webDerivativesExifStripped": true,
+    "fullMaxDimensionPx": 1600,
+    "cardAspectRatio": "20:21",
+    "thumbnailAspectRatio": "1:1",
+    "processedAt": "2026-06-29"
+  },
+  "subject": {
+    "subjectPointNormalized": null,
+    "subjectBoxNormalized": null,
+    "source": "not_set_for_fixture"
+  }
+}

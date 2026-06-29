@@ -1,0 +1,62 @@
+{
+  "id": "texas-brown-tarantula",
+  "dripdexNumber": "003",
+  "status": "published",
+  "publicVisibility": "public",
+  "needsHumanValidation": true,
+  "commonName": "Texas Brown Tarantula",
+  "scientificName": "Aphonopelma hentzi",
+  "sourceKnownName": null,
+  "category": "arachnid",
+  "displayName": {
+    "generatedNickname": "Dusty Stomper",
+    "customName": null
+  },
+  "defaultPhotoId": "photo-texas-brown-tarantula-001",
+  "tags": {
+    "typeTags": [
+      "Bug",
+      "Ground",
+      "Dark"
+    ],
+    "foodChainTags": [
+      "Predator",
+      "Carnivore"
+    ],
+    "seasonality": [
+      "Summer",
+      "Fall"
+    ],
+    "safetyLabels": [
+      "Do Not Touch",
+      "Bites",
+      "Venomous"
+    ]
+  },
+  "rarity": {
+    "rank": "Uncommon",
+    "source": "fixture"
+  },
+  "flavorText": "A slow-moving ground hunter that looks dramatic, but usually wants a quiet burrow more than a battle.",
+  "adultScience": {
+    "summary": "Fixture placeholder. Production content should be generated from cited research and reviewed before publication.",
+    "citations": [
+      {
+        "label": "Source image validation page",
+        "url": "https://commons.wikimedia.org/wiki/File:Lost_Maples_Tarantula_2021.jpg"
+      }
+    ]
+  },
+  "variants": {
+    "sex": [],
+    "lifeStages": [],
+    "plantOrFungusStages": []
+  },
+  "photoIds": [
+    "photo-texas-brown-tarantula-001"
+  ],
+  "observationIds": [
+    "obs-texas-brown-tarantula-001"
+  ],
+  "historyId": "history-texas-brown-tarantula"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "obs-mystery-white-shelf-fungus-001",
+  "creatureId": null,
+  "mysteryId": "mystery-white-shelf-fungus",
+  "photoIds": [
+    "photo-mystery-white-shelf-fungus-001"
+  ],
+  "status": "mystery",
+  "captureMethod": "fixture_source_image",
+  "observedAt": null,
+  "publicLocationLabel": "Texas Hill Country example fixture",
+  "locationPrivacy": "public_region_only",
+  "exactLocation": null,
+  "publicObscuredLocation": null,
+  "notes": "OSS fixture generated from a public source page for UI and metadata contract testing.",
+  "identification": {
+    "currentCommonName": null,
+    "currentScientificName": null,
+    "confidence": "unresolved_fixture",
+    "candidateHistory": []
+  },
+  "needsHumanValidation": true
+}

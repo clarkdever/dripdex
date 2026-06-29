@@ -1,0 +1,54 @@
+{
+  "id": "photo-giant-redheaded-centipede-001",
+  "creatureId": "giant-redheaded-centipede",
+  "mysteryId": null,
+  "observationId": "obs-giant-redheaded-centipede-001",
+  "role": "default",
+  "status": "published",
+  "needsHumanValidation": true,
+  "source": {
+    "sourceHtmlUrl": "https://commons.wikimedia.org/wiki/File:Scolopendra_heros.jpg",
+    "directImageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Scolopendra_heros.jpg",
+    "license": "CC BY 2.0",
+    "author": "John via Flickr",
+    "sourceCaveat": "Use Commons attribution exactly; original Flickr credit is sparse.",
+    "accessedAt": "2026-06-29"
+  },
+  "files": {
+    "sourceCopy": "docs/fixtures/source-images/giant-redheaded-centipede.jpg",
+    "full": "docs/fixtures/web-images/giant-redheaded-centipede-full.jpg",
+    "card": "docs/fixtures/web-images/giant-redheaded-centipede-card.jpg",
+    "thumbnail": "docs/fixtures/web-images/giant-redheaded-centipede-thumb.jpg"
+  },
+  "dimensions": {
+    "sourceCopy": {
+      "width": 1280,
+      "height": 960
+    },
+    "full": {
+      "width": 1280,
+      "height": 960
+    },
+    "card": {
+      "width": 800,
+      "height": 840
+    },
+    "thumbnail": {
+      "width": 512,
+      "height": 512
+    }
+  },
+  "processing": {
+    "sourceCopyExifStripped": true,
+    "webDerivativesExifStripped": true,
+    "fullMaxDimensionPx": 1600,
+    "cardAspectRatio": "20:21",
+    "thumbnailAspectRatio": "1:1",
+    "processedAt": "2026-06-29"
+  },
+  "subject": {
+    "subjectPointNormalized": null,
+    "subjectBoxNormalized": null,
+    "source": "not_set_for_fixture"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "obs-texas-spiny-lizard-001",
+  "creatureId": "texas-spiny-lizard",
+  "mysteryId": null,
+  "photoIds": [
+    "photo-texas-spiny-lizard-001"
+  ],
+  "status": "published",
+  "captureMethod": "fixture_source_image",
+  "observedAt": null,
+  "publicLocationLabel": "Texas Hill Country example fixture",
+  "locationPrivacy": "public_region_only",
+  "exactLocation": null,
+  "publicObscuredLocation": null,
+  "notes": "OSS fixture generated from a public source page for UI and metadata contract testing.",
+  "identification": {
+    "currentCommonName": "Texas Spiny Lizard",
+    "currentScientificName": "Sceloporus olivaceus",
+    "confidence": "source_page_identified",
+    "candidateHistory": []
+  },
+  "needsHumanValidation": true
+}

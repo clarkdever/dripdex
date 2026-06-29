@@ -1,0 +1,54 @@
+{
+  "id": "photo-american-snout-001",
+  "creatureId": "american-snout",
+  "mysteryId": null,
+  "observationId": "obs-american-snout-001",
+  "role": "default",
+  "status": "published",
+  "needsHumanValidation": true,
+  "source": {
+    "sourceHtmlUrl": "https://commons.wikimedia.org/wiki/File:American_snout_butterfly.jpg",
+    "directImageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/74/American_snout_butterfly.jpg",
+    "license": "CC BY-SA 3.0",
+    "author": "Bruce Marlin",
+    "sourceCaveat": "ShareAlike applies to derivatives.",
+    "accessedAt": "2026-06-29"
+  },
+  "files": {
+    "sourceCopy": "docs/fixtures/source-images/american-snout.jpg",
+    "full": "docs/fixtures/web-images/american-snout-full.jpg",
+    "card": "docs/fixtures/web-images/american-snout-card.jpg",
+    "thumbnail": "docs/fixtures/web-images/american-snout-thumb.jpg"
+  },
+  "dimensions": {
+    "sourceCopy": {
+      "width": 750,
+      "height": 500
+    },
+    "full": {
+      "width": 750,
+      "height": 500
+    },
+    "card": {
+      "width": 800,
+      "height": 840
+    },
+    "thumbnail": {
+      "width": 512,
+      "height": 512
+    }
+  },
+  "processing": {
+    "sourceCopyExifStripped": true,
+    "webDerivativesExifStripped": true,
+    "fullMaxDimensionPx": 1600,
+    "cardAspectRatio": "20:21",
+    "thumbnailAspectRatio": "1:1",
+    "processedAt": "2026-06-29"
+  },
+  "subject": {
+    "subjectPointNormalized": null,
+    "subjectBoxNormalized": null,
+    "source": "not_set_for_fixture"
+  }
+}

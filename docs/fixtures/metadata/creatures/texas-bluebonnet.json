@@ -1,0 +1,59 @@
+{
+  "id": "texas-bluebonnet",
+  "dripdexNumber": "007",
+  "status": "published",
+  "publicVisibility": "public",
+  "needsHumanValidation": true,
+  "commonName": "Texas Bluebonnet",
+  "scientificName": "Lupinus texensis",
+  "sourceKnownName": null,
+  "category": "flowering-plant",
+  "displayName": {
+    "generatedNickname": "Bluebonnet Burst",
+    "customName": null
+  },
+  "defaultPhotoId": "photo-texas-bluebonnet-001",
+  "tags": {
+    "typeTags": [
+      "Grass",
+      "Light",
+      "Plant"
+    ],
+    "foodChainTags": [
+      "Producer",
+      "Pollinator"
+    ],
+    "seasonality": [
+      "Spring"
+    ],
+    "safetyLabels": [
+      "Do Not Eat"
+    ]
+  },
+  "rarity": {
+    "rank": "Common",
+    "source": "fixture"
+  },
+  "flavorText": "A springtime field-maker that turns roadsides into blue waves when the weather lines up just right.",
+  "adultScience": {
+    "summary": "Fixture placeholder. Production content should be generated from cited research and reviewed before publication.",
+    "citations": [
+      {
+        "label": "Source image validation page",
+        "url": "https://commons.wikimedia.org/wiki/File:Bluebonnet-8100.jpg"
+      }
+    ]
+  },
+  "variants": {
+    "sex": [],
+    "lifeStages": [],
+    "plantOrFungusStages": []
+  },
+  "photoIds": [
+    "photo-texas-bluebonnet-001"
+  ],
+  "observationIds": [
+    "obs-texas-bluebonnet-001"
+  ],
+  "historyId": "history-texas-bluebonnet"
+}

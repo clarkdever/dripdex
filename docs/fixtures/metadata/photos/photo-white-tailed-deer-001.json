@@ -1,0 +1,54 @@
+{
+  "id": "photo-white-tailed-deer-001",
+  "creatureId": "white-tailed-deer",
+  "mysteryId": null,
+  "observationId": "obs-white-tailed-deer-001",
+  "role": "default",
+  "status": "published",
+  "needsHumanValidation": true,
+  "source": {
+    "sourceHtmlUrl": "https://commons.wikimedia.org/wiki/File:White-tailed_deer_(24820987930).jpg",
+    "directImageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a8/White-tailed_deer_%2824820987930%29.jpg",
+    "license": "Public domain",
+    "author": "USDA NRCS Texas",
+    "sourceCaveat": "Public-domain Texas source, but validate the photo composition for card use.",
+    "accessedAt": "2026-06-29"
+  },
+  "files": {
+    "sourceCopy": "docs/fixtures/source-images/white-tailed-deer.jpg",
+    "full": "docs/fixtures/web-images/white-tailed-deer-full.jpg",
+    "card": "docs/fixtures/web-images/white-tailed-deer-card.jpg",
+    "thumbnail": "docs/fixtures/web-images/white-tailed-deer-thumb.jpg"
+  },
+  "dimensions": {
+    "sourceCopy": {
+      "width": 4288,
+      "height": 2848
+    },
+    "full": {
+      "width": 1600,
+      "height": 1063
+    },
+    "card": {
+      "width": 800,
+      "height": 840
+    },
+    "thumbnail": {
+      "width": 512,
+      "height": 512
+    }
+  },
+  "processing": {
+    "sourceCopyExifStripped": true,
+    "webDerivativesExifStripped": true,
+    "fullMaxDimensionPx": 1600,
+    "cardAspectRatio": "20:21",
+    "thumbnailAspectRatio": "1:1",
+    "processedAt": "2026-06-29"
+  },
+  "subject": {
+    "subjectPointNormalized": null,
+    "subjectBoxNormalized": null,
+    "source": "not_set_for_fixture"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "obs-texas-bluebonnet-001",
+  "creatureId": "texas-bluebonnet",
+  "mysteryId": null,
+  "photoIds": [
+    "photo-texas-bluebonnet-001"
+  ],
+  "status": "published",
+  "captureMethod": "fixture_source_image",
+  "observedAt": null,
+  "publicLocationLabel": "Texas Hill Country example fixture",
+  "locationPrivacy": "public_region_only",
+  "exactLocation": null,
+  "publicObscuredLocation": null,
+  "notes": "OSS fixture generated from a public source page for UI and metadata contract testing.",
+  "identification": {
+    "currentCommonName": "Texas Bluebonnet",
+    "currentScientificName": "Lupinus texensis",
+    "confidence": "source_page_identified",
+    "candidateHistory": []
+  },
+  "needsHumanValidation": true
+}

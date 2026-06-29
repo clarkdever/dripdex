@@ -1,0 +1,60 @@
+{
+  "id": "house-finch",
+  "dripdexNumber": "001",
+  "status": "published",
+  "publicVisibility": "public",
+  "needsHumanValidation": true,
+  "commonName": "House Finch",
+  "scientificName": "Haemorhous mexicanus",
+  "sourceKnownName": null,
+  "category": "bird",
+  "displayName": {
+    "generatedNickname": "Crimson Chirper",
+    "customName": null
+  },
+  "defaultPhotoId": "photo-house-finch-001",
+  "tags": {
+    "typeTags": [
+      "Flying",
+      "Light",
+      "Normal"
+    ],
+    "foodChainTags": [
+      "Herbivore",
+      "Prey",
+      "Seed Spreader"
+    ],
+    "seasonality": [
+      "Year Round"
+    ],
+    "safetyLabels": [
+      "Keep Distance"
+    ]
+  },
+  "rarity": {
+    "rank": "Common",
+    "source": "fixture"
+  },
+  "flavorText": "A tiny front-yard singer with a raspberry-red splash and a habit of turning feeders into social clubs.",
+  "adultScience": {
+    "summary": "Fixture placeholder. Production content should be generated from cited research and reviewed before publication.",
+    "citations": [
+      {
+        "label": "Source image validation page",
+        "url": "https://commons.wikimedia.org/wiki/File:House_Finch_(male)_(23934285480).jpg"
+      }
+    ]
+  },
+  "variants": {
+    "sex": [],
+    "lifeStages": [],
+    "plantOrFungusStages": []
+  },
+  "photoIds": [
+    "photo-house-finch-001"
+  ],
+  "observationIds": [
+    "obs-house-finch-001"
+  ],
+  "historyId": "history-house-finch"
+}

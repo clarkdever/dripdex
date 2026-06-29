@@ -1,0 +1,54 @@
+{
+  "id": "photo-texas-bluebonnet-001",
+  "creatureId": "texas-bluebonnet",
+  "mysteryId": null,
+  "observationId": "obs-texas-bluebonnet-001",
+  "role": "default",
+  "status": "published",
+  "needsHumanValidation": true,
+  "source": {
+    "sourceHtmlUrl": "https://commons.wikimedia.org/wiki/File:Bluebonnet-8100.jpg",
+    "directImageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Bluebonnet-8100.jpg",
+    "license": "CC BY-SA 3.0",
+    "author": "Loadmaster / David R. Tribble",
+    "sourceCaveat": "ShareAlike applies to derivatives.",
+    "accessedAt": "2026-06-29"
+  },
+  "files": {
+    "sourceCopy": "docs/fixtures/source-images/texas-bluebonnet.jpg",
+    "full": "docs/fixtures/web-images/texas-bluebonnet-full.jpg",
+    "card": "docs/fixtures/web-images/texas-bluebonnet-card.jpg",
+    "thumbnail": "docs/fixtures/web-images/texas-bluebonnet-thumb.jpg"
+  },
+  "dimensions": {
+    "sourceCopy": {
+      "width": 2112,
+      "height": 2816
+    },
+    "full": {
+      "width": 1200,
+      "height": 1600
+    },
+    "card": {
+      "width": 800,
+      "height": 840
+    },
+    "thumbnail": {
+      "width": 512,
+      "height": 512
+    }
+  },
+  "processing": {
+    "sourceCopyExifStripped": true,
+    "webDerivativesExifStripped": true,
+    "fullMaxDimensionPx": 1600,
+    "cardAspectRatio": "20:21",
+    "thumbnailAspectRatio": "1:1",
+    "processedAt": "2026-06-29"
+  },
+  "subject": {
+    "subjectPointNormalized": null,
+    "subjectBoxNormalized": null,
+    "source": "not_set_for_fixture"
+  }
+}

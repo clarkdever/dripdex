@@ -1,0 +1,54 @@
+{
+  "id": "photo-gulf-coast-toad-001",
+  "creatureId": "gulf-coast-toad",
+  "mysteryId": null,
+  "observationId": "obs-gulf-coast-toad-001",
+  "role": "default",
+  "status": "published",
+  "needsHumanValidation": true,
+  "source": {
+    "sourceHtmlUrl": "https://commons.wikimedia.org/wiki/File:Gulf_Coast_Toad_(Incilius_nebulifer).jpg",
+    "directImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e8/Gulf_Coast_Toad_%28Incilius_nebulifer%29.jpg",
+    "license": "CC BY 2.0",
+    "author": "Peter Paplanus",
+    "sourceCaveat": "Good species fixture, but still needs owner validation before it becomes canonical sample content.",
+    "accessedAt": "2026-06-29"
+  },
+  "files": {
+    "sourceCopy": "docs/fixtures/source-images/gulf-coast-toad.jpg",
+    "full": "docs/fixtures/web-images/gulf-coast-toad-full.jpg",
+    "card": "docs/fixtures/web-images/gulf-coast-toad-card.jpg",
+    "thumbnail": "docs/fixtures/web-images/gulf-coast-toad-thumb.jpg"
+  },
+  "dimensions": {
+    "sourceCopy": {
+      "width": 5624,
+      "height": 3712
+    },
+    "full": {
+      "width": 1600,
+      "height": 1056
+    },
+    "card": {
+      "width": 800,
+      "height": 840
+    },
+    "thumbnail": {
+      "width": 512,
+      "height": 512
+    }
+  },
+  "processing": {
+    "sourceCopyExifStripped": true,
+    "webDerivativesExifStripped": true,
+    "fullMaxDimensionPx": 1600,
+    "cardAspectRatio": "20:21",
+    "thumbnailAspectRatio": "1:1",
+    "processedAt": "2026-06-29"
+  },
+  "subject": {
+    "subjectPointNormalized": null,
+    "subjectBoxNormalized": null,
+    "source": "not_set_for_fixture"
+  }
+}

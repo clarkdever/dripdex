@@ -1,0 +1,54 @@
+{
+  "id": "photo-house-finch-001",
+  "creatureId": "house-finch",
+  "mysteryId": null,
+  "observationId": "obs-house-finch-001",
+  "role": "default",
+  "status": "published",
+  "needsHumanValidation": true,
+  "source": {
+    "sourceHtmlUrl": "https://commons.wikimedia.org/wiki/File:House_Finch_(male)_(23934285480).jpg",
+    "directImageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0e/House_Finch_%28male%29_%2823934285480%29.jpg",
+    "license": "Public domain",
+    "author": "Shenandoah National Park",
+    "sourceCaveat": "Photo is not from Texas, but the species is common in Texas and useful for the card UI fixture.",
+    "accessedAt": "2026-06-29"
+  },
+  "files": {
+    "sourceCopy": "docs/fixtures/source-images/house-finch.jpg",
+    "full": "docs/fixtures/web-images/house-finch-full.jpg",
+    "card": "docs/fixtures/web-images/house-finch-card.jpg",
+    "thumbnail": "docs/fixtures/web-images/house-finch-thumb.jpg"
+  },
+  "dimensions": {
+    "sourceCopy": {
+      "width": 6611,
+      "height": 4926
+    },
+    "full": {
+      "width": 1600,
+      "height": 1192
+    },
+    "card": {
+      "width": 800,
+      "height": 840
+    },
+    "thumbnail": {
+      "width": 512,
+      "height": 512
+    }
+  },
+  "processing": {
+    "sourceCopyExifStripped": true,
+    "webDerivativesExifStripped": true,
+    "fullMaxDimensionPx": 1600,
+    "cardAspectRatio": "20:21",
+    "thumbnailAspectRatio": "1:1",
+    "processedAt": "2026-06-29"
+  },
+  "subject": {
+    "subjectPointNormalized": null,
+    "subjectBoxNormalized": null,
+    "source": "not_set_for_fixture"
+  }
+}

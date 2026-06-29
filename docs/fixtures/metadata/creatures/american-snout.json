@@ -1,0 +1,63 @@
+{
+  "id": "american-snout",
+  "dripdexNumber": "002",
+  "status": "published",
+  "publicVisibility": "public",
+  "needsHumanValidation": true,
+  "commonName": "American Snout",
+  "scientificName": "Libytheana carinenta",
+  "sourceKnownName": null,
+  "category": "insect",
+  "displayName": {
+    "generatedNickname": "Snout Skipper",
+    "customName": null
+  },
+  "defaultPhotoId": "photo-american-snout-001",
+  "tags": {
+    "typeTags": [
+      "Bug",
+      "Flying",
+      "Grass",
+      "Light"
+    ],
+    "foodChainTags": [
+      "Pollinator",
+      "Herbivore",
+      "Prey"
+    ],
+    "seasonality": [
+      "Spring",
+      "Summer",
+      "Fall"
+    ],
+    "safetyLabels": [
+      "Look Closely"
+    ]
+  },
+  "rarity": {
+    "rank": "Common",
+    "source": "fixture"
+  },
+  "flavorText": "Its long snout makes it look like it is wearing a tiny explorer mask while it searches for flowers and hackberry trees.",
+  "adultScience": {
+    "summary": "Fixture placeholder. Production content should be generated from cited research and reviewed before publication.",
+    "citations": [
+      {
+        "label": "Source image validation page",
+        "url": "https://commons.wikimedia.org/wiki/File:American_snout_butterfly.jpg"
+      }
+    ]
+  },
+  "variants": {
+    "sex": [],
+    "lifeStages": [],
+    "plantOrFungusStages": []
+  },
+  "photoIds": [
+    "photo-american-snout-001"
+  ],
+  "observationIds": [
+    "obs-american-snout-001"
+  ],
+  "historyId": "history-american-snout"
+}

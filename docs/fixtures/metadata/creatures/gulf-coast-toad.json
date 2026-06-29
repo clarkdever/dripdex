@@ -1,0 +1,63 @@
+{
+  "id": "gulf-coast-toad",
+  "dripdexNumber": "004",
+  "status": "published",
+  "publicVisibility": "public",
+  "needsHumanValidation": true,
+  "commonName": "Gulf Coast Toad",
+  "scientificName": "Incilius nebulifer",
+  "sourceKnownName": null,
+  "category": "amphibian",
+  "displayName": {
+    "generatedNickname": "Puddle Bouncer",
+    "customName": null
+  },
+  "defaultPhotoId": "photo-gulf-coast-toad-001",
+  "tags": {
+    "typeTags": [
+      "Water",
+      "Ground",
+      "Dark"
+    ],
+    "foodChainTags": [
+      "Predator",
+      "Carnivore",
+      "Prey"
+    ],
+    "seasonality": [
+      "Spring",
+      "Summer",
+      "Fall"
+    ],
+    "safetyLabels": [
+      "Do Not Touch",
+      "Poisonous"
+    ]
+  },
+  "rarity": {
+    "rank": "Common",
+    "source": "fixture"
+  },
+  "flavorText": "A warty night caller that appears after warm rains like the yard just unlocked a secret sound effect.",
+  "adultScience": {
+    "summary": "Fixture placeholder. Production content should be generated from cited research and reviewed before publication.",
+    "citations": [
+      {
+        "label": "Source image validation page",
+        "url": "https://commons.wikimedia.org/wiki/File:Gulf_Coast_Toad_(Incilius_nebulifer).jpg"
+      }
+    ]
+  },
+  "variants": {
+    "sex": [],
+    "lifeStages": [],
+    "plantOrFungusStages": []
+  },
+  "photoIds": [
+    "photo-gulf-coast-toad-001"
+  ],
+  "observationIds": [
+    "obs-gulf-coast-toad-001"
+  ],
+  "historyId": "history-gulf-coast-toad"
+}

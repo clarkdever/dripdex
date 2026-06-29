@@ -1,0 +1,59 @@
+{
+  "id": "mystery-white-shelf-fungus",
+  "dripdexNumber": "012",
+  "status": "mystery",
+  "publicVisibility": "public",
+  "needsHumanValidation": true,
+  "commonName": "????",
+  "scientificName": null,
+  "sourceKnownName": "White shelf fungus",
+  "category": "mystery",
+  "displayName": {
+    "generatedNickname": "Question Shelf",
+    "customName": null
+  },
+  "defaultPhotoId": "photo-mystery-white-shelf-fungus-001",
+  "tags": {
+    "typeTags": [
+      "Mystery",
+      "Fungi",
+      "Dark"
+    ],
+    "foodChainTags": [
+      "Decomposer"
+    ],
+    "seasonality": [
+      "Year Round"
+    ],
+    "safetyLabels": [
+      "Do Not Touch",
+      "Do Not Eat"
+    ]
+  },
+  "rarity": {
+    "rank": "Mystery",
+    "source": "fixture"
+  },
+  "flavorText": "A pale shelf-shaped mystery that asks the field team to slow down, compare details, and investigate.",
+  "adultScience": {
+    "summary": "Fixture placeholder. Production content should be generated from cited research and reviewed before publication.",
+    "citations": [
+      {
+        "label": "Source image validation page",
+        "url": "https://www.nps.gov/media/photo/gallery-item.htm?gid=0F9DE195-2BCF-4249-8DEB-DBA24C7C2BA0&id=eb676636-2edd-442f-a74e-39ac26b3259a&pg=0"
+      }
+    ]
+  },
+  "variants": {
+    "sex": [],
+    "lifeStages": [],
+    "plantOrFungusStages": []
+  },
+  "photoIds": [
+    "photo-mystery-white-shelf-fungus-001"
+  ],
+  "observationIds": [
+    "obs-mystery-white-shelf-fungus-001"
+  ],
+  "historyId": "history-mystery-white-shelf-fungus"
+}

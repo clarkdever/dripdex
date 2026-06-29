@@ -1,0 +1,60 @@
+{
+  "id": "white-tailed-deer",
+  "dripdexNumber": "006",
+  "status": "published",
+  "publicVisibility": "public",
+  "needsHumanValidation": true,
+  "commonName": "White-tailed Deer",
+  "scientificName": "Odocoileus virginianus",
+  "sourceKnownName": null,
+  "category": "mammal",
+  "displayName": {
+    "generatedNickname": "Flagtail Jumper",
+    "customName": null
+  },
+  "defaultPhotoId": "photo-white-tailed-deer-001",
+  "tags": {
+    "typeTags": [
+      "Normal",
+      "Light",
+      "Ground"
+    ],
+    "foodChainTags": [
+      "Herbivore",
+      "Prey",
+      "Seed Spreader"
+    ],
+    "seasonality": [
+      "Year Round"
+    ],
+    "safetyLabels": [
+      "Keep Distance"
+    ]
+  },
+  "rarity": {
+    "rank": "Common",
+    "source": "fixture"
+  },
+  "flavorText": "A quiet browser with a bright white tail that flashes like a warning flag when it bounds away.",
+  "adultScience": {
+    "summary": "Fixture placeholder. Production content should be generated from cited research and reviewed before publication.",
+    "citations": [
+      {
+        "label": "Source image validation page",
+        "url": "https://commons.wikimedia.org/wiki/File:White-tailed_deer_(24820987930).jpg"
+      }
+    ]
+  },
+  "variants": {
+    "sex": [],
+    "lifeStages": [],
+    "plantOrFungusStages": []
+  },
+  "photoIds": [
+    "photo-white-tailed-deer-001"
+  ],
+  "observationIds": [
+    "obs-white-tailed-deer-001"
+  ],
+  "historyId": "history-white-tailed-deer"
+}

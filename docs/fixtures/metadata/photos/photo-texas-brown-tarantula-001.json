@@ -1,0 +1,54 @@
+{
+  "id": "photo-texas-brown-tarantula-001",
+  "creatureId": "texas-brown-tarantula",
+  "mysteryId": null,
+  "observationId": "obs-texas-brown-tarantula-001",
+  "role": "default",
+  "status": "published",
+  "needsHumanValidation": true,
+  "source": {
+    "sourceHtmlUrl": "https://commons.wikimedia.org/wiki/File:Lost_Maples_Tarantula_2021.jpg",
+    "directImageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Lost_Maples_Tarantula_2021.jpg",
+    "license": "CC BY 4.0",
+    "author": "Larry D. Moore",
+    "sourceCaveat": "The image includes a hand for scale, so validate whether it fits the desired kid-facing tone.",
+    "accessedAt": "2026-06-29"
+  },
+  "files": {
+    "sourceCopy": "docs/fixtures/source-images/texas-brown-tarantula.jpg",
+    "full": "docs/fixtures/web-images/texas-brown-tarantula-full.jpg",
+    "card": "docs/fixtures/web-images/texas-brown-tarantula-card.jpg",
+    "thumbnail": "docs/fixtures/web-images/texas-brown-tarantula-thumb.jpg"
+  },
+  "dimensions": {
+    "sourceCopy": {
+      "width": 2673,
+      "height": 1503
+    },
+    "full": {
+      "width": 1600,
+      "height": 900
+    },
+    "card": {
+      "width": 800,
+      "height": 840
+    },
+    "thumbnail": {
+      "width": 512,
+      "height": 512
+    }
+  },
+  "processing": {
+    "sourceCopyExifStripped": true,
+    "webDerivativesExifStripped": true,
+    "fullMaxDimensionPx": 1600,
+    "cardAspectRatio": "20:21",
+    "thumbnailAspectRatio": "1:1",
+    "processedAt": "2026-06-29"
+  },
+  "subject": {
+    "subjectPointNormalized": null,
+    "subjectBoxNormalized": null,
+    "source": "not_set_for_fixture"
+  }
+}

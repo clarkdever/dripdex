@@ -1,0 +1,20 @@
+{
+  "id": "history-mystery-white-shelf-fungus",
+  "creatureId": "mystery-white-shelf-fungus",
+  "events": [
+    {
+      "id": "event-mystery-white-shelf-fungus-first-found",
+      "type": "mystery_created",
+      "date": "2026-06-29",
+      "label": "Mystery fixture created",
+      "details": "Created from public source image pack for DripDex contract testing."
+    },
+    {
+      "id": "event-mystery-white-shelf-fungus-photo-added",
+      "type": "photo_added",
+      "date": "2026-06-29",
+      "label": "Default photo added",
+      "details": "Photo source: https://www.nps.gov/media/photo/gallery-item.htm?gid=0F9DE195-2BCF-4249-8DEB-DBA24C7C2BA0&id=eb676636-2edd-442f-a74e-39ac26b3259a&pg=0"
+    }
+  ]
+}

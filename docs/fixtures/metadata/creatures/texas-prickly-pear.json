@@ -1,0 +1,61 @@
+{
+  "id": "texas-prickly-pear",
+  "dripdexNumber": "008",
+  "status": "published",
+  "publicVisibility": "public",
+  "needsHumanValidation": true,
+  "commonName": "Texas Prickly Pear",
+  "scientificName": "Opuntia lindheimeri",
+  "sourceKnownName": null,
+  "category": "cactus-succulent",
+  "displayName": {
+    "generatedNickname": "Sun Paddle",
+    "customName": null
+  },
+  "defaultPhotoId": "photo-texas-prickly-pear-001",
+  "tags": {
+    "typeTags": [
+      "Grass",
+      "Ground",
+      "Plant"
+    ],
+    "foodChainTags": [
+      "Producer",
+      "Herbivore"
+    ],
+    "seasonality": [
+      "Spring",
+      "Summer"
+    ],
+    "safetyLabels": [
+      "Do Not Touch",
+      "Has Thorns"
+    ]
+  },
+  "rarity": {
+    "rank": "Common",
+    "source": "fixture"
+  },
+  "flavorText": "A tough pad-stacker with bright flowers and tiny hidden spines that make the no-touch rule very real.",
+  "adultScience": {
+    "summary": "Fixture placeholder. Production content should be generated from cited research and reviewed before publication.",
+    "citations": [
+      {
+        "label": "Source image validation page",
+        "url": "https://commons.wikimedia.org/wiki/File:Opuntia_lindheimeri_in_bloom,_Llano_County,_TX_IMG_1921.jpg"
+      }
+    ]
+  },
+  "variants": {
+    "sex": [],
+    "lifeStages": [],
+    "plantOrFungusStages": []
+  },
+  "photoIds": [
+    "photo-texas-prickly-pear-001"
+  ],
+  "observationIds": [
+    "obs-texas-prickly-pear-001"
+  ],
+  "historyId": "history-texas-prickly-pear"
+}

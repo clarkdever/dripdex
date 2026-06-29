@@ -1,0 +1,23 @@
+{
+  "id": "obs-house-finch-001",
+  "creatureId": "house-finch",
+  "mysteryId": null,
+  "photoIds": [
+    "photo-house-finch-001"
+  ],
+  "status": "published",
+  "captureMethod": "fixture_source_image",
+  "observedAt": null,
+  "publicLocationLabel": "Texas Hill Country example fixture",
+  "locationPrivacy": "public_region_only",
+  "exactLocation": null,
+  "publicObscuredLocation": null,
+  "notes": "OSS fixture generated from a public source page for UI and metadata contract testing.",
+  "identification": {
+    "currentCommonName": "House Finch",
+    "currentScientificName": "Haemorhous mexicanus",
+    "confidence": "source_page_identified",
+    "candidateHistory": []
+  },
+  "needsHumanValidation": true
+}

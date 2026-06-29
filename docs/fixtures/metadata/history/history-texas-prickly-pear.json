@@ -1,0 +1,20 @@
+{
+  "id": "history-texas-prickly-pear",
+  "creatureId": "texas-prickly-pear",
+  "events": [
+    {
+      "id": "event-texas-prickly-pear-first-found",
+      "type": "first_found",
+      "date": "2026-06-29",
+      "label": "First fixture record created",
+      "details": "Created from public source image pack for DripDex contract testing."
+    },
+    {
+      "id": "event-texas-prickly-pear-photo-added",
+      "type": "photo_added",
+      "date": "2026-06-29",
+      "label": "Default photo added",
+      "details": "Photo source: https://commons.wikimedia.org/wiki/File:Opuntia_lindheimeri_in_bloom,_Llano_County,_TX_IMG_1921.jpg"
+    }
+  ]
+}

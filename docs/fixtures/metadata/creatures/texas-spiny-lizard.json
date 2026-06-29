@@ -1,0 +1,63 @@
+{
+  "id": "texas-spiny-lizard",
+  "dripdexNumber": "005",
+  "status": "published",
+  "publicVisibility": "public",
+  "needsHumanValidation": true,
+  "commonName": "Texas Spiny Lizard",
+  "scientificName": "Sceloporus olivaceus",
+  "sourceKnownName": null,
+  "category": "reptile",
+  "displayName": {
+    "generatedNickname": "Fence Sprinter",
+    "customName": null
+  },
+  "defaultPhotoId": "photo-texas-spiny-lizard-001",
+  "tags": {
+    "typeTags": [
+      "Ground",
+      "Light",
+      "Normal"
+    ],
+    "foodChainTags": [
+      "Predator",
+      "Carnivore",
+      "Prey"
+    ],
+    "seasonality": [
+      "Spring",
+      "Summer",
+      "Fall"
+    ],
+    "safetyLabels": [
+      "Keep Distance",
+      "Bites"
+    ]
+  },
+  "rarity": {
+    "rank": "Common",
+    "source": "fixture"
+  },
+  "flavorText": "A bark-colored climber that can vanish onto a tree trunk faster than your eyes can finish loading.",
+  "adultScience": {
+    "summary": "Fixture placeholder. Production content should be generated from cited research and reviewed before publication.",
+    "citations": [
+      {
+        "label": "Source image validation page",
+        "url": "https://commons.wikimedia.org/wiki/File:Sceloporus_olivaceus_Wildflower_Center_Austin_Texas_2024.jpg"
+      }
+    ]
+  },
+  "variants": {
+    "sex": [],
+    "lifeStages": [],
+    "plantOrFungusStages": []
+  },
+  "photoIds": [
+    "photo-texas-spiny-lizard-001"
+  ],
+  "observationIds": [
+    "obs-texas-spiny-lizard-001"
+  ],
+  "historyId": "history-texas-spiny-lizard"
+}

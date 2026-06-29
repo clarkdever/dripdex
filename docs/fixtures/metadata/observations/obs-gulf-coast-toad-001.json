@@ -1,0 +1,23 @@
+{
+  "id": "obs-gulf-coast-toad-001",
+  "creatureId": "gulf-coast-toad",
+  "mysteryId": null,
+  "photoIds": [
+    "photo-gulf-coast-toad-001"
+  ],
+  "status": "published",
+  "captureMethod": "fixture_source_image",
+  "observedAt": null,
+  "publicLocationLabel": "Texas Hill Country example fixture",
+  "locationPrivacy": "public_region_only",
+  "exactLocation": null,
+  "publicObscuredLocation": null,
+  "notes": "OSS fixture generated from a public source page for UI and metadata contract testing.",
+  "identification": {
+    "currentCommonName": "Gulf Coast Toad",
+    "currentScientificName": "Incilius nebulifer",
+    "confidence": "source_page_identified",
+    "candidateHistory": []
+  },
+  "needsHumanValidation": true
+}

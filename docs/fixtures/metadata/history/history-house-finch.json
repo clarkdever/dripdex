@@ -1,0 +1,20 @@
+{
+  "id": "history-house-finch",
+  "creatureId": "house-finch",
+  "events": [
+    {
+      "id": "event-house-finch-first-found",
+      "type": "first_found",
+      "date": "2026-06-29",
+      "label": "First fixture record created",
+      "details": "Created from public source image pack for DripDex contract testing."
+    },
+    {
+      "id": "event-house-finch-photo-added",
+      "type": "photo_added",
+      "date": "2026-06-29",
+      "label": "Default photo added",
+      "details": "Photo source: https://commons.wikimedia.org/wiki/File:House_Finch_(male)_(23934285480).jpg"
+    }
+  ]
+}
