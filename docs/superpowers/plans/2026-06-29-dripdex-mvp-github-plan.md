@@ -45,6 +45,7 @@
 - `risk:license-content`
 - `risk:data-contract`
 - `risk:visual-quality`
+- `risk:low`
 - `priority:p0`
 - `priority:p1`
 - `priority:p2`
@@ -54,9 +55,9 @@
 
 Create one MVP project with these fields:
 
-- Status: Backlog, Ready, In Progress, Review, Blocked, Done.
+- Status: Todo, In Progress, Done.
 - Priority: P0, P1, P2.
-- MVP slice: Data Contracts, Collection, Creature Page, Capture, AI, Privacy, Journal, Public Site, DevOps.
+- MVP area: Data Contracts, Collection, Creature Page, Capture, AI, Privacy, Mystery, Journal, Public Site, DevOps.
 - Agent lane: Codex, Claude, Gemini, Human.
 - Worktree/branch: short text.
 - Risk: privacy/security, license/content, visual quality, data contract, low.
@@ -723,6 +724,10 @@ Every MVP issue should include:
 - [x] Commit issue form files.
 - [x] Push documentation and issue template changes.
 - [x] Create local GitHub issue index at `docs/github-issues-index.md`.
+- [x] Create GitHub Project `DripDex MVP Build`.
+- [x] Link the GitHub Project to `clarkdever/dripdex`.
+- [x] Add all MVP issues to the GitHub Project.
+- [x] Populate project fields from issue labels.
 
 ## Notes For GitHub Creation
 
@@ -739,5 +744,8 @@ Every MVP issue should include:
 - Issue forms: `.github/ISSUE_TEMPLATE/mvp-epic.yml` and `.github/ISSUE_TEMPLATE/mvp-task.yml`.
 - Project setup fallback: `docs/github-project-setup.md`.
 - Issue index fallback: `docs/github-issues-index.md`.
+- GitHub Project: [DripDex MVP Build](https://github.com/users/clarkdever/projects/2).
+- GitHub Project items: 35 issues added, covering parent epics `#1` through `#10` and child issues `#11` through `#35`.
+- GitHub Project fields: Status, Priority, MVP area, Agent lane, Worktree/branch, Risk, Verification, plus GitHub default fields.
 
-GitHub Project creation was not automated in this pass because `gh project` requires the `project` token scope. To enable it later, run `gh auth refresh -s project`, then use `docs/github-project-setup.md` as the field/view checklist.
+GitHub Project creation was automated after refreshing `gh` with the `project` token scope. The live Project uses GitHub's default Status options, `Todo`, `In Progress`, and `Done`, to keep the MVP board lightweight.

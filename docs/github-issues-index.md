@@ -2,7 +2,9 @@
 
 This file mirrors the GitHub issue hierarchy created from `docs/superpowers/plans/2026-06-29-dripdex-mvp-github-plan.md`.
 
-GitHub Project setup is documented in `docs/github-project-setup.md`. Creating the Project through `gh project` requires the GitHub CLI `project` scope.
+GitHub Project setup is documented in `docs/github-project-setup.md`.
+
+Live Project: [DripDex MVP Build](https://github.com/users/clarkdever/projects/2)
 
 ## E1: Epic: Data Model And Fixture Loading
 
