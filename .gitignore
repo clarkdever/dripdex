@@ -6,5 +6,5 @@ out/
 coverage/
 *.log
 *.tsbuildinfo
-.env
-.env*.local
+.env*
+!.env.example
