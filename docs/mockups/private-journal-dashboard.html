@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DripDex Private Journal Dashboard</title>
+    <style>
+      :root {
+        --shell: #d5162e;
+        --shell-dark: #8f1427;
+        --ink: #17181d;
+        --panel: #11161d;
+        --panel-2: #1b2028;
+        --cream: #fbffd8;
+        --muted: #b7c1b8;
+        --glow: #c7ff2d;
+        --blue: #2aa7ff;
+        --purple: #8f58ff;
+        --line: #25262d;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--cream);
+        background:
+          radial-gradient(circle at top left, rgba(199, 255, 45, 0.12), transparent 28rem),
+          linear-gradient(145deg, #111216 0%, #272113 48%, #101318 100%);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      .page {
+        width: min(100% - 18px, 430px);
+        margin: 0 auto;
+        padding: 20px 0 34px;
+      }
+
+      .mockup-heading {
+        margin: 0 0 14px;
+      }
+
+      .mockup-heading h1 {
+        margin: 0 0 5px;
+        color: #fff7df;
+        font-size: 1.55rem;
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .mockup-heading p {
+        margin: 0;
+        max-width: 36rem;
+        color: #d9dfd2;
+        font-size: 0.92rem;
+        line-height: 1.42;
+      }
+
+      .device {
+        overflow: hidden;
+        background: linear-gradient(160deg, var(--shell) 0%, #b9162a 58%, var(--shell-dark) 100%);
+        border: 2px solid var(--line);
+        border-radius: 8px;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+        padding: 10px;
+      }
+
+      .device-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 4px 2px 12px;
+      }
+
+      .lens-row {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .lens {
+        width: 36px;
+        height: 36px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 35% 28%, #f4ffff 0 13%, transparent 14%),
+          radial-gradient(circle at 43% 38%, #3bc7ff 0 28%, #185d9c 29% 68%, #0e253f 69%);
+        border: 3px solid #fff1d7;
+        box-shadow: 0 0 0 3px #25262d;
+      }
+
+      .deck-name {
+        display: grid;
+        gap: 2px;
+        min-width: 0;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .deck-name span:first-child {
+        color: #fff7df;
+        font-size: 0.7rem;
+        letter-spacing: 0.04em;
+      }
+
+      .deck-name span:last-child {
+        color: var(--glow);
+        font-size: 0.58rem;
+        letter-spacing: 0.02em;
+      }
+
+      .device-tools {
+        display: grid;
+        justify-items: end;
+        gap: 6px;
+      }
+
+      .lights {
+        display: flex;
+        gap: 7px;
+      }
+
+      .light {
+        width: 10px;
+        height: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+      }
+
+      .red {
+        background: #ff3946;
+      }
+
+      .yellow {
+        background: #ffd24a;
+      }
+
+      .green {
+        background: #6fff70;
+      }
+
+      .owner-controls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 6px;
+        max-width: 174px;
+      }
+
+      .owner-link,
+      .mode-button {
+        min-height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        font-size: 0.62rem;
+        font-weight: 950;
+        letter-spacing: 0;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .owner-link {
+        padding: 0 9px;
+        color: #fff7df;
+        background: rgba(20, 20, 22, 0.42);
+        border: 1px solid rgba(255, 247, 223, 0.42);
+      }
+
+      .mode-toggle {
+        display: inline-grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 2px;
+        background: #252730;
+        border: 1px solid rgba(255, 247, 223, 0.45);
+        border-radius: 999px;
+      }
+
+      .mode-button {
+        min-width: 48px;
+        padding: 0 8px;
+        color: #fff7df;
+        background: transparent;
+        border: 0;
+      }
+
+      .mode-button.active {
+        color: #141416;
+        background: var(--glow);
+      }
+
+      .screen {
+        overflow: hidden;
+        background: var(--panel);
+        border: 4px solid var(--line);
+        border-radius: 6px;
+      }
+
+      .journal-header {
+        display: grid;
+        gap: 12px;
+        padding: 16px;
+        background:
+          linear-gradient(135deg, rgba(199, 255, 45, 0.14), transparent 55%),
+          linear-gradient(180deg, #242a32 0%, #161b22 100%);
+        border-bottom: 4px solid var(--shell);
+      }
+
+      .journal-title-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .journal-title h2 {
+        margin: 0;
+        color: #fff7df;
+        font-size: 1.28rem;
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .journal-title p {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 0.76rem;
+        font-weight: 750;
+        line-height: 1.25;
+      }
+
+      .review-pill {
+        flex: 0 0 auto;
+        padding: 7px 9px;
+        color: var(--ink);
+        background: var(--glow);
+        border: 2px solid #111318;
+        border-radius: 999px;
+        font-size: 0.68rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .primary-actions {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+      }
+
+      .add-find {
+        min-height: 44px;
+        color: #111318;
+        background: var(--glow);
+        border: 0;
+        border-radius: 8px;
+        box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.18);
+        font-size: 0.86rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .small-action {
+        min-height: 44px;
+        padding: 0 12px;
+        color: #fff7df;
+        background: #262b34;
+        border: 1px solid rgba(255, 247, 223, 0.22);
+        border-radius: 8px;
+        font-size: 0.72rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 6px;
+      }
+
+      .stat {
+        min-height: 58px;
+        display: grid;
+        align-content: center;
+        gap: 2px;
+        padding: 8px 6px;
+        background: rgba(17, 22, 29, 0.78);
+        border: 1px solid rgba(199, 255, 45, 0.28);
+        border-radius: 7px;
+        text-align: center;
+      }
+
+      .stat strong {
+        color: var(--glow);
+        font-size: 1.1rem;
+        line-height: 1;
+      }
+
+      .stat span {
+        color: #d9dfd2;
+        font-size: 0.58rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .section {
+        padding: 14px;
+        border-bottom: 1px solid rgba(255, 247, 223, 0.1);
+      }
+
+      .section:last-child {
+        border-bottom: 0;
+      }
+
+      .section-heading {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 9px;
+      }
+
+      .section-heading h3 {
+        margin: 0;
+        color: var(--glow);
+        font-size: 0.88rem;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      .section-heading a,
+      .section-heading span {
+        color: #d9dfd2;
+        font-size: 0.68rem;
+        font-weight: 850;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .queue-list,
+      .activity-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .queue-item {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        background: var(--panel-2);
+        border: 1px solid rgba(199, 255, 45, 0.22);
+        border-radius: 8px;
+      }
+
+      .queue-icon {
+        width: 32px;
+        height: 32px;
+        display: grid;
+        place-items: center;
+        color: #111318;
+        background: var(--glow);
+        border: 2px solid #111318;
+        border-radius: 50%;
+        font-size: 0.7rem;
+        font-weight: 950;
+      }
+
+      .queue-copy {
+        display: grid;
+        gap: 2px;
+        min-width: 0;
+      }
+
+      .queue-copy strong {
+        overflow: hidden;
+        color: #fff7df;
+        font-size: 0.8rem;
+        line-height: 1.15;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .queue-copy span {
+        overflow: hidden;
+        color: var(--muted);
+        font-size: 0.68rem;
+        font-weight: 750;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .queue-action {
+        min-height: 30px;
+        padding: 0 9px;
+        color: #fff7df;
+        background: #282d36;
+        border: 1px solid rgba(255, 247, 223, 0.2);
+        border-radius: 999px;
+        font-size: 0.62rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .map-card {
+        overflow: hidden;
+        background: #0d1117;
+        border: 1px solid rgba(199, 255, 45, 0.28);
+        border-radius: 8px;
+      }
+
+      .map-canvas {
+        position: relative;
+        height: 172px;
+        overflow: hidden;
+        background:
+          linear-gradient(rgba(199, 255, 45, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(199, 255, 45, 0.08) 1px, transparent 1px),
+          radial-gradient(circle at 25% 70%, rgba(143, 88, 255, 0.5), transparent 4.8rem),
+          radial-gradient(circle at 68% 42%, rgba(42, 167, 255, 0.56), transparent 4.6rem),
+          radial-gradient(circle at 48% 58%, rgba(199, 255, 45, 0.5), transparent 4rem),
+          #11161d;
+        background-size:
+          26px 26px,
+          26px 26px,
+          auto,
+          auto,
+          auto,
+          auto;
+      }
+
+      .home-zone {
+        position: absolute;
+        inset: 18px 54px 34px 44px;
+        border: 2px dashed rgba(255, 247, 223, 0.48);
+        border-radius: 50%;
+      }
+
+      .heat-pin {
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        border: 2px solid #111318;
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(-45deg);
+        background: var(--glow);
+        box-shadow: 0 0 0 3px rgba(199, 255, 45, 0.16);
+      }
+
+      .heat-pin.one {
+        left: 30%;
+        top: 46%;
+      }
+
+      .heat-pin.two {
+        left: 61%;
+        top: 31%;
+        background: var(--blue);
+      }
+
+      .heat-pin.three {
+        left: 73%;
+        top: 62%;
+        background: #fff7df;
+      }
+
+      .map-label {
+        position: absolute;
+        left: 10px;
+        bottom: 10px;
+        max-width: calc(100% - 20px);
+        padding: 7px 9px;
+        color: #fff7df;
+        background: rgba(17, 22, 29, 0.86);
+        border: 1px solid rgba(255, 247, 223, 0.2);
+        border-radius: 7px;
+        font-size: 0.67rem;
+        font-weight: 850;
+      }
+
+      .map-meta {
+        display: grid;
+        gap: 8px;
+        padding: 10px;
+      }
+
+      .map-meta strong {
+        color: #fff7df;
+        font-size: 0.78rem;
+      }
+
+      .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .filter-chip {
+        padding: 5px 8px;
+        color: #d9dfd2;
+        background: #222832;
+        border: 1px solid rgba(199, 255, 45, 0.22);
+        border-radius: 999px;
+        font-size: 0.62rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .activity-item {
+        display: grid;
+        grid-template-columns: 11px 1fr;
+        gap: 10px;
+      }
+
+      .activity-dot {
+        width: 11px;
+        height: 11px;
+        margin-top: 4px;
+        border-radius: 50%;
+        background: var(--glow);
+        box-shadow: 0 0 0 4px rgba(199, 255, 45, 0.12);
+      }
+
+      .activity-copy {
+        display: grid;
+        gap: 2px;
+      }
+
+      .activity-copy strong {
+        color: #fff7df;
+        font-size: 0.78rem;
+      }
+
+      .activity-copy span {
+        color: var(--muted);
+        font-size: 0.68rem;
+        font-weight: 750;
+      }
+
+      .bottom-nav {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        background: #232832;
+        border-top: 3px solid #343a45;
+      }
+
+      .nav-item {
+        min-height: 48px;
+        display: grid;
+        place-items: center;
+        color: #d9dfd2;
+        border: 0;
+        border-right: 1px solid rgba(255, 247, 223, 0.1);
+        background: transparent;
+        font-size: 0.64rem;
+        font-weight: 950;
+        text-transform: uppercase;
+      }
+
+      .nav-item:last-child {
+        border-right: 0;
+      }
+
+      .nav-item.active {
+        color: #111318;
+        background: var(--glow);
+      }
+
+      @media (max-width: 390px) {
+        .page {
+          width: min(100% - 14px, 430px);
+          padding-top: 14px;
+        }
+
+        .mockup-heading h1 {
+          font-size: 1.35rem;
+        }
+
+        .deck-name span:first-child {
+          font-size: 0.64rem;
+        }
+
+        .deck-name span:last-child {
+          font-size: 0.54rem;
+        }
+
+        .owner-controls {
+          max-width: 146px;
+        }
+
+        .owner-link,
+        .mode-button {
+          min-height: 26px;
+          font-size: 0.56rem;
+        }
+
+        .mode-button {
+          min-width: 42px;
+          padding: 0 6px;
+        }
+
+        .journal-header,
+        .section {
+          padding: 12px;
+        }
+
+        .stats-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="mockup-heading">
+        <h1>Private Journal Dashboard</h1>
+        <p>
+          Owner-first view for finishing captures, checking exact locations, and keeping
+          the public DripDex tidy.
+        </p>
+      </header>
+
+      <section class="device" aria-label="DripDex private journal mockup">
+        <div class="device-top">
+          <div class="lens-row">
+            <div class="lens" aria-hidden="true"></div>
+            <div class="deck-name">
+              <span>Hill Country DripDex</span>
+              <span>Private Field Journal</span>
+            </div>
+          </div>
+          <div class="device-tools">
+            <div class="lights" aria-hidden="true">
+              <span class="light red"></span>
+              <span class="light yellow"></span>
+              <span class="light green"></span>
+            </div>
+            <div class="owner-controls" aria-label="Owner access and view mode">
+              <a class="owner-link" href="#owner">Owner</a>
+              <span class="mode-toggle" role="group" aria-label="View mode">
+                <button class="mode-button" type="button" aria-pressed="false">Public</button>
+                <button class="mode-button active" type="button" aria-pressed="true">Private</button>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen">
+          <section class="journal-header">
+            <div class="journal-title-row">
+              <div class="journal-title">
+                <h2>Private Journal</h2>
+                <p>Review queue, exact map, and field history.</p>
+              </div>
+              <div class="review-pill">12 To Check</div>
+            </div>
+            <div class="primary-actions">
+              <button class="add-find" type="button">Add Find</button>
+              <button class="small-action" type="button">Prefs</button>
+            </div>
+            <div class="stats-grid" aria-label="Private journal summary">
+              <div class="stat">
+                <strong>3</strong>
+                <span>Drafts</span>
+              </div>
+              <div class="stat">
+                <strong>4</strong>
+                <span>Mysteries</span>
+              </div>
+              <div class="stat">
+                <strong>2</strong>
+                <span>Guests</span>
+              </div>
+              <div class="stat">
+                <strong>5</strong>
+                <span>Sources</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="queue-heading">
+            <div class="section-heading">
+              <h3 id="queue-heading">Needs Your Eye</h3>
+              <a href="#all-tasks">View All</a>
+            </div>
+            <div class="queue-list">
+              <article class="queue-item">
+                <div class="queue-icon" aria-hidden="true">ID</div>
+                <div class="queue-copy">
+                  <strong>Confirm False Widow match</strong>
+                  <span>AI confidence 82 percent. New photo found.</span>
+                </div>
+                <button class="queue-action" type="button">Review</button>
+              </article>
+              <article class="queue-item">
+                <div class="queue-icon" aria-hidden="true">MI</div>
+                <div class="queue-copy">
+                  <strong>Porch light mystery</strong>
+                  <span>Viewer suggested Green Lacewing.</span>
+                </div>
+                <button class="queue-action" type="button">Open</button>
+              </article>
+              <article class="queue-item">
+                <div class="queue-icon" aria-hidden="true">GB</div>
+                <div class="queue-copy">
+                  <strong>Guest book note pending</strong>
+                  <span>Science class from Dripping Springs.</span>
+                </div>
+                <button class="queue-action" type="button">Check</button>
+              </article>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="map-heading">
+            <div class="section-heading">
+              <h3 id="map-heading">Private Heatmap</h3>
+              <span>Exact GPS</span>
+            </div>
+            <article class="map-card">
+              <div class="map-canvas" aria-label="Private heatmap preview">
+                <div class="home-zone" aria-hidden="true"></div>
+                <span class="heat-pin one" aria-hidden="true"></span>
+                <span class="heat-pin two" aria-hidden="true"></span>
+                <span class="heat-pin three" aria-hidden="true"></span>
+                <div class="map-label">Latest: 30.3081, -98.0384. Public view hides this.</div>
+              </div>
+              <div class="map-meta">
+                <strong>Home zone and exact points are owner-only.</strong>
+                <div class="filter-row" aria-label="Map filters">
+                  <span class="filter-chip">Last 30 Days</span>
+                  <span class="filter-chip">All Types</span>
+                  <span class="filter-chip">Private</span>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="section" aria-labelledby="activity-heading">
+            <div class="section-heading">
+              <h3 id="activity-heading">Recent Field Notes</h3>
+              <a href="#history">History</a>
+            </div>
+            <div class="activity-list">
+              <article class="activity-item">
+                <span class="activity-dot" aria-hidden="true"></span>
+                <div class="activity-copy">
+                  <strong>House Finch photo added</strong>
+                  <span>Today at 6:42 PM. Default card photo unchanged.</span>
+                </div>
+              </article>
+              <article class="activity-item">
+                <span class="activity-dot" aria-hidden="true"></span>
+                <div class="activity-copy">
+                  <strong>Life stage note saved</strong>
+                  <span>Butterfly set now has egg, larva, and adult.</span>
+                </div>
+              </article>
+              <article class="activity-item">
+                <span class="activity-dot" aria-hidden="true"></span>
+                <div class="activity-copy">
+                  <strong>Location privacy upgraded</strong>
+                  <span>Near-home observation changed to region-only public view.</span>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <nav class="bottom-nav" aria-label="Private journal navigation">
+            <button class="nav-item active" type="button">Queue</button>
+            <button class="nav-item" type="button">Map</button>
+            <button class="nav-item" type="button">History</button>
+            <button class="nav-item" type="button">Prefs</button>
+          </nav>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

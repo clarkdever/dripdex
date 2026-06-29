@@ -260,6 +260,36 @@ Owner-only work queue items:
 
 Private journal mode can show exact GPS, EXIF, private heatmaps, internal notes, and unpublished history. Public preview mode should show only the same public-safe data a visitor would see.
 
+### Private Journal Dashboard
+
+The private journal is the owner's logged-in home base. Its job is not to be a second public collection; it should help the owner finish work, protect privacy, and understand field activity.
+
+Recommended MVP layout:
+
+1. Review queue first.
+   Show drafts, mysteries, pending guestbook notes, AI suggestions, uncited facts, and sensitive-location warnings in one "Needs Your Eye" list.
+2. Primary capture CTA.
+   Keep `Add Find` prominent so the dashboard still points back to the core capture behavior.
+3. Private map preview.
+   Show exact owner-only GPS points and heatmap summary, with filters for date, category/type, and privacy mode.
+4. Recent field notes.
+   Show a chronological activity log: first found, new sighting, photo added, mystery resolved, rejected suggestion, privacy changed, guestbook approved, and source added.
+5. Preferences shortcut.
+   Provide a direct path to location privacy, home zones, tile provider, iNaturalist export/connect, guestbook moderation, and safety settings.
+
+Navigation:
+
+- Bottom private nav: Queue, Map, History, Prefs.
+- Queue should be the default landing tab because it gives the owner the clearest next action.
+- Map can become a full-screen owner-only view from the preview.
+- History should become the chronological journal for all observations and creature-card activity.
+
+Design rules:
+
+- The dashboard should stay owner-focused and high-level. Internal processing states belong in logs/debug views, not primary kid-facing language.
+- Exact coordinates and private heatmaps must never render in public mode.
+- Any public publishing task should include a public-preview check before changes go live.
+
 ## 5. Add Observation Flow
 
 ### Preferred Path: Upload Photo
@@ -1330,6 +1360,8 @@ Mockup references in the local repo:
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-guestbook-pending.png`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-intro-hidden.png`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/collection-view-favorites-groups.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/private-journal-dashboard.html`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/private-journal-dashboard-viewport.png`
 
 Gemini references:
 
