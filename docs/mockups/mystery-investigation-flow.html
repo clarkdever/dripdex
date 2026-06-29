@@ -581,7 +581,7 @@
         <h1>Mystery Investigation Flow</h1>
         <p>
           Owner workflow for unresolved finds: inspect the mystery, hand off to an
-          external chatbot, paste structured output, then resolve or keep investigating.
+          external chatbot, paste an outside answer, then let DripDex normalize it.
         </p>
       </header>
 
@@ -741,18 +741,13 @@
                   <h3 id="prompt-preview-heading">Prompt Preview</h3>
                   <span>No Exact GPS</span>
                 </div>
-                <textarea class="schema-box prompt-preview" readonly>I am trying to identify a Texas Hill Country organism from an EXIF-stripped photo. Please inspect the attached/downloaded photo first, then use the notes below as supporting context.
+                <textarea class="schema-box prompt-preview" readonly>Please inspect the attached/downloaded EXIF-stripped photo first, then use these notes as supporting context.
 
-Observation:
-- Broad place: Texas Hill Country
-- Date/season: late June, after sunset
-- Context: porch light
-- Owner notes: small green insect, wings held like a tent
-- Candidate history: Green Lacewing suggested; small green moth rejected once
+Context: Texas Hill Country, late June after sunset, porch light. Small green insect with tent-like wings. Green Lacewing was suggested; small green moth was rejected once.
 
-Return only JSON matching this example shape. Include citations from reputable sources.
+Give your best identification answer. JSON is helpful but not required; DripDex will normalize it after I paste it back in. Please include citations and these fields when you can:
 
-Example:
+Ideal answer shape:
 {
   "commonName": "Green Lacewing",
   "scientificName": "Chrysoperla rufilabris",
@@ -810,8 +805,8 @@ Example:
         </article>
 
         <article>
-          <p class="view-note">Paste And Lint</p>
-          <section class="device" aria-label="Paste and lint external LLM output mockup">
+          <p class="view-note">Paste And Normalize</p>
+          <section class="device" aria-label="Paste and normalize external LLM output mockup">
             <div class="device-top">
               <div class="lens-row">
                 <div class="lens" aria-hidden="true"></div>
@@ -841,54 +836,46 @@ Example:
                 <div class="title-row">
                   <div>
                     <h2>Paste Resolution</h2>
-                    <p>Bring back structured output from an external chatbot.</p>
+                    <p>Bring back any useful answer. DripDex shapes it.</p>
                   </div>
-                  <div class="status-pill">Lint</div>
+                  <div class="status-pill">Clean Up</div>
                 </div>
                 <div class="action-row">
-                  <button class="primary-action" type="button">Check Schema</button>
-                  <button class="secondary-action" type="button">Copy Repair Prompt</button>
+                  <button class="primary-action" type="button">Normalize with AI</button>
+                  <button class="secondary-action" type="button">Clear Paste</button>
                 </div>
               </section>
 
               <section class="section" aria-labelledby="paste-heading">
                 <div class="section-heading">
                   <h3 id="paste-heading">Paste Resolution from LLM</h3>
-                  <span>JSON Only</span>
+                  <span>Messy OK</span>
                 </div>
                 <textarea
                   class="paste-box"
-                  placeholder='{
-  "commonName": "Green Lacewing",
-  "scientificName": "Chrysoperla rufilabris",
-  "confidence": 0.74,
-  "reasoningForOwner": "Short explanation here.",
-  "suggestedCategory": "Insect",
-  "suggestedTags": ["Flying", "Predator", "Light"],
-  "lookalikes": ["Brown Lacewing"],
-  "citations": [{"label": "BugGuide", "url": "https://bugguide.net/"}],
-  "safetyLabels": ["Do Not Touch"],
-  "notes": "Needs owner confirmation."
-}'></textarea>
+                  placeholder='Example paste:
+The insect is probably a green lacewing, maybe Chrysoperla rufilabris. Confidence around 70%. It has tent-like wings and was at a porch light. Lookalikes: brown lacewing and small green moth. BugGuide is a useful source.
+
+DripDex will turn this into the internal mystery-resolution schema before the owner reviews it.'></textarea>
               </section>
 
-              <section class="section" aria-labelledby="lint-heading">
+              <section class="section" aria-labelledby="normalize-heading">
                 <div class="section-heading">
-                  <h3 id="lint-heading">Schema Check</h3>
-                  <span>Example State</span>
+                  <h3 id="normalize-heading">DripDex Cleanup</h3>
+                  <span>AI + Validation</span>
                 </div>
                 <div class="validation-list">
-                  <article class="validation-card fail">
-                    <strong>Missing citations[0].url</strong>
-                    <span>DripDex needs a source URL before science facts can be shown publicly.</span>
-                  </article>
-                  <article class="validation-card fail">
-                    <strong>confidence must be 0 to 1</strong>
-                    <span>Ask the external chatbot to return a decimal like 0.74.</span>
+                  <article class="validation-card ok">
+                    <strong>Extracted likely ID</strong>
+                    <span>Green Lacewing with approximate confidence and lookalikes.</span>
                   </article>
                   <article class="validation-card ok">
-                    <strong>Repair prompt ready</strong>
-                    <span>Copy the pasted JSON, schema, and errors back to the chatbot for a patch.</span>
+                    <strong>Enriched missing fields</strong>
+                    <span>DripDex model adds category, tags, safety labels, and citation candidates.</span>
+                  </article>
+                  <article class="validation-card ok">
+                    <strong>Endpoint object ready</strong>
+                    <span>Final schema still validates before the owner can save or publish.</span>
                   </article>
                 </div>
               </section>

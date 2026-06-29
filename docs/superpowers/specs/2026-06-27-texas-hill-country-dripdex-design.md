@@ -834,26 +834,28 @@ External chatbot handoff:
 - Provide a `Copy Prompt for LLM` button so the owner can paste a specialized mystery-resolution prompt into their preferred chatbot.
 - Provide a `Download Photo` button for the selected mystery image. This should download an EXIF-stripped analysis copy by default, not the private original.
 - The copied prompt should ask the external LLM to inspect the attached/downloaded photo first, then use DripDex's notes as supporting context.
-- The copied prompt should include the mystery context, broad public-safe location, date/season, owner notes, current candidate history, requested citation behavior, and the exact structured response schema DripDex expects.
-- The copied prompt should include a compact example output object in the expected schema, because external LLMs will otherwise invent nearby-but-incompatible shapes.
+- The copied prompt should include the mystery context, broad public-safe location, date/season, owner notes, current candidate history, requested citation behavior, and the fields DripDex can normalize.
+- The copied prompt should include a compact ideal answer example using the target fields, while making clear that exact JSON is helpful but not required because DripDex will normalize the pasted response.
 - The copied prompt should avoid exact GPS and home-zone details by default. If the owner ever chooses to include precise private data, it should be an explicit advanced action, not the normal MVP path.
-- Provide a `Paste Resolution from LLM` text area where the owner can paste the external chatbot's structured answer.
-- The paste field should show a light grey example of the expected output directly in the field, not hidden in a tooltip.
-- DripDex should parse and lint the pasted response against the mystery-resolution schema before using it as software input.
-- If the pasted response is valid, show a human-review summary and then reuse the normal resolution CTAs: `Log to <Species Name> Entry`, `Create Duplicate <Species Name> Entry`, or `Reject Suggestion`.
-- If the pasted response is invalid, show simple validation errors and provide a `Copy Repair Prompt` action that includes the pasted response, the validation errors, and the schema so the owner can ask the external chatbot to patch its answer.
-- Pasted external chatbot output is always treated as a candidate suggestion until the owner confirms it.
+- Provide a `Paste Resolution from LLM` text area where the owner can paste rough prose, JSON, bullets, or any useful answer from the external chatbot.
+- The paste field should show a light grey example directly in the field, not hidden in a tooltip.
+- DripDex should send the pasted content to its own AI normalization step, along with the mystery context and expected schema.
+- The DripDex normalization step should extract likely ID, confidence, reasoning, category, tags, lookalikes, safety labels, citation candidates, and notes, then produce a schema-shaped object.
+- The endpoint still validates the normalized object with the internal mystery-resolution schema before it can update the draft or creature entry.
+- If normalization cannot produce a valid object, show simple owner-facing errors and allow the owner to edit the paste or try `Normalize with AI` again. Do not bounce the owner back to the external chatbot for schema repair by default.
+- If normalization succeeds, show a human-review summary and then reuse the normal resolution CTAs: `Log to <Species Name> Entry`, `Create Duplicate <Species Name> Entry`, or `Reject Suggestion`.
+- Pasted external chatbot output and DripDex-normalized output are always treated as candidate suggestions until the owner confirms them.
 
 Designer handoff greybox:
 
-- The mystery investigation mockup shows four standalone views: Mystery Detail, External LLM Handoff, Paste And Lint, and Resolve Candidate.
+- The mystery investigation mockup shows four standalone views: Mystery Detail, External LLM Handoff, Paste And Normalize, and Resolve Candidate.
 - Mystery Detail focuses on the photo, known clues, candidate ID history, and owner actions.
 - External LLM Handoff gives the owner `Copy Prompt for LLM` and `Download Photo` actions without requiring DripDex to host a chat interface.
-- Paste And Lint shows the `Paste Resolution from LLM` text area with a visible grey schema example and schema validation results.
+- Paste And Normalize shows the `Paste Resolution from LLM` text area, a rough-paste example, and the DripDex cleanup/enrichment step.
 - Resolve Candidate reuses the agreed resolution CTAs: `Log to <Species Name> Entry`, `Create Duplicate <Species Name> Entry`, and `Reject Suggestion`.
 - The external chatbot path is a helper, not an authority. Its output becomes a candidate suggestion and is appended to history only after owner action.
 
-Expected pasted response example:
+Ideal normalized response example:
 
 ```json
 {
@@ -1427,7 +1429,7 @@ Mockup references in the local repo:
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/mystery-investigation-flow-all-views.png`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/mystery-investigation-detail-view.png`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/mystery-investigation-llm-handoff-view.png`
-- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/mystery-investigation-paste-lint-view.png`
+- `/Users/clarkdever/Documents/code/pokedex/docs/mockups/mystery-investigation-paste-normalize-view.png`
 - `/Users/clarkdever/Documents/code/pokedex/docs/mockups/mystery-investigation-resolve-view.png`
 
 Gemini references:
