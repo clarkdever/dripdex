@@ -1,11 +1,12 @@
 import { existsSync } from "node:fs";
-import { join } from "node:path";
+import { extname, isAbsolute, join, normalize } from "node:path";
 
 import { z } from "zod";
 
 const nonEmptyString = z.string().min(1);
 const nullableString = z.string().min(1).nullable();
 const fixtureDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
+const fixtureImageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 
 export const creatureStatusValues = [
   "published",
@@ -231,8 +232,8 @@ export const photoSchema = z
       .strict(),
     processing: z
       .object({
-        sourceCopyExifStripped: z.boolean(),
-        webDerivativesExifStripped: z.boolean(),
+        sourceCopyExifStripped: z.literal(true),
+        webDerivativesExifStripped: z.literal(true),
         fullMaxDimensionPx: z.number().int().positive(),
         cardAspectRatio: nonEmptyString,
         thumbnailAspectRatio: nonEmptyString,
@@ -335,7 +336,7 @@ export const fixtureManifestSchema = z
     generatedAt: fixtureDate,
     description: nonEmptyString,
     humanValidationRequired: z.boolean(),
-    publicFixtureImagesExifStripped: z.boolean(),
+    publicFixtureImagesExifStripped: z.literal(true),
     exifTddFixturesUseSyntheticCoordinates: z.boolean(),
     creatures: z.array(manifestCreatureSchema).min(1)
   })
@@ -392,13 +393,30 @@ function findDuplicateIds(records: Array<{ id: string }>, label: string): string
   return [...duplicates].map((id) => `Duplicate ${label} id ${id}`);
 }
 
-function validatePathExists(
+function validateFixtureImagePath(
   errors: string[],
   owner: string,
   fieldPath: string,
-  relativePath: string
+  relativePath: string,
+  allowedRoot: string
 ) {
-  if (!existsSync(join(process.cwd(), relativePath))) {
+  const normalizedPath = normalize(relativePath);
+
+  if (
+    isAbsolute(relativePath) ||
+    normalizedPath.startsWith("..") ||
+    !normalizedPath.startsWith(`${allowedRoot}/`)
+  ) {
+    errors.push(`${owner} ${fieldPath} path must be under ${allowedRoot}`);
+    return;
+  }
+
+  if (!fixtureImageExtensions.has(extname(normalizedPath).toLowerCase())) {
+    errors.push(`${owner} ${fieldPath} path must use a fixture image extension`);
+    return;
+  }
+
+  if (!existsSync(join(process.cwd(), normalizedPath))) {
     errors.push(`${owner} ${fieldPath} path does not exist: ${relativePath}`);
   }
 }
@@ -437,11 +455,12 @@ export function validateFixtureDataset(input: unknown): FixtureValidationResult 
         `Manifest references missing creatureId ${manifestCreature.id}`
       );
     }
-    validatePathExists(
+    validateFixtureImagePath(
       referenceErrors,
       `Manifest creature ${manifestCreature.id}`,
       "webImage",
-      manifestCreature.webImage
+      manifestCreature.webImage,
+      "docs/fixtures/web-images"
     );
   }
 
@@ -500,29 +519,33 @@ export function validateFixtureDataset(input: unknown): FixtureValidationResult 
       );
     }
 
-    validatePathExists(
+    validateFixtureImagePath(
       referenceErrors,
       `Photo ${photo.id}`,
       "files.sourceCopy",
-      photo.files.sourceCopy
+      photo.files.sourceCopy,
+      "docs/fixtures/source-images"
     );
-    validatePathExists(
+    validateFixtureImagePath(
       referenceErrors,
       `Photo ${photo.id}`,
       "files.full",
-      photo.files.full
+      photo.files.full,
+      "docs/fixtures/web-images"
     );
-    validatePathExists(
+    validateFixtureImagePath(
       referenceErrors,
       `Photo ${photo.id}`,
       "files.card",
-      photo.files.card
+      photo.files.card,
+      "docs/fixtures/web-images"
     );
-    validatePathExists(
+    validateFixtureImagePath(
       referenceErrors,
       `Photo ${photo.id}`,
       "files.thumbnail",
-      photo.files.thumbnail
+      photo.files.thumbnail,
+      "docs/fixtures/web-images"
     );
   }
 

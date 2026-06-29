@@ -159,6 +159,66 @@ describe("fixture domain schemas", () => {
     );
   });
 
+  it("requires public fixture image EXIF flags to be true", () => {
+    const manifest = readJsonFile(
+      join(metadataRoot, "fixture-manifest.json")
+    ) as Record<string, unknown>;
+    const photo = readJsonDirectory("photos")[0] as Record<string, unknown>;
+
+    expect(
+      fixtureManifestSchema.safeParse({
+        ...manifest,
+        publicFixtureImagesExifStripped: false
+      }).success
+    ).toBe(false);
+    expect(
+      photoSchema.safeParse({
+        ...photo,
+        processing: {
+          ...(photo.processing as Record<string, unknown>),
+          sourceCopyExifStripped: false
+        }
+      }).success
+    ).toBe(false);
+    expect(
+      photoSchema.safeParse({
+        ...photo,
+        processing: {
+          ...(photo.processing as Record<string, unknown>),
+          webDerivativesExifStripped: false
+        }
+      }).success
+    ).toBe(false);
+  });
+
+  it("rejects image paths outside the fixture image roots", () => {
+    const dataset = readFixtureDataset();
+    const firstPhoto = (dataset.photos as Array<Record<string, unknown>>).find(
+      (photo) => photo.id === "photo-american-snout-001"
+    );
+    if (!firstPhoto) {
+      throw new Error("Expected photo-american-snout-001 fixture");
+    }
+
+    const result = validateFixtureDataset({
+      ...dataset,
+      photos: [
+        {
+          ...firstPhoto,
+          files: {
+            ...(firstPhoto.files as Record<string, unknown>),
+            card: "README.md"
+          }
+        }
+      ]
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors).toContain(
+      "Photo photo-american-snout-001 files.card path must be under docs/fixtures/web-images"
+    );
+  });
+
   it("rejects normalized subject boxes that extend outside image bounds", () => {
     const photo = readJsonDirectory("photos")[0] as Record<string, unknown>;
     const result = photoSchema.safeParse({
