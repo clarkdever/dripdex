@@ -1,3 +1,6 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
 import { z } from "zod";
 
 const nonEmptyString = z.string().min(1);
@@ -30,6 +33,15 @@ export const categorySchema = z.enum([
 ]);
 
 export const publicVisibilitySchema = z.enum(["public", "private", "hidden"]);
+
+export const locationPrivacyValues = [
+  "exact_private",
+  "public_obscured",
+  "public_region_only",
+  "private_location"
+] as const;
+
+export const locationPrivacySchema = z.enum(locationPrivacyValues);
 
 export const typeTagSchema = z.enum([
   "Bug",
@@ -160,10 +172,27 @@ const normalizedBoxSchema = z
   .object({
     x: z.number().min(0).max(1),
     y: z.number().min(0).max(1),
-    width: z.number().min(0).max(1),
-    height: z.number().min(0).max(1)
+    width: z.number().positive().max(1),
+    height: z.number().positive().max(1)
   })
-  .strict();
+  .strict()
+  .superRefine((box, context) => {
+    if (box.x + box.width > 1) {
+      context.addIssue({
+        code: "custom",
+        message: "subjectBoxNormalized x + width must not exceed 1",
+        path: ["width"]
+      });
+    }
+
+    if (box.y + box.height > 1) {
+      context.addIssue({
+        code: "custom",
+        message: "subjectBoxNormalized y + height must not exceed 1",
+        path: ["height"]
+      });
+    }
+  });
 
 export const photoSchema = z
   .object({
@@ -237,7 +266,7 @@ export const observationSchema = z
     captureMethod: z.enum(["fixture_source_image", "upload", "in_app_camera", "field_note"]),
     observedAt: z.string().datetime().nullable(),
     publicLocationLabel: nonEmptyString,
-    locationPrivacy: z.enum(["public_region_only", "obscured", "private_exact"]),
+    locationPrivacy: locationPrivacySchema,
     exactLocation: locationSchema.nullable(),
     publicObscuredLocation: locationSchema.nullable(),
     notes: nonEmptyString,
@@ -349,6 +378,31 @@ function formatSchemaErrors(error: z.ZodError): string[] {
   });
 }
 
+function findDuplicateIds(records: Array<{ id: string }>, label: string): string[] {
+  const seen = new Set<string>();
+  const duplicates = new Set<string>();
+
+  for (const record of records) {
+    if (seen.has(record.id)) {
+      duplicates.add(record.id);
+    }
+    seen.add(record.id);
+  }
+
+  return [...duplicates].map((id) => `Duplicate ${label} id ${id}`);
+}
+
+function validatePathExists(
+  errors: string[],
+  owner: string,
+  fieldPath: string,
+  relativePath: string
+) {
+  if (!existsSync(join(process.cwd(), relativePath))) {
+    errors.push(`${owner} ${fieldPath} path does not exist: ${relativePath}`);
+  }
+}
+
 export function validateFixtureDataset(input: unknown): FixtureValidationResult {
   const parsed = fixtureDatasetSchema.safeParse(input);
 
@@ -360,13 +414,159 @@ export function validateFixtureDataset(input: unknown): FixtureValidationResult 
     };
   }
 
-  const photoIds = new Set(parsed.data.photos.map((photo) => photo.id));
-  const referenceErrors = parsed.data.creatures
-    .filter((creature) => !photoIds.has(creature.defaultPhotoId))
-    .map(
-      (creature) =>
-        `Creature ${creature.id} references missing defaultPhotoId ${creature.defaultPhotoId}`
+  const creaturesById = new Map(
+    parsed.data.creatures.map((creature) => [creature.id, creature])
+  );
+  const photosById = new Map(parsed.data.photos.map((photo) => [photo.id, photo]));
+  const observationsById = new Map(
+    parsed.data.observations.map((observation) => [observation.id, observation])
+  );
+  const historiesById = new Map(
+    parsed.data.histories.map((history) => [history.id, history])
+  );
+  const referenceErrors = [
+    ...findDuplicateIds(parsed.data.creatures, "creature"),
+    ...findDuplicateIds(parsed.data.photos, "photo"),
+    ...findDuplicateIds(parsed.data.observations, "observation"),
+    ...findDuplicateIds(parsed.data.histories, "history")
+  ];
+
+  for (const manifestCreature of parsed.data.manifest.creatures) {
+    if (!creaturesById.has(manifestCreature.id)) {
+      referenceErrors.push(
+        `Manifest references missing creatureId ${manifestCreature.id}`
+      );
+    }
+    validatePathExists(
+      referenceErrors,
+      `Manifest creature ${manifestCreature.id}`,
+      "webImage",
+      manifestCreature.webImage
     );
+  }
+
+  for (const creature of parsed.data.creatures) {
+    if (!photosById.has(creature.defaultPhotoId)) {
+      referenceErrors.push(
+        `Creature ${creature.id} references missing defaultPhotoId ${creature.defaultPhotoId}`
+      );
+    }
+
+    for (const photoId of creature.photoIds) {
+      if (!photosById.has(photoId)) {
+        referenceErrors.push(
+          `Creature ${creature.id} references missing photoId ${photoId}`
+        );
+      }
+    }
+
+    for (const observationId of creature.observationIds) {
+      if (!observationsById.has(observationId)) {
+        referenceErrors.push(
+          `Creature ${creature.id} references missing observationId ${observationId}`
+        );
+      }
+    }
+
+    if (!historiesById.has(creature.historyId)) {
+      referenceErrors.push(
+        `Creature ${creature.id} references missing historyId ${creature.historyId}`
+      );
+    }
+  }
+
+  for (const photo of parsed.data.photos) {
+    if (photo.creatureId === null && photo.mysteryId === null) {
+      referenceErrors.push(
+        `Photo ${photo.id} must reference either creatureId or mysteryId`
+      );
+    }
+
+    if (photo.creatureId !== null && !creaturesById.has(photo.creatureId)) {
+      referenceErrors.push(
+        `Photo ${photo.id} references missing creatureId ${photo.creatureId}`
+      );
+    }
+
+    if (photo.mysteryId !== null && !creaturesById.has(photo.mysteryId)) {
+      referenceErrors.push(
+        `Photo ${photo.id} references missing mysteryId ${photo.mysteryId}`
+      );
+    }
+
+    if (!observationsById.has(photo.observationId)) {
+      referenceErrors.push(
+        `Photo ${photo.id} references missing observationId ${photo.observationId}`
+      );
+    }
+
+    validatePathExists(
+      referenceErrors,
+      `Photo ${photo.id}`,
+      "files.sourceCopy",
+      photo.files.sourceCopy
+    );
+    validatePathExists(
+      referenceErrors,
+      `Photo ${photo.id}`,
+      "files.full",
+      photo.files.full
+    );
+    validatePathExists(
+      referenceErrors,
+      `Photo ${photo.id}`,
+      "files.card",
+      photo.files.card
+    );
+    validatePathExists(
+      referenceErrors,
+      `Photo ${photo.id}`,
+      "files.thumbnail",
+      photo.files.thumbnail
+    );
+  }
+
+  for (const observation of parsed.data.observations) {
+    if (observation.creatureId === null && observation.mysteryId === null) {
+      referenceErrors.push(
+        `Observation ${observation.id} must reference either creatureId or mysteryId`
+      );
+    }
+
+    if (
+      observation.creatureId !== null &&
+      !creaturesById.has(observation.creatureId)
+    ) {
+      referenceErrors.push(
+        `Observation ${observation.id} references missing creatureId ${observation.creatureId}`
+      );
+    }
+
+    if (
+      observation.mysteryId !== null &&
+      !creaturesById.has(observation.mysteryId)
+    ) {
+      referenceErrors.push(
+        `Observation ${observation.id} references missing mysteryId ${observation.mysteryId}`
+      );
+    }
+
+    for (const photoId of observation.photoIds) {
+      if (!photosById.has(photoId)) {
+        referenceErrors.push(
+          `Observation ${observation.id} references missing photoId ${photoId}`
+        );
+      }
+    }
+  }
+
+  for (const history of parsed.data.histories) {
+    if (!creaturesById.has(history.creatureId)) {
+      referenceErrors.push(
+        `History ${history.id} references missing creatureId ${history.creatureId}`
+      );
+    }
+  }
 
   if (referenceErrors.length > 0) {
     return {

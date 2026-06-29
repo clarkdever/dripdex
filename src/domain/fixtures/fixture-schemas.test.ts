@@ -7,6 +7,9 @@ import {
   type Creature,
   creatureStatusValues,
   fixtureManifestSchema,
+  locationPrivacyValues,
+  observationSchema,
+  photoSchema,
   validateFixtureDataset
 } from "./fixture-schemas";
 
@@ -25,17 +28,19 @@ function readJsonDirectory(directory: string): unknown[] {
     .map((fileName) => readJsonFile(join(absoluteDirectory, fileName)));
 }
 
+function readFixtureDataset() {
+  return {
+    manifest: readJsonFile(join(metadataRoot, "fixture-manifest.json")),
+    creatures: readJsonDirectory("creatures"),
+    photos: readJsonDirectory("photos"),
+    observations: readJsonDirectory("observations"),
+    histories: readJsonDirectory("history")
+  };
+}
+
 describe("fixture domain schemas", () => {
   it("accepts every existing fixture metadata file", () => {
-    const dataset = {
-      manifest: readJsonFile(join(metadataRoot, "fixture-manifest.json")),
-      creatures: readJsonDirectory("creatures"),
-      photos: readJsonDirectory("photos"),
-      observations: readJsonDirectory("observations"),
-      histories: readJsonDirectory("history")
-    };
-
-    const result = validateFixtureDataset(dataset);
+    const result = validateFixtureDataset(readFixtureDataset());
 
     expect(result.success).toBe(true);
     expect(result.errors).toEqual([]);
@@ -49,6 +54,39 @@ describe("fixture domain schemas", () => {
       "mystery",
       "needs_review"
     ]);
+  });
+
+  it("accepts only canonical location privacy values", () => {
+    expect(locationPrivacyValues).toEqual([
+      "exact_private",
+      "public_obscured",
+      "public_region_only",
+      "private_location"
+    ]);
+
+    const observation = readJsonDirectory("observations")[0] as Record<
+      string,
+      unknown
+    >;
+
+    for (const locationPrivacy of locationPrivacyValues) {
+      expect(
+        observationSchema.safeParse({ ...observation, locationPrivacy }).success
+      ).toBe(true);
+    }
+
+    expect(
+      observationSchema.safeParse({
+        ...observation,
+        locationPrivacy: "private_exact"
+      }).success
+    ).toBe(false);
+    expect(
+      observationSchema.safeParse({
+        ...observation,
+        locationPrivacy: "obscured"
+      }).success
+    ).toBe(false);
   });
 
   it("reports a useful error for a missing default photo reference", () => {
@@ -73,5 +111,70 @@ describe("fixture domain schemas", () => {
     expect(result.errors).toContain(
       "Creature american-snout references missing defaultPhotoId photo-does-not-exist"
     );
+  });
+
+  it("reports broken fixture graph references and missing image paths", () => {
+    const dataset = readFixtureDataset();
+    const [firstCreature] = dataset.creatures as Creature[];
+    const brokenCreature = {
+      ...firstCreature,
+      photoIds: ["photo-does-not-exist"],
+      observationIds: ["obs-does-not-exist"],
+      historyId: "history-does-not-exist"
+    };
+    const firstPhoto = (dataset.photos as Array<Record<string, unknown>>).find(
+      (photo) => photo.id === "photo-house-finch-001"
+    );
+    if (!firstPhoto) {
+      throw new Error("Expected photo-house-finch-001 fixture");
+    }
+    const brokenPhoto = {
+      ...firstPhoto,
+      observationId: "obs-does-not-exist",
+      creatureId: "creature-does-not-exist",
+      files: {
+        ...(firstPhoto.files as Record<string, unknown>),
+        card: "docs/fixtures/web-images/does-not-exist.jpg"
+      }
+    };
+
+    const result = validateFixtureDataset({
+      ...dataset,
+      creatures: [brokenCreature],
+      photos: [brokenPhoto],
+      observations: [],
+      histories: []
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        "Creature american-snout references missing photoId photo-does-not-exist",
+        "Creature american-snout references missing observationId obs-does-not-exist",
+        "Creature american-snout references missing historyId history-does-not-exist",
+        "Photo photo-house-finch-001 references missing creatureId creature-does-not-exist",
+        "Photo photo-house-finch-001 references missing observationId obs-does-not-exist",
+        "Photo photo-house-finch-001 files.card path does not exist: docs/fixtures/web-images/does-not-exist.jpg"
+      ])
+    );
+  });
+
+  it("rejects normalized subject boxes that extend outside image bounds", () => {
+    const photo = readJsonDirectory("photos")[0] as Record<string, unknown>;
+    const result = photoSchema.safeParse({
+      ...photo,
+      subject: {
+        subjectPointNormalized: null,
+        subjectBoxNormalized: {
+          x: 0.75,
+          y: 0.75,
+          width: 0.5,
+          height: 0.5
+        },
+        source: "user"
+      }
+    });
+
+    expect(result.success).toBe(false);
   });
 });
