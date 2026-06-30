@@ -4,8 +4,22 @@ import { extname, isAbsolute, join, normalize } from "node:path";
 import { z } from "zod";
 
 import { locationPrivacyValues } from "../location/location-privacy-types";
+import {
+  categorySchema,
+  foodChainTagSchema,
+  safetyLabelSchema,
+  seasonalitySchema,
+  typeTagSchema
+} from "../taxonomy/taxonomy-schemas";
 
 export { locationPrivacyValues };
+export {
+  categorySchema,
+  foodChainTagSchema,
+  safetyLabelSchema,
+  seasonalitySchema,
+  typeTagSchema
+};
 
 const nonEmptyString = z.string().min(1);
 const nullableString = z.string().min(1).nullable();
@@ -34,69 +48,9 @@ export const creatureStatusValues = [
 
 export const creatureStatusSchema = z.enum(creatureStatusValues);
 
-export const categorySchema = z.enum([
-  "bird",
-  "mammal",
-  "reptile",
-  "amphibian",
-  "fish",
-  "insect",
-  "arachnid",
-  "other-invertebrate",
-  "flowering-plant",
-  "cactus-succulent",
-  "fungus-lichen",
-  "mystery"
-]);
-
 export const publicVisibilitySchema = z.enum(["public", "private", "hidden"]);
 
 export const locationPrivacySchema = z.enum(locationPrivacyValues);
-
-export const typeTagSchema = z.enum([
-  "Bug",
-  "Dark",
-  "Flying",
-  "Fungi",
-  "Grass",
-  "Ground",
-  "Light",
-  "Mystery",
-  "Normal",
-  "Plant",
-  "Poison",
-  "Water"
-]);
-
-export const foodChainTagSchema = z.enum([
-  "Carnivore",
-  "Decomposer",
-  "Herbivore",
-  "Pollinator",
-  "Predator",
-  "Prey",
-  "Producer",
-  "Seed Spreader"
-]);
-
-export const seasonalitySchema = z.enum([
-  "Spring",
-  "Summer",
-  "Fall",
-  "Winter",
-  "Year Round"
-]);
-
-export const safetyLabelSchema = z.enum([
-  "Bites",
-  "Do Not Eat",
-  "Do Not Touch",
-  "Has Thorns",
-  "Keep Distance",
-  "Look Closely",
-  "Poisonous",
-  "Venomous"
-]);
 
 export const rarityRankSchema = z.enum([
   "Common",
