@@ -56,6 +56,13 @@ When Claude and Gemini both explore frontend design:
 - Use GitHub automerge when available, or direct squash merge when private-repo branch protection/automerge is unavailable, for Codex-owned MVP PRs after code review and verification pass. Escalate only for product taste, privacy/safety decisions, secrets, destructive data changes, or unclear requirements.
 - Before stopping, leave a handoff comment or note.
 
+## Parent Epic Cleanup
+
+- When completing or closing a child task, check the parent epic or linked sub-issues.
+- If the task was the final child and verification is recorded, close the parent epic and mark its Project status Done in the same session.
+- Leave a closure comment on the parent listing the completed child issues and any follow-up issues that were split out of scope.
+- If only external-model exploration or explicitly deferred work remains, leave the parent open unless the user intentionally rescopes those issues out of the epic.
+
 ## DripDex MVP Build Order
 
 1. Repository scaffold and app shell.
