@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { type FormEvent, useMemo, useState } from "react";
+import { type FormEvent, useMemo, useState, useSyncExternalStore } from "react";
 
 import {
   filterCollectionViewModel,
@@ -48,6 +48,49 @@ const visibleGroups = new Set([
   "fungi",
   "mysteries"
 ]);
+
+const publicIntroHiddenKey = "dripdex_public_intro_hidden";
+const publicIntroHiddenEvent = "dripdex-public-intro-hidden-change";
+
+function hasStoredPublicIntroHidden() {
+  try {
+    return window.localStorage.getItem(publicIntroHiddenKey) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function hasHiddenPublicIntro() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return (
+    hasStoredPublicIntroHidden() ||
+    document.cookie
+      .split(";")
+      .map((item) => item.trim())
+      .includes(`${publicIntroHiddenKey}=1`)
+  );
+}
+
+function subscribeToPublicIntroHidden(onStoreChange: () => void) {
+  if (typeof window === "undefined") {
+    return () => {};
+  }
+
+  window.addEventListener("storage", onStoreChange);
+  window.addEventListener(publicIntroHiddenEvent, onStoreChange);
+
+  return () => {
+    window.removeEventListener("storage", onStoreChange);
+    window.removeEventListener(publicIntroHiddenEvent, onStoreChange);
+  };
+}
+
+function getPublicIntroServerSnapshot() {
+  return false;
+}
 
 function toFixtureImageUrl(path: string) {
   const fileName = path.split("/").at(-1);
@@ -276,6 +319,11 @@ export function CollectionPage({ viewModel }: { viewModel: CollectionViewModel }
   const [query, setQuery] = useState("");
   const [primaryFilter, setPrimaryFilter] =
     useState<PrimaryCollectionFilter>("all");
+  const hasDismissedPublicIntro = useSyncExternalStore(
+    subscribeToPublicIntroHidden,
+    hasHiddenPublicIntro,
+    getPublicIntroServerSnapshot
+  );
   const filteredViewModel = useMemo(
     () =>
       filterCollectionViewModel(viewModel, {
@@ -288,6 +336,16 @@ export function CollectionPage({ viewModel }: { viewModel: CollectionViewModel }
   function submitSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setQuery(queryInput);
+  }
+
+  function hidePublicIntro() {
+    try {
+      window.localStorage.setItem(publicIntroHiddenKey, "1");
+    } catch {
+      // The cookie fallback still dismisses the intro when storage is unavailable.
+    }
+    document.cookie = `${publicIntroHiddenKey}=1; max-age=31536000; path=/; samesite=lax`;
+    window.dispatchEvent(new Event(publicIntroHiddenEvent));
   }
 
   return (
@@ -321,6 +379,30 @@ export function CollectionPage({ viewModel }: { viewModel: CollectionViewModel }
               <span>Found</span>
             </strong>
           </div>
+          {!hasDismissedPublicIntro ? (
+            <section
+              className="public-intro"
+              id="learn-more"
+              aria-labelledby="public-intro-title"
+            >
+              <div>
+                <strong>Personal Hill Country field journal</strong>
+                <h2 id="public-intro-title">About DripDex</h2>
+                <p>
+                  DripDex is a local creature collection, family field notebook, and
+                  open-source pattern for self-hosted nature journals.
+                </p>
+              </div>
+              <div className="public-intro__actions">
+                <button className="public-intro__hide" onClick={hidePublicIntro} type="button">
+                  Hide Intro
+                </button>
+                <a className="public-intro__learn" href="#learn-more">
+                  Learn More
+                </a>
+              </div>
+            </section>
+          ) : null}
           <form className="collection-search" role="search" onSubmit={submitSearch}>
             <label htmlFor="collection-search">Search collection</label>
             <input
