@@ -3,6 +3,10 @@ import { extname, isAbsolute, join, normalize } from "node:path";
 
 import { z } from "zod";
 
+import { locationPrivacyValues } from "../location/location-privacy-types";
+
+export { locationPrivacyValues };
+
 const nonEmptyString = z.string().min(1);
 const nullableString = z.string().min(1).nullable();
 const fixtureDate = z
@@ -46,13 +50,6 @@ export const categorySchema = z.enum([
 ]);
 
 export const publicVisibilitySchema = z.enum(["public", "private", "hidden"]);
-
-export const locationPrivacyValues = [
-  "exact_private",
-  "public_obscured",
-  "public_region_only",
-  "private_location"
-] as const;
 
 export const locationPrivacySchema = z.enum(locationPrivacyValues);
 
