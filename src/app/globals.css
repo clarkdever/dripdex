@@ -1313,3 +1313,348 @@ p {
     min-height: 430px;
   }
 }
+
+.mystery-shell {
+  width: min(1060px, calc(100% - 20px));
+  margin: 0 auto;
+  padding: 10px 0 42px;
+}
+
+.mystery-device {
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: linear-gradient(160deg, #d91432 0%, #a81224 58%, #761120 100%);
+  box-shadow: 0 28px 80px var(--dripdex-shadow);
+  padding: 10px;
+}
+
+.mystery-device__header {
+  padding-bottom: 12px;
+}
+
+.mystery-screen {
+  overflow: hidden;
+  border: 3px solid #252730;
+  border-radius: 5px;
+  background:
+    linear-gradient(var(--dripdex-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--dripdex-grid) 1px, transparent 1px),
+    var(--dripdex-screen);
+  background-size: 20px 20px;
+}
+
+.mystery-hero,
+.mystery-panel__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.mystery-hero {
+  background: #1f2329;
+  color: var(--dripdex-cream);
+  padding: 16px;
+}
+
+.mystery-hero p {
+  color: var(--dripdex-lime);
+  font-size: 0.68rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.mystery-hero h1 {
+  margin-top: 4px;
+  font-size: clamp(1.8rem, 8vw, 3.2rem);
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 0.95;
+  overflow-wrap: anywhere;
+}
+
+.mystery-hero > span,
+.mystery-panel__header > span,
+.mystery-prompt-status {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: var(--dripdex-lime);
+  color: var(--dripdex-ink);
+  font-size: 0.62rem;
+  font-weight: 950;
+  padding: 7px 9px;
+  text-transform: uppercase;
+}
+
+.mystery-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  background: #d8f1d7;
+  padding: 12px 16px;
+}
+
+.mystery-tabs button {
+  min-height: 36px;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 5px;
+  background: var(--dripdex-cream);
+  color: var(--dripdex-ink);
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0;
+  padding: 0 12px;
+  text-transform: uppercase;
+}
+
+.mystery-tabs button[aria-pressed="true"] {
+  background: var(--dripdex-ink);
+  color: var(--dripdex-cream);
+}
+
+.mystery-panel {
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+}
+
+.mystery-panel--detail {
+  grid-template-columns: 1fr;
+}
+
+.mystery-panel__header {
+  border: 3px solid #252730;
+  border-radius: 6px;
+  background: #fffdf4;
+  padding: 12px;
+}
+
+.mystery-panel__header h2 {
+  font-size: clamp(1.35rem, 6vw, 2rem);
+  font-weight: 950;
+  line-height: 1;
+}
+
+.mystery-panel__header p {
+  margin-top: 6px;
+  color: var(--dripdex-muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.mystery-photo {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  min-height: 320px;
+  border: 8px solid #8f5cff;
+  border-radius: 7px;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 4px),
+    linear-gradient(135deg, #a5a5a5 0%, #4d5150 100%);
+}
+
+.mystery-photo__image {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  object-fit: cover;
+  transition: filter 160ms ease, opacity 160ms ease;
+}
+
+.mystery-photo__image--muted {
+  filter: grayscale(1);
+  opacity: 0.48;
+}
+
+.mystery-photo span {
+  position: absolute;
+  right: 16px;
+  bottom: 4px;
+  color: #8f5cff;
+  font-size: clamp(4rem, 24vw, 8rem);
+  font-weight: 950;
+  line-height: 1;
+  text-shadow:
+    0 3px 0 #fff4d9,
+    0 12px 26px rgba(0, 0, 0, 0.35);
+}
+
+.mystery-detail-stack,
+.mystery-card,
+.mystery-candidates,
+.mystery-resolution {
+  display: grid;
+  gap: 10px;
+}
+
+.mystery-color-toggle,
+.mystery-actions button,
+.mystery-actions a {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #252730;
+  border-radius: 7px;
+  background: var(--dripdex-lime);
+  color: var(--dripdex-ink);
+  font-size: 0.78rem;
+  font-weight: 950;
+  padding: 9px 12px;
+  text-transform: uppercase;
+}
+
+.mystery-card,
+.mystery-resolution,
+.mystery-validation,
+.mystery-paste textarea,
+.mystery-prompt {
+  border: 3px solid #252730;
+  border-radius: 6px;
+  background: #fffdf4;
+}
+
+.mystery-card,
+.mystery-resolution,
+.mystery-validation {
+  padding: 12px;
+}
+
+.mystery-card h2 {
+  font-size: 0.9rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.mystery-card dl {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.mystery-card dt {
+  color: #5a5147;
+  font-size: 0.68rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.mystery-card dd {
+  margin: 2px 0 0;
+  color: #2f3433;
+  font-size: 0.9rem;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.mystery-candidates article {
+  border-radius: 5px;
+  background: #e3f4de;
+  padding: 10px;
+}
+
+.mystery-candidates strong,
+.mystery-resolution strong,
+.mystery-validation strong {
+  color: var(--dripdex-ink);
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.mystery-candidates span,
+.mystery-resolution span,
+.mystery-validation span {
+  display: block;
+  margin-top: 4px;
+  color: #4b514e;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.mystery-candidates p,
+.mystery-resolution p {
+  margin-top: 8px;
+  color: #6b5d75;
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.mystery-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.mystery-actions button:nth-child(2),
+.mystery-actions a {
+  background: var(--dripdex-blue);
+  color: white;
+}
+
+.mystery-actions--resolve button:last-child {
+  background: #1f2329;
+  color: var(--dripdex-cream);
+}
+
+.mystery-prompt-status {
+  justify-self: start;
+}
+
+.mystery-prompt {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  color: #29302d;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 750;
+  line-height: 1.45;
+  padding: 12px;
+}
+
+.mystery-paste {
+  display: grid;
+  gap: 8px;
+  color: #252730;
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.mystery-paste textarea {
+  min-height: 190px;
+  resize: vertical;
+  color: #29302d;
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  padding: 12px;
+  text-transform: none;
+}
+
+.mystery-validation {
+  display: grid;
+  gap: 4px;
+  background: #e3f4de;
+}
+
+@media (min-width: 780px) {
+  .mystery-shell {
+    padding-top: 30px;
+  }
+
+  .mystery-panel--detail {
+    grid-template-columns: minmax(0, 1fr) 330px;
+    align-items: start;
+  }
+
+  .mystery-photo,
+  .mystery-photo__image {
+    min-height: 500px;
+  }
+}
