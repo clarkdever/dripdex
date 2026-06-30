@@ -24,6 +24,14 @@ type CollectionCardImageProps = {
   priority: boolean;
 };
 
+type GuestbookEntry = {
+  id: string;
+  displayName: string;
+  visitingFrom: string;
+  message: string;
+  status: "approved" | "pending";
+};
+
 const primaryFilters = [
   { key: "all", label: "All" },
   { key: "found", label: "Found" },
@@ -51,6 +59,42 @@ const visibleGroups = new Set([
 
 const publicIntroHiddenKey = "dripdex_public_intro_hidden";
 const publicIntroHiddenEvent = "dripdex-public-intro-hidden-change";
+const guestbookPageSize = 50;
+
+const approvedGuestbookEntries = [
+  {
+    id: "approved-1",
+    displayName: "Maya",
+    visitingFrom: "Austin, TX",
+    message: "We used this to compare two backyard birds after breakfast.",
+    status: "approved"
+  },
+  {
+    id: "approved-2",
+    displayName: "Room 12",
+    visitingFrom: "4th grade science",
+    message: "Please add more spiders. The draft stamp is our favorite part.",
+    status: "approved"
+  },
+  {
+    id: "approved-3",
+    displayName: "Nana J",
+    visitingFrom: "Kerrville",
+    message: "Saw a ladder-backed woodpecker on a cedar post this morning.",
+    status: "approved"
+  },
+  ...Array.from({ length: 49 }, (_, index) => {
+    const noteNumber = index + 4;
+
+    return {
+      id: `approved-${noteNumber}`,
+      displayName: `Trail visitor ${noteNumber}`,
+      visitingFrom: "Texas Hill Country",
+      message: "Stopped by the collection and left a field note for later.",
+      status: "approved" as const
+    };
+  })
+] as const satisfies readonly GuestbookEntry[];
 
 function hasStoredPublicIntroHidden() {
   try {
@@ -90,6 +134,27 @@ function subscribeToPublicIntroHidden(onStoreChange: () => void) {
 
 function getPublicIntroServerSnapshot() {
   return false;
+}
+
+function getFormString(formData: FormData, key: string, fallback: string) {
+  const value = formData.get(key);
+
+  return typeof value === "string" && value.trim().length > 0
+    ? value.trim()
+    : fallback;
+}
+
+function getApprovedGuestbookPage(page: number) {
+  const start = page * guestbookPageSize;
+
+  return approvedGuestbookEntries.slice(start, start + guestbookPageSize);
+}
+
+function getGuestbookPageLabel(page: number) {
+  const start = page * guestbookPageSize + 1;
+  const end = Math.min((page + 1) * guestbookPageSize, approvedGuestbookEntries.length);
+
+  return `Showing ${start}-${end} of ${approvedGuestbookEntries.length} approved notes`;
 }
 
 function toFixtureImageUrl(path: string) {
@@ -314,6 +379,145 @@ function GroupJumpList({ groups }: { groups: readonly CollectionGroup[] }) {
   );
 }
 
+function GuestbookRow({ entry }: { entry: GuestbookEntry }) {
+  return (
+    <article
+      aria-label={`${entry.displayName} guestbook note ${entry.status}`}
+      className={`guestbook-row guestbook-row--${entry.status}`}
+    >
+      <strong className="guestbook-name">{entry.displayName}</strong>
+      <span className="guestbook-from">{entry.visitingFrom}</span>
+      <p className="guestbook-message">{entry.message}</p>
+      <span className={`guestbook-badge guestbook-badge--${entry.status}`}>
+        {entry.status === "pending" ? "Pending" : "Approved"}
+      </span>
+    </article>
+  );
+}
+
+function GuestbookAccordion() {
+  const [pendingEntries, setPendingEntries] = useState<GuestbookEntry[]>([]);
+  const [approvedPage, setApprovedPage] = useState(0);
+  const [statusMessage, setStatusMessage] = useState(
+    "New notes appear pending until owner approval."
+  );
+  const approvedPageEntries = getApprovedGuestbookPage(approvedPage);
+  const pageCount = Math.ceil(approvedGuestbookEntries.length / guestbookPageSize);
+
+  function submitGuestbook(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const displayName = getFormString(formData, "displayName", "Field visitor");
+    const visitingFrom = getFormString(formData, "visitingFrom", "Somewhere outside");
+    const message = getFormString(formData, "message", "Signed the guest book.");
+
+    setPendingEntries((entries) => [
+      {
+        id: `pending-${entries.length + 1}`,
+        displayName,
+        visitingFrom,
+        message,
+        status: "pending"
+      },
+      ...entries
+    ]);
+    setApprovedPage(0);
+    setStatusMessage("Added below as pending owner approval.");
+    form.reset();
+  }
+
+  return (
+    <details className="guestbook">
+      <summary>
+        <span className="guestbook-title">
+          <strong>Click to Sign Our Guest Book</strong>
+          <span>See who has stopped by, then sign your own field note.</span>
+        </span>
+        <span className="guestbook-caret" aria-hidden="true">
+          ›
+        </span>
+      </summary>
+      <div className="guestbook-panel">
+        <form className="guestbook-form" onSubmit={submitGuestbook}>
+          <label>
+            Name
+            <input
+              autoComplete="name"
+              maxLength={80}
+              name="displayName"
+              placeholder="Scout, class name, or first name"
+              required
+              type="text"
+            />
+          </label>
+          <label>
+            Visiting From
+            <input
+              maxLength={100}
+              name="visitingFrom"
+              placeholder="Austin, science class, grandma's porch..."
+              required
+              type="text"
+            />
+          </label>
+          <label className="guestbook-form__wide">
+            Comment
+            <textarea
+              maxLength={500}
+              name="message"
+              placeholder="What did you notice? What should we look for next?"
+              required
+            />
+          </label>
+          <div className="guestbook-actions">
+            <span className="guestbook-status" role="status" aria-live="polite">
+              {statusMessage}
+            </span>
+            <button className="guestbook-send" type="submit">
+              Sign Guest Book
+            </button>
+          </div>
+        </form>
+
+        <div className="guestbook-list" role="region" aria-label="Guest book entries">
+          {pendingEntries.map((entry) => (
+            <GuestbookRow key={entry.id} entry={entry} />
+          ))}
+          {approvedPageEntries.map((entry) => (
+            <GuestbookRow key={entry.id} entry={entry} />
+          ))}
+        </div>
+
+        <div className="guestbook-pagination">
+          <span>{getGuestbookPageLabel(approvedPage)}</span>
+          <span className="guestbook-page-buttons">
+            <button
+              className="guestbook-page-button"
+              disabled={approvedPage === 0}
+              onClick={() => setApprovedPage((page) => Math.max(0, page - 1))}
+              type="button"
+            >
+              Prev
+            </button>
+            <button
+              className="guestbook-page-button"
+              disabled={approvedPage >= pageCount - 1}
+              onClick={() =>
+                setApprovedPage((page) => Math.min(pageCount - 1, page + 1))
+              }
+              type="button"
+            >
+              Next
+            </button>
+          </span>
+        </div>
+      </div>
+    </details>
+  );
+}
+
 export function CollectionPage({ viewModel }: { viewModel: CollectionViewModel }) {
   const [queryInput, setQueryInput] = useState("");
   const [query, setQuery] = useState("");
@@ -403,6 +607,7 @@ export function CollectionPage({ viewModel }: { viewModel: CollectionViewModel }
               </div>
             </section>
           ) : null}
+          <GuestbookAccordion />
           <form className="collection-search" role="search" onSubmit={submitSearch}>
             <label htmlFor="collection-search">Search collection</label>
             <input
