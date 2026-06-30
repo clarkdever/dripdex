@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DripDex privacy and safety</title>
+    <meta
+      name="description"
+      content="Privacy and safety notes for DripDex public previews, images, locations, guestbook moderation, and kid-friendly field discovery."
+    />
+    <link rel="stylesheet" href="assets/css/site.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">D</span>
+          <span>DripDex</span>
+        </a>
+        <div class="nav-links">
+          <a href="build-your-own.html">Build your own</a>
+          <a href="privacy-and-safety.html" aria-current="page">Privacy</a>
+          <a href="fixture-sources.html">Sources</a>
+          <a href="https://github.com/clarkdever/dripdex">Repository</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-title">
+        <div class="wrap">
+          <p class="eyebrow">Privacy first</p>
+          <h1>Fun for kids, careful with location data.</h1>
+          <p class="lead">
+            DripDex should invite families outside without exposing home, school,
+            or sensitive-species locations.
+          </p>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="wrap grid three">
+          <article class="card">
+            <span class="tag">Images</span>
+            <h3>Public derivatives only</h3>
+            <p>
+              Public web images should be EXIF-stripped derivatives. Private
+              originals may contain sensitive context and should stay owner-only.
+            </p>
+          </article>
+          <article class="card">
+            <span class="tag">Location</span>
+            <h3>No exact public GPS</h3>
+            <p>
+              Exact coordinates are intended for the owner. Public views should
+              use generalized labels or stored obscured locations.
+            </p>
+          </article>
+          <article class="card">
+            <span class="tag">Moderation</span>
+            <h3>Owner review</h3>
+            <p>
+              Guestbook notes, visitor suggestions, and AI identifications should
+              wait for owner approval before affecting public content.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="band alt">
+        <div class="wrap section-head">
+          <div>
+            <p class="eyebrow">Location rules</p>
+            <h2>Public maps should be intentionally fuzzy.</h2>
+          </div>
+          <p>
+            Repeated observations from home, school, nests, dens, roosts, or rare
+            species can reveal more than one post alone. The product direction is
+            to store public-safe locations once and keep exact points private.
+          </p>
+        </div>
+        <div class="wrap grid two">
+          <article class="card">
+            <h3>Home-zone protection</h3>
+            <p>
+              Observations near private places should use stronger public
+              generalization, such as county or region labels rather than small
+              near-town hints.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Sensitive observations</h3>
+            <p>
+              Sensitive species, nests, dens, roosts, burrows, and home-zone
+              observations should not be downgraded below the required privacy rule.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="wrap section-head">
+          <div>
+            <p class="eyebrow">Field safety</p>
+            <h2>Curiosity without risky handling.</h2>
+          </div>
+          <p>
+            DripDex can be playful without encouraging kids to touch, eat, or
+            collect unknown organisms.
+          </p>
+        </div>
+        <div class="wrap prose">
+          <ul>
+            <li>Look closely, but do not handle unknown organisms.</li>
+            <li>Safety notes are educational prompts, not medical or wildlife-handling advice.</li>
+            <li>Avoid kid-facing edible or medicinal tags in the MVP.</li>
+            <li>When in doubt, let the owner mark an entry as private or mystery-only.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="band alt">
+        <div class="wrap section-head">
+          <div>
+            <p class="eyebrow">Owner-only dashboard</p>
+            <h2>Private views stay private.</h2>
+          </div>
+          <p>
+            Dashboard concepts can include exact maps, owner notes, history, and
+            preferences. Those views are not public content.
+          </p>
+        </div>
+        <div class="wrap screens">
+          <figure>
+            <img src="assets/screenshots/private-journal-dashboard-all-tabs.png" alt="Private journal dashboard tabs showing queue, map, history, and preferences." />
+            <figcaption><strong>Owner-only concept.</strong> Exact map data and private journal context must not be exposed on public routes.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/screenshots/mystery-investigation-flow-all-views.png" alt="Mystery investigation workflow screens for owner review." />
+            <figcaption><strong>Owner-reviewed workflow.</strong> Copied prompts should avoid exact GPS and home-zone details by default.</figcaption>
+          </figure>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>Privacy model summary</span>
+        <a href="fixture-sources.html">Review fixture source notes</a>
+      </div>
+    </footer>
+  </body>
+</html>

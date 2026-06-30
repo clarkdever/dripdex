@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DripDex | Texas Hill Country field journal</title>
+    <meta
+      name="description"
+      content="DripDex is a mobile-first Texas Hill Country field guide and personal nature journal for families, classrooms, clubs, and curious naturalists."
+    />
+    <link rel="stylesheet" href="assets/css/site.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="brand" href="index.html" aria-current="page">
+          <span class="brand-mark">D</span>
+          <span>DripDex</span>
+        </a>
+        <div class="nav-links">
+          <a href="build-your-own.html">Build your own</a>
+          <a href="privacy-and-safety.html">Privacy</a>
+          <a href="fixture-sources.html">Sources</a>
+          <a href="https://github.com/clarkdever/dripdex">Repository</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-inner">
+          <p class="eyebrow">Texas Hill Country nature journal</p>
+          <h1>DripDex</h1>
+          <p class="lead">
+            A mobile-first field guide and personal nature journal for families,
+            classrooms, clubs, and curious local naturalists.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="build-your-own.html">Build a preview</a>
+            <a class="button secondary" href="privacy-and-safety.html">Read the privacy model</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="wrap section-head">
+          <div>
+            <p class="eyebrow">What it is</p>
+            <h2>A playful guide with serious privacy boundaries.</h2>
+          </div>
+          <p>
+            DripDex is designed to make local discovery feel approachable for kids
+            while staying useful for adults who care about sources, observations,
+            location privacy, and safe publishing.
+          </p>
+        </div>
+        <div class="wrap grid three">
+          <article class="card">
+            <span class="tag">Public</span>
+            <h3>Creature cards</h3>
+            <p>
+              Visitors browse fixture-backed creature cards, kid-readable facts,
+              rarity-style tags, and public-safe image derivatives.
+            </p>
+          </article>
+          <article class="card">
+            <span class="tag">Owner</span>
+            <h3>Private journal</h3>
+            <p>
+              The intended owner workflow keeps drafts, exact locations, private
+              originals, and moderation tools behind owner-only boundaries.
+            </p>
+          </article>
+          <article class="card">
+            <span class="tag">Open source</span>
+            <h3>Self-hostable core</h3>
+            <p>
+              The first open-source path is a single-owner field journal with
+              fixture-backed preview data and conservative hosting assumptions.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="band alt">
+        <div class="wrap section-head">
+          <div>
+            <p class="eyebrow">Current MVP status</p>
+            <h2>Preview the shape before real uploads.</h2>
+          </div>
+          <p>
+            The current repo is a fixture-backed MVP preview. It can show public
+            browsing, creature pages, capture stubs, mystery investigation views,
+            private journal previews, and guestbook moderation states.
+          </p>
+        </div>
+        <div class="wrap grid two">
+          <div class="callout">
+            <strong>Good fit today:</strong> public demos, contributor previews,
+            family/classroom evaluation, and static project documentation.
+          </div>
+          <div class="callout">
+            <strong>Not ready yet:</strong> real private uploads, durable SQLite
+            writes, private original storage, exact GPS hosting, or production auth.
+          </div>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="wrap section-head">
+          <div>
+            <p class="eyebrow">Screenshots</p>
+            <h2>What the MVP is aiming at.</h2>
+          </div>
+          <p>
+            These images are mockups and implemented previews from the repository.
+            They use sample fixture content and should not be treated as validated
+            scientific or licensing claims.
+          </p>
+        </div>
+        <div class="wrap screens">
+          <figure>
+            <img src="assets/screenshots/collection-view-public-default.png" alt="Public DripDex collection view with creature cards." />
+            <figcaption><strong>Implemented preview.</strong> Public collection with fixture-backed creature cards.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/screenshots/collection-view-guestbook-pending.png" alt="Guestbook submission shown as pending owner approval." />
+            <figcaption><strong>Implemented preview.</strong> Visitor notes remain pending until owner approval.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/screenshots/mystery-investigation-flow-all-views.png" alt="Mystery investigation workflow mockup with prompt, paste, normalize, and resolve states." />
+            <figcaption><strong>Implemented preview.</strong> Mystery workflow keeps owner review in the loop.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/screenshots/private-journal-dashboard-all-tabs.png" alt="Private journal dashboard mockup with queue, map, history, and preferences tabs." />
+            <figcaption><strong>Owner-only preview.</strong> Private journal concepts must not expose exact map data publicly.</figcaption>
+          </figure>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>DripDex project preview</span>
+        <span>
+          <a href="https://github.com/clarkdever/dripdex">GitHub</a>
+          ·
+          <a href="build-your-own.html">Build your own</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>

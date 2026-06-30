@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Build your own DripDex preview</title>
+    <meta
+      name="description"
+      content="Plain-language setup notes for cloning DripDex, previewing it locally, and deploying a fixture-backed public preview on Vercel Hobby."
+    />
+    <link rel="stylesheet" href="assets/css/site.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">D</span>
+          <span>DripDex</span>
+        </a>
+        <div class="nav-links">
+          <a href="build-your-own.html" aria-current="page">Build your own</a>
+          <a href="privacy-and-safety.html">Privacy</a>
+          <a href="fixture-sources.html">Sources</a>
+          <a href="https://github.com/clarkdever/dripdex">Repository</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-title">
+        <div class="wrap">
+          <p class="eyebrow">Public preview path</p>
+          <h1>Build your own DripDex preview.</h1>
+          <p class="lead">
+            This path helps a non-coder or an agent clone the project, run it
+            locally, and publish a fixture-backed public preview on Vercel Hobby.
+          </p>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="wrap grid two">
+          <div class="callout">
+            <strong>Good fit:</strong> public demos, contributor previews, family
+            evaluation, classroom discussion, and local club proof of concept.
+          </div>
+          <div class="callout">
+            <strong>Not production hosting yet:</strong> do not upload real private
+            observations, private originals, exact GPS data, or secrets.
+          </div>
+        </div>
+      </section>
+
+      <section class="band alt">
+        <div class="wrap section-head">
+          <div>
+            <p class="eyebrow">Accounts and tools</p>
+            <h2>Start with the boring stuff.</h2>
+          </div>
+          <p>
+            DripDex uses GitHub for source code and Vercel for the easiest public
+            preview deployment path.
+          </p>
+        </div>
+        <div class="wrap grid three">
+          <article class="card">
+            <h3>GitHub</h3>
+            <p>Create a GitHub account so you can fork or copy the repository.</p>
+          </article>
+          <article class="card">
+            <h3>Vercel</h3>
+            <p>Create a Vercel account: <a href="https://vercel.com/signup">Sign up for Vercel</a>.</p>
+          </article>
+          <article class="card">
+            <h3>Node 22</h3>
+            <p>Use Node.js <code>&gt;=22.13 &lt;23</code>. npm comes with Node.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="wrap section-head">
+          <div>
+            <p class="eyebrow">Local preview</p>
+            <h2>Run it on your computer.</h2>
+          </div>
+          <p>
+            These commands clone the repo, install dependencies, and start the
+            Next.js development server.
+          </p>
+        </div>
+        <div class="wrap prose">
+          <pre><code>git clone https://github.com/clarkdever/dripdex.git
+cd dripdex
+npm install
+npm run dev</code></pre>
+          <p>Open the local URL printed by the dev server, usually <code>http://localhost:3000</code>.</p>
+          <p>To preview the owner journal stub locally:</p>
+          <pre><code>DRIPDEX_OWNER_JOURNAL_PREVIEW=enabled npm run dev</code></pre>
+        </div>
+      </section>
+
+      <section class="band alt">
+        <div class="wrap section-head">
+          <div>
+            <p class="eyebrow">Vercel Hobby</p>
+            <h2>Publish the fixture-backed preview.</h2>
+          </div>
+          <p>
+            Vercel can import a GitHub repository, detect Next.js, and produce a
+            public preview URL.
+          </p>
+        </div>
+        <div class="wrap steps">
+          <div class="step">Create or sign into GitHub.</div>
+          <div class="step">Create or sign into Vercel using <a href="https://vercel.com/signup">https://vercel.com/signup</a>.</div>
+          <div class="step">Fork or copy <a href="https://github.com/clarkdever/dripdex">clarkdever/dripdex</a> into your GitHub account.</div>
+          <div class="step">In Vercel, import the GitHub repository as a new project.</div>
+          <div class="step">Let Vercel detect the Next.js project settings and deploy.</div>
+          <div class="step">Open the Vercel URL and confirm the public collection page loads.</div>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="wrap section-head">
+          <div>
+            <p class="eyebrow">Ask an agent</p>
+            <h2>Use the README prompt.</h2>
+          </div>
+          <p>
+            The repository README includes a copy-paste prompt for an AI coding
+            agent. It asks the agent to check GitHub CLI, Vercel CLI, possible
+            connectors, login state, local verification, and deployment.
+          </p>
+        </div>
+        <div class="wrap">
+          <a class="button primary" href="https://github.com/clarkdever/dripdex#copy-paste-prompt-for-an-agent">Open the agent prompt</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>Fixture-backed preview guidance only</span>
+        <a href="privacy-and-safety.html">Read privacy notes</a>
+      </div>
+    </footer>
+  </body>
+</html>

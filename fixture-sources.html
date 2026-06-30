@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DripDex fixture sources</title>
+    <meta
+      name="description"
+      content="Fixture source, license, validation, and image-processing notes for the DripDex project preview."
+    />
+    <link rel="stylesheet" href="assets/css/site.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">D</span>
+          <span>DripDex</span>
+        </a>
+        <div class="nav-links">
+          <a href="build-your-own.html">Build your own</a>
+          <a href="privacy-and-safety.html">Privacy</a>
+          <a href="fixture-sources.html" aria-current="page">Sources</a>
+          <a href="https://github.com/clarkdever/dripdex">Repository</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-title">
+        <div class="wrap">
+          <p class="eyebrow">Fixture sources</p>
+          <h1>Sample data needs visible provenance.</h1>
+          <p class="lead">
+            DripDex preview content is fixture-backed. It should be treated as
+            development sample data until source terms, credits, and species
+            identity are human-reviewed.
+          </p>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="wrap grid three">
+          <article class="card">
+            <span class="tag">Validation</span>
+            <h3>Needs review</h3>
+            <p>
+              Fixture records currently keep <code>needsHumanValidation: true</code>
+              until the owner reviews source terms, identity, and usage.
+            </p>
+          </article>
+          <article class="card">
+            <span class="tag">Attribution</span>
+            <h3>Keep credits close</h3>
+            <p>
+              Fixture tables should include source pages, authors, license names,
+              license links, access notes, and modification notes.
+            </p>
+          </article>
+          <article class="card">
+            <span class="tag">Images</span>
+            <h3>Use public derivatives</h3>
+            <p>
+              Public preview pages should use checked-in web derivatives and
+              screenshots, not private originals or test fixtures.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="band alt">
+        <div class="wrap section-head">
+          <div>
+            <p class="eyebrow">Canonical source table</p>
+            <h2>Use the repository fixture notes.</h2>
+          </div>
+          <p>
+            The source table lives in the repository so it can move with fixture
+            changes and review updates.
+          </p>
+        </div>
+        <div class="wrap prose">
+          <p>
+            Review the current fixture source notes here:
+            <a href="https://github.com/clarkdever/dripdex/blob/main/docs/fixtures/README.md">docs/fixtures/README.md</a>.
+          </p>
+          <p>The table should track:</p>
+          <ul>
+            <li>Fixture number.</li>
+            <li>Common name and scientific name.</li>
+            <li>Source page.</li>
+            <li>License name and link.</li>
+            <li>Credit.</li>
+            <li>Validation status.</li>
+            <li>Modification note, such as resized, cropped, re-saved, EXIF stripped.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="wrap section-head">
+          <div>
+            <p class="eyebrow">Do not publish</p>
+            <h2>Keep test and private assets out.</h2>
+          </div>
+          <p>
+            The preview site should not accidentally turn internal testing data
+            into public sample content.
+          </p>
+        </div>
+        <div class="wrap grid two">
+          <div class="callout">
+            <strong>Do not publish:</strong> synthetic EXIF files under
+            <code>tests/fixtures/exif/</code>. They are for parser tests only.
+          </div>
+          <div class="callout">
+            <strong>Do not publish:</strong> private originals, exact GPS data,
+            owner emails, API keys, or user-uploaded examples.
+          </div>
+        </div>
+      </section>
+
+      <section class="band alt">
+        <div class="wrap section-head">
+          <div>
+            <p class="eyebrow">Preview screenshots</p>
+            <h2>Fixture-backed examples.</h2>
+          </div>
+          <p>
+            These are screenshots and mockups from the repository. They are useful
+            for explaining product direction, not for making final source claims.
+          </p>
+        </div>
+        <div class="wrap screens">
+          <figure>
+            <img src="assets/screenshots/collection-view-intro-hidden.png" alt="DripDex public collection with the intro hidden." />
+            <figcaption><strong>Implemented preview.</strong> Public collection after intro dismissal.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/screenshots/collection-view-favorites-groups.png" alt="DripDex collection grouped into favorite-style sections." />
+            <figcaption><strong>Implemented preview.</strong> Collection grouping and fixture-backed card states.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/screenshots/collection-view-guestbook-open.png" alt="DripDex guestbook form open for visitor note entry." />
+            <figcaption><strong>Implemented preview.</strong> Guestbook entry form before owner moderation.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/screenshots/collection-view-guestbook-pending.png" alt="DripDex guestbook note pending owner approval." />
+            <figcaption><strong>Implemented preview.</strong> New notes appear pending until owner approval.</figcaption>
+          </figure>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>Fixture source notes</span>
+        <a href="https://github.com/clarkdever/dripdex/blob/main/docs/fixtures/README.md">Open canonical table</a>
+      </div>
+    </footer>
+  </body>
+</html>
