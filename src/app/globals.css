@@ -2097,6 +2097,24 @@ a.collection-card:focus-visible {
   color: var(--dripdex-ink);
 }
 
+.journal-logout {
+  min-height: 28px;
+  border: 1px solid rgba(255, 247, 223, 0.45);
+  border-radius: 999px;
+  background: rgba(17, 19, 24, 0.48);
+  color: var(--dripdex-cream);
+  font-size: 0.62rem;
+  font-weight: 950;
+  padding: 0 10px;
+  text-transform: uppercase;
+}
+
+.journal-logout:hover,
+.journal-logout:focus-visible {
+  background: var(--dripdex-cream);
+  color: var(--dripdex-ink);
+}
+
 .journal-screen {
   overflow: hidden;
   border: 3px solid #252730;
@@ -2350,6 +2368,93 @@ a.collection-card:focus-visible {
 .journal-bottom-nav button[aria-pressed="true"] {
   background: var(--dripdex-lime);
   color: var(--dripdex-ink);
+}
+
+.login-shell {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+}
+
+.login-panel {
+  width: min(430px, 100%);
+  border: 3px solid #252730;
+  border-radius: 8px;
+  background:
+    linear-gradient(var(--dripdex-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--dripdex-grid) 1px, transparent 1px),
+    var(--dripdex-screen);
+  background-size: 20px 20px;
+  box-shadow: 0 28px 80px var(--dripdex-shadow);
+  color: var(--dripdex-ink);
+  padding: 24px;
+}
+
+.login-kicker {
+  display: block;
+  color: var(--dripdex-shell-dark);
+  font-size: 0.7rem;
+  font-weight: 950;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.login-panel h1 {
+  margin-top: 6px;
+  font-size: 2rem;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.login-panel p {
+  margin-top: 10px;
+  color: var(--dripdex-muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.login-form {
+  display: grid;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.login-form label {
+  display: grid;
+  gap: 6px;
+  color: #252730;
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.login-form input {
+  min-height: 42px;
+  border: 2px solid rgba(23, 25, 31, 0.2);
+  border-radius: 6px;
+  background: #fffdf5;
+  color: var(--dripdex-ink);
+  padding: 0 12px;
+}
+
+.login-error {
+  border: 1px solid rgba(143, 16, 32, 0.24);
+  border-radius: 6px;
+  background: rgba(217, 20, 50, 0.1);
+  color: var(--dripdex-shell-dark);
+  font-weight: 800;
+  padding: 10px 12px;
+}
+
+.login-form button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--dripdex-lime);
+  color: var(--dripdex-ink);
+  font-weight: 950;
+  text-transform: uppercase;
 }
 
 @media (min-width: 720px) {

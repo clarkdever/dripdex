@@ -32,6 +32,11 @@ export function PrivateJournalQueuePage({ viewModel }: PrivateJournalQueuePagePr
                 {viewModel.mode.privateLabel}
               </button>
             </div>
+            <form action="/logout" method="post">
+              <button className="journal-logout" type="submit">
+                Log Out
+              </button>
+            </form>
           </div>
         </header>
 

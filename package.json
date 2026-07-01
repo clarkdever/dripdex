@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "owner:hash": "node scripts/create-owner-password-hash.mjs",
     "start": "next start",
     "test": "vitest run",
     "lint": "eslint .",

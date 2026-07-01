@@ -4,7 +4,7 @@ DripDex is a mobile-first Texas Hill Country field guide and personal nature jou
 
 ## What Works Today
 
-This repository currently contains a fixture-backed MVP preview. That means the app can show sample creature cards, creature pages, a capture-flow stub, mystery investigation screens, a private journal preview gate, public intro behavior, and guestbook moderation states using checked-in sample data.
+This repository currently contains a fixture-backed MVP preview. That means the app can show sample creature cards, creature pages, a capture-flow stub, mystery investigation screens, single-owner private journal access, public intro behavior, and guestbook moderation states using checked-in sample data.
 
 The current app is useful for previewing the product direction. It is not yet ready for real family/classroom uploads, private original photos, exact GPS storage, SQLite writes, or durable image storage on a hosting provider.
 
@@ -37,19 +37,30 @@ When the dev server starts, open the local URL it prints, usually:
 http://localhost:3000
 ```
 
-To preview the private journal route locally, start the dev server with the owner preview flag:
+To preview the private journal route locally, configure a single-owner login:
 
 ```bash
-DRIPDEX_OWNER_JOURNAL_PREVIEW=enabled npm run dev
+read -s OWNER_PASSWORD
+printf '%s' "$OWNER_PASSWORD" | npm run owner:hash
+unset OWNER_PASSWORD
 ```
 
-Then open:
+Copy the printed hash into your local environment along with an owner username and a long random auth secret:
+
+```bash
+export DRIPDEX_OWNER_USERNAME="owner"
+export DRIPDEX_OWNER_PASSWORD_HASH='scrypt$v1$...'
+export DRIPDEX_AUTH_SECRET="$(openssl rand -base64 48)"
+npm run dev
+```
+
+Then open `/journal` or `/login`:
 
 ```text
 http://localhost:3000/journal
 ```
 
-The private journal route is still a preview stub. Do not use it for real private observations yet.
+The private journal is now protected by a signed `HttpOnly` session cookie, but the data is still fixture-backed. Do not use it for real private observations until durable database and storage adapters are configured.
 
 ## Deploy A Public Preview On Vercel Hobby
 
@@ -67,7 +78,15 @@ High-level steps:
 6. Deploy the project.
 7. Open the Vercel URL and confirm the public collection page loads.
 
-Do not enable real uploads or store private observations on this deployment until DripDex has durable auth, database, and storage adapters configured for your host.
+Set these Vercel environment variables before enabling the private journal in a remote preview or production deployment:
+
+- `DRIPDEX_OWNER_USERNAME`
+- `DRIPDEX_OWNER_PASSWORD_HASH`
+- `DRIPDEX_AUTH_SECRET`
+
+Generate a new password hash when rotating the owner password. Generate a new auth secret when rotating all sessions; changing `DRIPDEX_AUTH_SECRET` signs everyone out. Keep these values in Vercel project environment variables or local `.env.local`, never in committed files or chat.
+
+Do not enable real uploads or store private observations on this deployment until DripDex has durable database and storage adapters configured for your host.
 
 ## Copy-Paste Prompt For An Agent
 
@@ -112,7 +131,7 @@ npm audit --audit-level=moderate
 
 If those checks pass, deploy a public preview to Vercel. Use Vercel's normal project linking/import flow for my account. Tell me the deployed URL when it succeeds.
 
-Important privacy warning: this DripDex deployment is currently only a fixture-backed public preview. Do not upload real private family/classroom observations, private original photos, exact GPS data, or secrets. Real private hosting requires durable auth, database, and storage adapters that are not part of this quick preview path yet.
+Important privacy warning: this DripDex deployment is currently only a fixture-backed preview with simple single-owner auth. Do not upload real private family/classroom observations, private original photos, exact GPS data, or secrets. Real private hosting requires durable database and storage adapters that are not part of this quick preview path yet.
 ```
 
 ## Important Privacy Notes
