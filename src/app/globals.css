@@ -705,6 +705,24 @@ p {
   border-radius: 6px;
   background: var(--dripdex-cream);
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.22);
+  color: inherit;
+  text-decoration: none;
+}
+
+a.collection-card {
+  cursor: pointer;
+}
+
+a.collection-card:hover,
+a.collection-card:focus-visible {
+  border-color: var(--dripdex-blue);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.22);
+  transform: translateY(-1px);
+}
+
+a.collection-card:focus-visible {
+  outline: 3px solid var(--dripdex-lime);
+  outline-offset: 3px;
 }
 
 .collection-card--compact {

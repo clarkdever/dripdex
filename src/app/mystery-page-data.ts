@@ -6,6 +6,8 @@ import {
 
 import { createFixtureRecords } from "./collection-page-data";
 
+type FixtureRecords = ReturnType<typeof createFixtureRecords>;
+
 type PublicMysteryDetailView = Omit<
   MysteryWorkspaceViewModel["views"]["detail"],
   "knownClues"
@@ -48,10 +50,17 @@ const fixtureCandidateHistory = [
   }
 ] as const satisfies readonly MysteryCandidate[];
 
-export function createMysteryWorkspacePageViewModel(id: string) {
-  const record = createFixtureRecords().find((candidate) => candidate.creature.id === id);
+export function createMysteryWorkspacePageViewModel(
+  id: string,
+  records: FixtureRecords = createFixtureRecords()
+) {
+  const record = records.find((candidate) => candidate.creature.id === id);
 
-  if (!record) {
+  if (
+    !record ||
+    record.creature.status !== "mystery" ||
+    record.creature.publicVisibility !== "public"
+  ) {
     return null;
   }
 

@@ -13,9 +13,14 @@ function getCard(name: string) {
   return screen.getByRole("article", { name: new RegExp(name, "i") });
 }
 
+function getCardLink(name: string) {
+  return screen.getByRole("link", { name: new RegExp(name, "i") });
+}
+
 function createCard(overrides: Partial<CollectionCard> = {}): CollectionCard {
   return {
     id: "test-card",
+    href: "/creatures/test-card",
     dripdexNumber: "099",
     category: "bird",
     categoryLabel: "Birds",
@@ -67,10 +72,11 @@ describe("CollectionPage", () => {
     render(<CollectionPage viewModel={createCollectionPageViewModel()} />);
 
     const birds = screen.getByRole("region", { name: /birds/i });
-    const houseFinch = within(birds).getByRole("article", {
+    const houseFinch = within(birds).getByRole("link", {
       name: /House Finch/i
     });
 
+    expect(houseFinch).toHaveAttribute("href", "/creatures/house-finch");
     expect(within(houseFinch).getByText("#001")).toBeInTheDocument();
     expect(within(houseFinch).getByText("House Finch")).toBeInTheDocument();
     expect(within(houseFinch).getByText("Haemorhous mexicanus")).toBeInTheDocument();
@@ -104,7 +110,7 @@ describe("CollectionPage", () => {
     fireEvent.click(screen.getByRole("button", { name: /drafts/i }));
 
     expect(getCard("False Widow")).toBeInTheDocument();
-    expect(screen.queryByRole("article", { name: /House Finch/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /House Finch/i })).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: /drafts/i })).toHaveAttribute(
       "aria-pressed",
       "true"
@@ -116,8 +122,8 @@ describe("CollectionPage", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: /filter/i }));
 
-    expect(getCard("Gulf Coast Toad")).toBeInTheDocument();
-    expect(screen.queryByRole("article", { name: /House Finch/i })).not.toBeInTheDocument();
+    expect(getCardLink("Gulf Coast Toad")).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /House Finch/i })).not.toBeInTheDocument();
   });
 
   it("shows an empty state when no cards match the search", () => {
@@ -133,6 +139,16 @@ describe("CollectionPage", () => {
 });
 
 describe("CollectionPageCard", () => {
+  it("opens published public cards on their creature journal page", () => {
+    renderCard();
+
+    const card = getCardLink("Ladder-backed Woodpecker");
+
+    expect(card).toHaveAttribute("href", "/creatures/test-card");
+    expect(card).toHaveClass("collection-card");
+    expect(within(card).getByText("FOUND")).toBeInTheDocument();
+  });
+
   it("renders mystery cards with question-mark and grayscale treatment", () => {
     renderCard({
       card: createCard({
@@ -141,13 +157,15 @@ describe("CollectionPageCard", () => {
         scientificName: null,
         status: "mystery",
         treatments: ["mystery"],
+        href: "/mysteries/test-card",
         isMystery: true,
         isPublished: false
       })
     });
 
-    const card = getCard("mystery");
+    const card = getCardLink("mystery");
 
+    expect(card).toHaveAttribute("href", "/mysteries/test-card");
     expect(card).toHaveClass("collection-card--mystery");
     expect(within(card).getByText("?")).toBeInTheDocument();
     expect(within(card).getByText("MYSTERY")).toBeInTheDocument();
@@ -161,6 +179,7 @@ describe("CollectionPageCard", () => {
         scientificName: "Steatoda sp.",
         status: "draft",
         treatments: ["draft"],
+        href: null,
         isDraft: true,
         isPublished: false
       })
@@ -169,6 +188,7 @@ describe("CollectionPageCard", () => {
     const card = getCard("False Widow");
     const stamp = within(card).getByLabelText("Draft stamp");
 
+    expect(screen.queryByRole("link", { name: /False Widow/i })).not.toBeInTheDocument();
     expect(card).toHaveClass("collection-card--draft");
     expect(stamp).toHaveClass("collection-card__draft-stamp");
   });
@@ -183,6 +203,7 @@ describe("CollectionPageCard", () => {
         status: "locked",
         treatments: ["locked"],
         checklistState: "locked",
+        href: null,
         isLocked: true,
         isPublished: false
       })
@@ -190,6 +211,9 @@ describe("CollectionPageCard", () => {
 
     const card = getCard("Ladder-backed Woodpecker");
 
+    expect(
+      screen.queryByRole("link", { name: /Ladder-backed Woodpecker/i })
+    ).not.toBeInTheDocument();
     expect(card).toHaveClass("collection-card--locked");
     expect(
       within(card).getByLabelText("Locked checklist slot")
