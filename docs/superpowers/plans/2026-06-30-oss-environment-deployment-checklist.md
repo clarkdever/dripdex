@@ -48,7 +48,7 @@ npm run start
 
 ## Environment Variables
 
-Do not commit real secrets to the repo, fixture files, docs, issue comments, screenshots, or PR descriptions. Use host-level secret storage or a local `.env` file that is ignored by git.
+Do not commit real secrets to the repo, fixture files, docs, issue comments, screenshots, chat, or PR descriptions. Use host-level secret storage or `.env.local`, which is ignored by git.
 
 ### Currently Consumed
 
@@ -89,8 +89,16 @@ Secret handling rules:
 - Generate secrets with a cryptographically strong password manager or host secret generator.
 - Rotate secrets after accidental exposure.
 - Never use placeholder real-looking API keys in docs.
-- Never print secrets in build logs, test output, screenshots, or handoff comments.
+- Never print secrets in build logs, test output, screenshots, chat, issue comments, or handoff comments.
 - Treat sensitive non-secret values as private operational data. Owner username, private storage roots, database locations, private map tile URLs, and tile provider tokens must stay out of screenshots, public issues, public sample env files, and logs.
+
+Agent-friendly Vercel Production sync:
+
+- Copy `.env.example` to `.env.local` and fill values locally.
+- Use `npm run vercel:env:sync` for a dry run that lists env var names only.
+- Use `npm run vercel:env:sync -- --apply --confirm-project prj_your_project_id` only after confirming the names and Vercel project link.
+- The helper must pass values to `vercel env add` or `vercel env update` through stdin/file handling and must not print values.
+- Vercel env changes apply only to new deployments; redeploy production after syncing.
 
 ## SQLite Persistence
 
@@ -223,6 +231,9 @@ Use this for fixture-backed public preview or docs-linked demo while storage/dat
 Checklist:
 
 - [ ] Deploy from GitHub integration or Vercel CLI.
+- [ ] Copy `.env.example` to `.env.local`; keep secrets in `.env.local` and Vercel project env vars only.
+- [ ] Sync populated production env vars with `npm run vercel:env:sync -- --apply --confirm-project prj_your_project_id` after reviewing the dry-run names and linked Vercel project id.
+- [ ] Redeploy production after env changes so the new values are available.
 - [ ] Keep owner upload/capture disabled unless persistent storage and database adapters are configured.
 - [ ] Do not store SQLite or uploaded images on the serverless deployment filesystem.
 - [ ] Use fixture-backed public data or an external database/storage adapter.
