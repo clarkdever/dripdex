@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>DripDex | Texas Hill Country field journal</title>
+    <title>DripDex | A field collection for the living world nearby</title>
     <meta
       name="description"
-      content="DripDex is a mobile-first Texas Hill Country field guide and personal nature journal for families, classrooms, clubs, and curious naturalists."
+      content="DripDex helps families, classrooms, clubs, and curious naturalists notice, collect, and remember the real creatures living nearby."
     />
     <link rel="stylesheet" href="assets/css/site.css" />
   </head>
@@ -18,6 +18,7 @@
           <span>DripDex</span>
         </a>
         <div class="nav-links">
+          <a href="https://dripdex.vercel.app/">Live preview</a>
           <a href="build-your-own.html">Build your own</a>
           <a href="privacy-and-safety.html">Privacy</a>
           <a href="fixture-sources.html">Sources</a>
@@ -29,15 +30,44 @@
     <main>
       <section class="hero">
         <div class="hero-inner">
-          <p class="eyebrow">Texas Hill Country nature journal</p>
-          <h1>DripDex</h1>
-          <p class="lead">
-            A mobile-first field guide and personal nature journal for families,
-            classrooms, clubs, and curious local naturalists.
-          </p>
-          <div class="actions">
-            <a class="button primary" href="build-your-own.html">Build a preview</a>
-            <a class="button secondary" href="privacy-and-safety.html">Read the privacy model</a>
+          <div class="hero-copy">
+            <h1>DripDex</h1>
+            <p class="lead">
+              Your own field collection for the living world nearby: porch-light
+              moths, creekside frogs, schoolyard birds, backyard mushrooms, and
+              every small surprise worth remembering.
+            </p>
+            <div class="actions">
+              <a class="button primary" href="https://dripdex.vercel.app/">Open the preview</a>
+              <a class="button secondary" href="build-your-own.html">Build your own</a>
+            </div>
+          </div>
+          <figure class="hero-media">
+            <img src="assets/screenshots/collection-view-public-default.png" alt="DripDex public collection screen with local creature cards." />
+            <figcaption>
+              A personal collection turns familiar walks and yard sightings into
+              cards you can revisit, compare, and keep learning from.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="band story-band">
+        <div class="wrap story-grid">
+          <div>
+            <h2>Start with the moment someone says, “What is that?”</h2>
+          </div>
+          <div class="story-list">
+            <p>
+              DripDex is for the bug on the window screen, the feather in the
+              grass, the lizard that keeps returning to the same warm stone, and
+              the kid who wants to know whether anyone else has seen it too.
+            </p>
+            <p>
+              It gives those ordinary sightings a place to land: a local card, a
+              note, a photo, a mystery to resolve, and eventually a record of the
+              neighborhood nature a family or class has actually met.
+            </p>
           </div>
         </div>
       </section>
@@ -45,63 +75,61 @@
       <section class="band">
         <div class="wrap section-head">
           <div>
-            <p class="eyebrow">What it is</p>
-            <h2>A playful guide with serious privacy boundaries.</h2>
+            <p class="eyebrow">What it helps you do</p>
+            <h2>Notice closely, collect gently, learn over time.</h2>
           </div>
           <p>
-            DripDex is designed to make local discovery feel approachable for kids
-            while staying useful for adults who care about sources, observations,
-            location privacy, and safe publishing.
+            The shape is familiar: cards, favorites, mysteries, and a growing
+            collection. The subject is real: living things outside your door.
           </p>
         </div>
         <div class="wrap grid three">
           <article class="card">
-            <span class="tag">Public</span>
-            <h3>Creature cards</h3>
+            <span class="tag">Collect</span>
+            <h3>Turn sightings into cards</h3>
             <p>
-              Visitors browse fixture-backed creature cards, kid-readable facts,
-              rarity-style tags, and public-safe image derivatives.
+              Keep a public-safe collection of creatures, plants, fungi, and
+              seasonal finds that actually belong to your place.
             </p>
           </article>
           <article class="card">
-            <span class="tag">Owner</span>
-            <h3>Private journal</h3>
+            <span class="tag">Investigate</span>
+            <h3>Let mysteries stay interesting</h3>
             <p>
-              The intended owner workflow keeps drafts, exact locations, private
-              originals, and moderation tools behind owner-only boundaries.
+              Not every photo needs an instant answer. DripDex keeps uncertain
+              finds in review so adults and kids can compare, ask, and learn.
             </p>
           </article>
           <article class="card">
-            <span class="tag">Open source</span>
-            <h3>Self-hostable core</h3>
+            <span class="tag">Remember</span>
+            <h3>Build a local memory</h3>
             <p>
-              The first open-source path is a single-owner field journal with
-              fixture-backed preview data and conservative hosting assumptions.
+              Over time, the collection becomes a gentle record of seasons,
+              favorite places, repeat visitors, and discoveries worth retelling.
             </p>
           </article>
         </div>
       </section>
 
       <section class="band alt">
-        <div class="wrap section-head">
+        <div class="wrap feature-row">
+          <figure>
+            <img src="assets/screenshots/collection-view-guestbook-open.png" alt="DripDex guestbook form open for a visitor note." />
+            <figcaption><strong>For kids and visitors.</strong> Curiosity can become a note, a question, or a shared observation without publishing anything instantly.</figcaption>
+          </figure>
           <div>
-            <p class="eyebrow">Current MVP status</p>
-            <h2>Preview the shape before real uploads.</h2>
-          </div>
-          <p>
-            The current repo is a fixture-backed MVP preview. It can show public
-            browsing, creature pages, capture stubs, mystery investigation views,
-            private journal previews, and guestbook moderation states.
-          </p>
-        </div>
-        <div class="wrap grid two">
-          <div class="callout">
-            <strong>Good fit today:</strong> public demos, contributor previews,
-            family/classroom evaluation, and static project documentation.
-          </div>
-          <div class="callout">
-            <strong>Not ready yet:</strong> real private uploads, durable SQLite
-            writes, private original storage, exact GPS hosting, or production auth.
+            <p class="eyebrow">Kids outside</p>
+            <h2>A reason to look twice.</h2>
+            <p>
+              DripDex is meant to make outdoor curiosity easier to say yes to.
+              A parent, teacher, or club leader can turn a quick sighting into a
+              small investigation without making it feel like homework.
+            </p>
+            <p>
+              The goal is not to chase points. It is to make room for close
+              looking: What color was the wing? Was it near water? Did it come
+              back after dark? What else lives here with us?
+            </p>
           </div>
         </div>
       </section>
@@ -109,13 +137,84 @@
       <section class="band">
         <div class="wrap section-head">
           <div>
-            <p class="eyebrow">Screenshots</p>
-            <h2>What the MVP is aiming at.</h2>
+            <p class="eyebrow">Trust and care</p>
+            <h2>Public enough to share, careful enough for families.</h2>
           </div>
           <p>
-            These images are mockups and implemented previews from the repository.
-            They use sample fixture content and should not be treated as validated
-            scientific or licensing claims.
+            Nature journals can carry sensitive context: home places, school
+            routines, exact coordinates, and private photos. DripDex treats that
+            as part of the product, not an afterthought.
+          </p>
+        </div>
+        <div class="wrap grid three">
+          <article class="card">
+            <span class="tag">Public</span>
+            <h3>Share safe derivatives</h3>
+            <p>
+              Public pages are built around reviewed, EXIF-stripped images and
+              broad location labels.
+            </p>
+          </article>
+          <article class="card">
+            <span class="tag">Owner</span>
+            <h3>Keep private context private</h3>
+            <p>
+              Exact locations, private originals, drafts, and owner notes belong
+              behind owner-only boundaries.
+            </p>
+          </article>
+          <article class="card">
+            <span class="tag">Review</span>
+            <h3>Approve before publishing</h3>
+            <p>
+              Guestbook notes and AI identification suggestions stay in owner
+              review before they change public content.
+            </p>
+          </article>
+        </div>
+        <div class="wrap actions section-actions">
+          <a class="button secondary" href="privacy-and-safety.html">Read the trust notes</a>
+          <a class="button secondary" href="fixture-sources.html">Review fixture sources</a>
+        </div>
+      </section>
+
+      <section class="band alt">
+        <div class="wrap feature-row reverse">
+          <div>
+            <p class="eyebrow">Build your own</p>
+            <h2>A small open-source preview you can make yours.</h2>
+            <p>
+              DripDex is open source so a family, teacher, or local club can
+              make a fixture-backed preview of their own without waiting for a
+              hosted service.
+            </p>
+            <p>
+              The build guide carries the practical details: free GitHub and
+              Vercel accounts, a local env file for secrets, an agent-friendly
+              setup path, and clear reminders about what is safe to publish.
+            </p>
+            <div class="actions">
+              <a class="button primary" href="build-your-own.html">See the setup path</a>
+              <a class="button secondary" href="https://github.com/clarkdever/dripdex">Open the repository</a>
+            </div>
+          </div>
+          <figure>
+            <img src="assets/screenshots/mystery-investigation-flow-all-views.png" alt="DripDex mystery investigation screens for reviewing an uncertain find." />
+            <figcaption><strong>Owner-reviewed workflow.</strong> The preview shows how uncertain finds can stay in review before becoming public cards.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="band">
+        <div class="wrap section-head">
+          <div>
+            <p class="eyebrow">Preview surfaces</p>
+            <h2>See the shape of the collection.</h2>
+          </div>
+          <p>
+            These screenshots use fixture-backed sample content from the
+            repository. They show product direction, not final scientific or
+            licensing claims.
           </p>
         </div>
         <div class="wrap screens">
@@ -129,20 +228,37 @@
           </figure>
           <figure>
             <img src="assets/screenshots/mystery-investigation-flow-all-views.png" alt="Mystery investigation workflow mockup with prompt, paste, normalize, and resolve states." />
-            <figcaption><strong>Implemented preview.</strong> Mystery workflow keeps owner review in the loop.</figcaption>
+            <figcaption><strong>Prototype preview.</strong> Mystery workflow keeps owner review in the loop.</figcaption>
           </figure>
           <figure>
-            <img src="assets/screenshots/private-journal-dashboard-all-tabs.png" alt="Private journal dashboard mockup with queue, map, history, and preferences tabs." />
-            <figcaption><strong>Owner-only preview.</strong> Private journal concepts must not expose exact map data publicly.</figcaption>
+            <img src="assets/screenshots/collection-view-favorites-groups.png" alt="DripDex collection grouped into favorite-style sections." />
+            <figcaption><strong>Implemented preview.</strong> Collection grouping keeps the public story focused on safe, shared cards.</figcaption>
           </figure>
+        </div>
+      </section>
+
+      <section class="band final-cta">
+        <div class="wrap">
+          <h2>Start with the creatures already around you.</h2>
+          <p>
+            Open the preview, browse the cards, and imagine what your own porch,
+            trail, classroom garden, or neighborhood creek would look like as a
+            living collection.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="https://dripdex.vercel.app/">Open the preview</a>
+            <a class="button secondary" href="build-your-own.html">Build your own DripDex</a>
+          </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="wrap">
-        <span>DripDex project preview</span>
+        <span>DripDex project story</span>
         <span>
+          <a href="https://dripdex.vercel.app/">Live preview</a>
+          ·
           <a href="https://github.com/clarkdever/dripdex">GitHub</a>
           ·
           <a href="build-your-own.html">Build your own</a>
