@@ -83,6 +83,34 @@ DRIPDEX_LIVE_AI_TESTS=1 DRIPDEX_AI_PROVIDER=anthropic npm test -- src/domain/ai/
 
 Configure provider keys in Vercel project environment variables for preview or production. Never commit API keys, paste them into chat, or include them in screenshots, issues, logs, or PR descriptions.
 
+## AI-Agent Setup Path
+
+This is the easy path for a clone user and their agent:
+
+1. Create or sign into GitHub.
+2. Create or sign into Vercel: [Sign up for Vercel](https://vercel.com/signup).
+3. Create OpenAI or Anthropic API keys only if you plan to test a real provider.
+4. Clone or fork the repo.
+5. Copy `.env.example` to `.env.local`.
+6. Fill `.env.local` locally. Do not paste keys, passwords, password hashes, or auth secrets into chat.
+7. Ask the agent or CLI helper to list populated env keys by name only.
+8. Sync populated `.env.local` values into Vercel Production env vars.
+9. Redeploy production so Vercel uses the new env values.
+
+The helper defaults to a dry run and prints env var names only:
+
+```bash
+npm run vercel:env:sync
+```
+
+After reviewing the names and confirming the linked Vercel project id, apply them to Vercel Production:
+
+```bash
+npm run vercel:env:sync -- --apply --confirm-project prj_your_project_id
+```
+
+The helper reads `.env.local`, syncs only populated keys that appear in `.env.example`, marks synced values as sensitive Vercel env vars, and uses `vercel env add` or `vercel env update` through Node stdin so secret values are not printed or saved in shell history. It requires the Vercel CLI to be installed, logged in, linked to the correct project, and confirmed with `--confirm-project`. Vercel env changes affect only new deployments, so redeploy production after syncing.
+
 ## Deploy A Public Preview On Vercel Hobby
 
 Vercel Hobby is a reasonable way to publish a public, fixture-backed preview of DripDex from your own GitHub copy.
@@ -107,6 +135,14 @@ Set these Vercel environment variables before enabling the private journal in a 
 - optional AI keys from `.env.example` when testing real providers
 
 Generate a new password hash when rotating the owner password. Generate a new auth secret when rotating all sessions; changing `DRIPDEX_AUTH_SECRET` signs everyone out. Keep these values in Vercel project environment variables or local `.env.local`, never in committed files or chat.
+
+You can manage Vercel env vars in the dashboard or with the Vercel CLI. The checked-in helper can sync populated local values to Production without printing secrets:
+
+```bash
+npm run vercel:env:sync
+npm run vercel:env:sync -- --apply --confirm-project prj_your_project_id
+vercel deploy --prod
+```
 
 Do not enable real uploads or store private observations on this deployment until DripDex has durable database and storage adapters configured for your host.
 
@@ -142,6 +178,12 @@ Clone the public repository:
 git clone https://github.com/clarkdever/dripdex.git
 cd dripdex
 
+Create my local env file:
+
+cp .env.example .env.local
+
+Have me fill .env.local locally. Never ask me to paste secret values into chat, issues, screenshots, docs, or README examples.
+
 Install and verify locally:
 
 npm install
@@ -151,7 +193,19 @@ npm test
 npm run build
 npm audit --audit-level=moderate
 
-If those checks pass, deploy a public preview to Vercel. Use Vercel's normal project linking/import flow for my account. Tell me the deployed URL when it succeeds.
+If those checks pass, run a dry-run env sync and show env var names only:
+
+npm run vercel:env:sync
+
+After I confirm the names and linked Vercel project id, sync populated .env.local values to Vercel Production without printing values:
+
+npm run vercel:env:sync -- --apply --confirm-project prj_your_project_id
+
+Then redeploy production so Vercel picks up the new env values:
+
+vercel deploy --prod
+
+If no production env sync is needed yet, deploy a public preview to Vercel with Vercel's normal project linking/import flow. Tell me the deployed URL when it succeeds.
 
 Important privacy warning: this DripDex deployment is currently only a fixture-backed preview with simple single-owner auth. Do not upload real private family/classroom observations, private original photos, exact GPS data, or secrets. Real private hosting requires durable database and storage adapters that are not part of this quick preview path yet.
 ```
