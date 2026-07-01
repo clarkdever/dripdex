@@ -3,8 +3,11 @@ import { z } from "zod";
 import {
   identificationCandidateSchema,
   identificationResultSchema,
-  identificationSubjectRegionSchema
+  identificationSubjectRegionSchema,
+  type IdentificationResult
 } from "../identification/identification-schema";
+import type { AiProviderResponse } from "./ai-provider-response";
+import { validatePrivateImageKey } from "./private-image-source";
 
 const nonEmptyString = z.string().min(1);
 
@@ -20,7 +23,10 @@ export const aiIdentificationRequestSchema = z
     requestId: nonEmptyString,
     image: z
       .object({
-        privateImageKey: nonEmptyString,
+        privateImageKey: nonEmptyString.refine(
+          (key) => validatePrivateImageKey(key).success,
+          "invalid private image key"
+        ),
         mimeType: z.enum(["image/jpeg", "image/png", "image/webp"])
       })
       .strict(),
@@ -95,6 +101,10 @@ export type AiIdentificationProvider = {
   identifyFind(request: AiIdentificationRequest): AsyncIterable<AiProviderEvent>;
 };
 
+export type AiIdentificationResponseProvider = AiIdentificationProvider & {
+  identifyFindResponse(request: AiIdentificationRequest): Promise<AiProviderResponse>;
+};
+
 export type CreateMockAiIdentificationProviderOptions = {
   result: unknown;
   now?: () => Date;
@@ -118,11 +128,20 @@ export function validateAiProviderEvent(event: unknown): AiProviderEventValidati
 
 export function createMockAiIdentificationProvider(
   options: CreateMockAiIdentificationProviderOptions
-): AiIdentificationProvider {
+): AiIdentificationResponseProvider {
   const result = identificationResultSchema.parse(options.result);
   const now = options.now ?? (() => new Date());
 
   return {
+    async identifyFindResponse(request) {
+      aiIdentificationRequestSchema.parse(request);
+
+      return {
+        type: "identification_candidate",
+        provider: result.provider,
+        result: result as IdentificationResult
+      };
+    },
     async *identifyFind(request) {
       const parsedRequest = aiIdentificationRequestSchema.parse(request);
       const occurredAt = toIsoString(now());

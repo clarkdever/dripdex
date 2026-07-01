@@ -62,6 +62,27 @@ http://localhost:3000/journal
 
 The private journal is now protected by a signed `HttpOnly` session cookie, but the data is still fixture-backed. Do not use it for real private observations until durable database and storage adapters are configured.
 
+## Optional AI Provider Testing
+
+DripDex defaults to the mock AI provider so local development and CI do not require paid API keys.
+
+To configure real provider testing, copy the safe template and keep real secrets in `.env.local`:
+
+```bash
+cp .env.example .env.local
+```
+
+Use `DRIPDEX_AI_PROVIDER=mock` unless you are intentionally testing a real provider. For OpenAI, set `DRIPDEX_AI_PROVIDER=openai`, `OPENAI_API_KEY`, and optionally `OPENAI_IDENTIFICATION_MODEL`. For Anthropic, set `DRIPDEX_AI_PROVIDER=anthropic`, `ANTHROPIC_API_KEY`, and optionally `ANTHROPIC_IDENTIFICATION_MODEL`.
+
+Live provider smoke tests are opt-in because they can spend provider credits:
+
+```bash
+DRIPDEX_LIVE_AI_TESTS=1 DRIPDEX_AI_PROVIDER=openai npm test -- src/domain/ai/live-provider-smoke.test.ts
+DRIPDEX_LIVE_AI_TESTS=1 DRIPDEX_AI_PROVIDER=anthropic npm test -- src/domain/ai/live-provider-smoke.test.ts
+```
+
+Configure provider keys in Vercel project environment variables for preview or production. Never commit API keys, paste them into chat, or include them in screenshots, issues, logs, or PR descriptions.
+
 ## Deploy A Public Preview On Vercel Hobby
 
 Vercel Hobby is a reasonable way to publish a public, fixture-backed preview of DripDex from your own GitHub copy.
@@ -83,6 +104,7 @@ Set these Vercel environment variables before enabling the private journal in a 
 - `DRIPDEX_OWNER_USERNAME`
 - `DRIPDEX_OWNER_PASSWORD_HASH`
 - `DRIPDEX_AUTH_SECRET`
+- optional AI keys from `.env.example` when testing real providers
 
 Generate a new password hash when rotating the owner password. Generate a new auth secret when rotating all sessions; changing `DRIPDEX_AUTH_SECRET` signs everyone out. Keep these values in Vercel project environment variables or local `.env.local`, never in committed files or chat.
 
