@@ -29,6 +29,9 @@ describe("CreatureJournalPage", () => {
     render(<CreatureJournalPage viewModel={createHouseFinchJournal()} />);
 
     expect(
+      screen.getByRole("link", { name: /Hill Country DripDex home/i })
+    ).toHaveAttribute("href", "/");
+    expect(
       screen.getByRole("heading", { level: 1, name: "House Finch" })
     ).toBeInTheDocument();
     expect(screen.getByText("Crimson Chirper")).toBeInTheDocument();

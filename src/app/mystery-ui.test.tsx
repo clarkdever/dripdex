@@ -21,6 +21,9 @@ describe("MysteryInvestigationPage", () => {
   it("renders fixture-backed mystery detail and toggles the image to full color", () => {
     renderMystery();
 
+    expect(
+      screen.getByRole("link", { name: /Hill Country DripDex home/i })
+    ).toHaveAttribute("href", "/");
     expect(screen.getByRole("heading", { name: "Question Shelf" })).toBeInTheDocument();
     expect(screen.getByText("Mystery Investigation")).toBeInTheDocument();
     expect(screen.getByText("Texas Hill Country example fixture")).toBeInTheDocument();

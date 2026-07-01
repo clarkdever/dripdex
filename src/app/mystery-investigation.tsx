@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRef, useState } from "react";
 
 import type { MysteryWorkspaceViewId } from "../domain/mystery/mystery-view-model";
@@ -76,13 +77,13 @@ export function MysteryInvestigationPage({ viewModel }: MysteryInvestigationPage
     <main className="mystery-shell">
       <section className="mystery-device" aria-labelledby="mystery-title">
         <header className="device-header mystery-device__header">
-          <div className="device-brand">
+          <Link aria-label="Hill Country DripDex home" className="device-brand" href="/">
             <span className="device-lens" aria-hidden="true" />
             <div>
               <span>Hill Country DripDex</span>
               <strong>Mystery Investigation</strong>
             </div>
-          </div>
+          </Link>
           <div className="device-lights" aria-hidden="true">
             <span />
             <span />

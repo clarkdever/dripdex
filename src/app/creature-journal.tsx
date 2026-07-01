@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 import type { PublishedCreatureJournalPage } from "../domain/creature-page/creature-page-view-model";
@@ -171,7 +172,13 @@ export function CreatureJournalPage({
     <main className="creature-journal-shell">
       <article className="creature-device" aria-labelledby="creature-title">
         <header className="creature-device__top">
-          <span className="device-lens" aria-hidden="true" />
+          <Link aria-label="Hill Country DripDex home" className="device-brand" href="/">
+            <span className="device-lens" aria-hidden="true" />
+            <div>
+              <span>Hill Country DripDex</span>
+              <strong>Creature Journal</strong>
+            </div>
+          </Link>
           <div className="device-lights" aria-hidden="true">
             <span />
             <span />
