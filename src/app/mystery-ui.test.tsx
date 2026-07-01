@@ -106,6 +106,28 @@ describe("MysteryInvestigationPage", () => {
     expect(publicViewModel.views.externalHandoff.promptPreview).not.toContain("-97.743057");
   });
 
+  it("does not create a public mystery route model for private mysteries", () => {
+    const records = createFixtureRecords();
+    const privateMysteryRecords = records.map((record) =>
+      record.creature.id === "mystery-white-shelf-fungus"
+        ? {
+            ...record,
+            creature: {
+              ...record.creature,
+              publicVisibility: "private" as const
+            }
+          }
+        : record
+    );
+
+    expect(
+      createMysteryWorkspacePageViewModel(
+        "mystery-white-shelf-fungus",
+        privateMysteryRecords
+      )
+    ).toBeNull();
+  });
+
   it("accepts pasted resolution text and marks normalization as owner-reviewed candidate work", () => {
     renderMystery();
 

@@ -37,6 +37,7 @@ export type CollectionCardImage = {
 
 export type CollectionCard = {
   id: string;
+  href: string | null;
   dripdexNumber: string | null;
   category: CollectionCategory;
   categoryLabel: string;
@@ -222,6 +223,7 @@ function createRecordCard(
   const group = getCategoryGroup(creature.category);
   const isFavorite = favoriteIds.has(creature.id);
   const isNew = newIds.has(creature.id);
+  const isPublic = creature.publicVisibility === "public";
   const latestObservedAt = findLatestObservedAt(record);
   const lastSeenDate = latestObservedAt ? new Date(latestObservedAt) : null;
   const checklistState =
@@ -233,6 +235,12 @@ function createRecordCard(
 
   return {
     id: creature.id,
+    href:
+      isPublic && creature.status === "published"
+        ? `/creatures/${creature.id}`
+        : isPublic && creature.status === "mystery"
+          ? `/mysteries/${creature.id}`
+          : null,
     dripdexNumber: dripdexNumberOverride ?? creature.dripdexNumber,
     category: creature.category,
     categoryLabel: group.label,
@@ -281,6 +289,7 @@ function createLockedCard(
 
   return {
     id: input.id,
+    href: null,
     dripdexNumber: input.dripdexNumber ?? null,
     category: input.category,
     categoryLabel: group.label,

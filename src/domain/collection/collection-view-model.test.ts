@@ -51,6 +51,7 @@ describe("collection view model", () => {
     const houseFinch = viewModel.cards.find((card) => card.id === "house-finch");
     expect(houseFinch).toMatchObject({
       id: "house-finch",
+      href: "/creatures/house-finch",
       dripdexNumber: "001",
       category: "bird",
       categoryLabel: "Birds",
@@ -128,6 +129,7 @@ describe("collection view model", () => {
     expect(
       viewModel.cards.find((card) => card.id === "mystery-white-shelf-fungus")
     ).toMatchObject({
+      href: "/mysteries/mystery-white-shelf-fungus",
       status: "mystery",
       categoryGroupKey: "mysteries",
       isMystery: true,
@@ -135,17 +137,51 @@ describe("collection view model", () => {
     });
 
     expect(viewModel.cards.find((card) => card.id === "draft-house-finch")).toMatchObject({
+      href: null,
       status: "draft",
       isDraft: true,
       treatments: ["draft"]
     });
 
     expect(viewModel.cards.find((card) => card.id === "locked-armadillo")).toMatchObject({
+      href: null,
       status: "locked",
       categoryGroupKey: "mammals",
       isLocked: true,
       checklistState: "locked",
       treatments: ["locked"]
+    });
+  });
+
+  it("does not link private records from the public collection", () => {
+    const records = createFixtureRecords();
+    const privateMysteryRecord = cloneRecord(
+      records.find((record) => record.creature.id === "mystery-white-shelf-fungus")!
+    );
+    privateMysteryRecord.creature.id = "private-mystery";
+    privateMysteryRecord.creature.dripdexNumber = "996";
+    privateMysteryRecord.creature.publicVisibility = "private";
+
+    const privatePublishedRecord = cloneRecord(
+      records.find((record) => record.creature.id === "house-finch")!
+    );
+    privatePublishedRecord.creature.id = "private-house-finch";
+    privatePublishedRecord.creature.dripdexNumber = "997";
+    privatePublishedRecord.creature.publicVisibility = "private";
+
+    const viewModel = buildCollectionViewModel([
+      ...records,
+      privateMysteryRecord,
+      privatePublishedRecord
+    ]);
+
+    expect(viewModel.cards.find((card) => card.id === "private-mystery")).toMatchObject({
+      href: null,
+      isMystery: true
+    });
+    expect(viewModel.cards.find((card) => card.id === "private-house-finch")).toMatchObject({
+      href: null,
+      isPublished: true
     });
   });
 

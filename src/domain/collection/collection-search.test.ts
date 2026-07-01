@@ -14,6 +14,13 @@ function createCard(overrides: Partial<CollectionCard> & Pick<CollectionCard, "i
 
   return {
     id: overrides.id,
+    href:
+      overrides.href ??
+      (status === "published"
+        ? `/creatures/${overrides.id}`
+        : status === "mystery"
+          ? `/mysteries/${overrides.id}`
+          : null),
     dripdexNumber: overrides.dripdexNumber ?? "001",
     category: overrides.category ?? "bird",
     categoryLabel: overrides.categoryLabel ?? "Birds",

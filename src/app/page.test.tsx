@@ -17,7 +17,7 @@ describe("HomePage", () => {
       screen.getByText(/gotta catch'em y'all/i)
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("article", { name: /Texas Spiny Lizard Found/i })
+      screen.getByRole("link", { name: /Texas Spiny Lizard Found/i })
     ).toBeInTheDocument();
     expect(
       screen.getByRole("article", { name: /Ladder-backed Woodpecker Locked/i })

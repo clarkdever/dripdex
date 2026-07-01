@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { type FormEvent, useMemo, useState, useSyncExternalStore } from "react";
 
 import {
@@ -261,12 +262,10 @@ export function CollectionPageCard({
 }: CollectionPageCardProps) {
   const tags = getFeaturedTags(card);
   const statusLabel = getStatusLabel(card);
-
-  return (
-    <article
-      aria-label={getAccessibleCardName(card, statusLabel)}
-      className={getCardClassName(card, density)}
-    >
+  const accessibleName = getAccessibleCardName(card, statusLabel);
+  const className = getCardClassName(card, density);
+  const children = (
+    <>
       <div className="collection-card__media">
         {card.isFavorite ? (
           <span className="collection-card__star" aria-label="Favorite">
@@ -302,6 +301,27 @@ export function CollectionPageCard({
           </div>
         ) : null}
       </div>
+    </>
+  );
+
+  if (card.href) {
+    return (
+      <Link
+        aria-label={accessibleName}
+        className={className}
+        href={card.href}
+      >
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <article
+      aria-label={accessibleName}
+      className={className}
+    >
+      {children}
     </article>
   );
 }
