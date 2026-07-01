@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "mkdir -p public && cp -R index.html build-your-own.html fixture-sources.html privacy-and-safety.html assets public/",
+  "framework": null,
+  "installCommand": "",
+  "outputDirectory": "public"
+}

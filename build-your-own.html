@@ -95,8 +95,17 @@ cd dripdex
 npm install
 npm run dev</code></pre>
           <p>Open the local URL printed by the dev server, usually <code>http://localhost:3000</code>.</p>
-          <p>To preview the owner journal stub locally:</p>
-          <pre><code>DRIPDEX_OWNER_JOURNAL_PREVIEW=enabled npm run dev</code></pre>
+          <p>To preview the owner journal locally, copy the safe env template and keep real values in the ignored local file:</p>
+          <pre><code>cp .env.example .env.local
+read -s OWNER_PASSWORD
+printf '%s' "$OWNER_PASSWORD" | npm run owner:hash
+unset OWNER_PASSWORD</code></pre>
+          <p>
+            Put the generated password hash, a long auth secret, and optional AI
+            provider keys in <code>.env.local</code>. Do not paste secrets,
+            password hashes, API keys, or screenshots of env files into chat,
+            issues, docs, or README examples.
+          </p>
         </div>
       </section>
 
@@ -117,6 +126,8 @@ npm run dev</code></pre>
           <div class="step">Fork or copy <a href="https://github.com/clarkdever/dripdex">clarkdever/dripdex</a> into your GitHub account.</div>
           <div class="step">In Vercel, import the GitHub repository as a new project.</div>
           <div class="step">Let Vercel detect the Next.js project settings and deploy.</div>
+          <div class="step">If enabling owner auth or real AI testing, fill <code>.env.local</code>, run <code>npm run vercel:env:sync</code> to review names, then apply with <code>npm run vercel:env:sync -- --apply --confirm-project prj_your_project_id</code> after checking the linked project id.</div>
+          <div class="step">Redeploy production after Vercel env changes so the new values are available.</div>
           <div class="step">Open the Vercel URL and confirm the public collection page loads.</div>
         </div>
       </section>
