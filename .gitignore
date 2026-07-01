@@ -4,6 +4,7 @@ next-env.d.ts
 node_modules/
 out/
 coverage/
+.worktrees/
 *.log
 *.tsbuildinfo
 .env*
