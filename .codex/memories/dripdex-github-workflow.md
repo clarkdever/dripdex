@@ -14,4 +14,6 @@ Use GitHub Issues as the coordination layer for DripDex MVP work.
 - If `/code-review` finds a large or out-of-scope issue, research it enough to create a scoped follow-up GitHub issue instead of expanding the current PR.
 - Escalate merges only for product taste, privacy/safety decisions, secrets, destructive data changes, or unclear requirements.
 - Require verification evidence before marking work done.
+- When the final child task for an epic is completed and verified, close the parent epic, mark its Project status Done, and leave a parent closure comment listing the completed children and any split-out follow-ups.
+- If an epic still has external-model exploration or explicitly deferred child work open, leave the epic open unless the user intentionally rescopes those children out of the parent.
 - Keep MVP lightweight and YAGNI: fixture-backed first, low infrastructure, no heavyweight process beyond GitHub Issues/Projects coordination.
