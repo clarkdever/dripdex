@@ -9,7 +9,7 @@ import {
 import type { AiProviderResponse } from "../ai-provider-response";
 import { toAiProviderEvents } from "../ai-provider-response";
 import type { PrivateImageSource } from "../private-image-source";
-import { dripdexProviderResponseJsonSchema } from "../identification-output-schema";
+import { openaiIdentificationResultJsonSchema } from "../identification-output-schema";
 import { parseProviderModelOutput } from "../provider-model-output";
 import { buildOpenAiIdentificationPrompt } from "../prompts/identification-prompts";
 
@@ -85,9 +85,9 @@ export function createOpenAiIdentificationProvider(
           text: {
             format: {
               type: "json_schema",
-              name: "dripdex_identification_response",
+              name: "dripdex_identification_result",
               strict: true,
-              schema: dripdexProviderResponseJsonSchema
+              schema: openaiIdentificationResultJsonSchema
             }
           }
         });

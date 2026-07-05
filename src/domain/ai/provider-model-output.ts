@@ -41,6 +41,29 @@ export function parseProviderModelOutput(
     return providerError(provider, errorMessage);
   }
 
+  // Support direct IdentificationResult schema (from OpenAI Structured Outputs)
+  if (
+    typeof parsedJson === "object" &&
+    parsedJson !== null &&
+    "schemaVersion" in parsedJson &&
+    parsedJson.schemaVersion === "dripdex.identification-result.v1"
+  ) {
+    const result = identificationResultSchema.safeParse({
+      ...parsedJson,
+      provider
+    });
+
+    if (!result.success) {
+      return providerError(provider, errorMessage);
+    }
+
+    return {
+      type: "identification_candidate",
+      provider,
+      result: result.data as IdentificationResult
+    };
+  }
+
   const parsedOutput = modelOutputSchema.safeParse(parsedJson);
 
   if (!parsedOutput.success) {

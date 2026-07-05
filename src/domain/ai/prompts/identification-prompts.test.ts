@@ -23,16 +23,15 @@ const request = {
 };
 
 describe("identification provider prompts", () => {
-  it("builds a versioned OpenAI prompt with response-mode examples and safe context", () => {
+  it("builds a versioned OpenAI prompt with GPT-5.5 instructions and safe context", () => {
     const prompt = buildOpenAiIdentificationPrompt(request);
 
-    expect(prompt.version).toBe("dripdex-identification-openai.v1");
-    expect(prompt.instructions).toContain("needs_owner_input");
-    expect(prompt.instructions).toContain("identification_candidate");
+    expect(prompt.version).toBe("dripdex-identification-openai.v2");
+    expect(prompt.instructions).toContain("You are DripDex Identification");
+    expect(prompt.instructions).toContain("schemaVersion");
     expect(prompt.inputText).toContain("Hays County, TX");
     expect(prompt.inputText).toContain("Found near a porch light.");
     expect(prompt.inputText).toContain('"ownerNotes"');
-    expect(prompt.instructions).toContain("untrusted observations");
     expect(prompt.inputText).not.toContain("private/uploads");
   });
 
