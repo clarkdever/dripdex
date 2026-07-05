@@ -1669,7 +1669,144 @@ a.collection-card:focus-visible {
   .capture-crosshair {
     animation: none;
   }
+  .capture-scanner-sweep {
+    animation: none;
+    background: rgba(38, 169, 255, 0.1);
+  }
+  .reveal-dialog {
+    transform: none;
+    transition-duration: 0.1s;
+  }
+  @starting-style {
+    .reveal-dialog[open] {
+      transform: none;
+    }
+  }
 }
+
+/* AI Scanning Sweep */
+.capture-scanner-sweep {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(38, 169, 255, 0.1) 48%,
+    rgba(38, 169, 255, 0.8) 50%,
+    rgba(38, 169, 255, 0.1) 52%,
+    transparent 100%
+  );
+  background-size: 100% 200%;
+  animation: scanner-sweep 2s linear infinite;
+  backdrop-filter: blur(1px);
+}
+
+@keyframes scanner-sweep {
+  0% {
+    background-position: 0 -100%;
+  }
+  100% {
+    background-position: 0 200%;
+  }
+}
+
+/* Cinematic Reveal Dialog */
+.reveal-dialog {
+  margin: auto;
+  padding: 32px 24px;
+  border: none;
+  border-radius: 16px;
+  background: #252730;
+  color: #fffdf4;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  
+  /* Modern CSS Entry Animation */
+  opacity: 0;
+  transform: scale(0.9) translateY(20px);
+  transition-property: opacity, transform, display, overlay;
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-behavior: allow-discrete;
+}
+
+.reveal-dialog[open] {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  
+  @starting-style {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+}
+
+.reveal-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0px);
+  transition:
+    display 0.5s allow-discrete,
+    overlay 0.5s allow-discrete,
+    background-color 0.5s ease-out,
+    backdrop-filter 0.5s ease-out;
+}
+
+.reveal-dialog[open]::backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+
+  @starting-style {
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+  }
+}
+
+/* Dialog UI */
+.reveal-dialog h2 {
+  font-size: 2.2rem;
+  font-weight: 950;
+  margin-bottom: 8px;
+  color: var(--dripdex-lime);
+  line-height: 1.1;
+}
+
+.reveal-dialog p.scientific-name {
+  font-style: italic;
+  opacity: 0.7;
+  margin-bottom: 24px;
+  font-size: 1.1rem;
+}
+
+.reveal-dialog .reveal-actions {
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+}
+
+.reveal-dialog button {
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: 950;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border: none;
+  text-transform: uppercase;
+}
+
+.reveal-dialog .btn-primary {
+  background: var(--dripdex-blue);
+  color: #fff;
+}
+
+.reveal-dialog .btn-secondary {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
 
 @media (min-width: 520px) {
   .capture-actions {

@@ -71,7 +71,7 @@ describe("CaptureEntryPage", () => {
       vi.advanceTimersByTime(700);
     });
 
-    expect(within(status).getByText("Subject Located")).toBeInTheDocument();
+    expect(within(status).getByText("Analyzing biological signature...")).toBeInTheDocument();
     vi.useRealTimers();
   });
 

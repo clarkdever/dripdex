@@ -4,7 +4,7 @@ import Image from "next/image";
 import { type KeyboardEvent, type MouseEvent, useEffect, useRef, useState } from "react";
 
 type CaptureSource = "upload" | "scanner";
-type CaptureStatus = "idle" | "ready" | "thanks" | "located";
+type CaptureStatus = "idle" | "ready" | "thanks" | "located" | "scanning";
 type SubjectPoint = {
   x: number;
   y: number;
@@ -36,7 +36,15 @@ export function CaptureEntryPage() {
   const [imageNaturalSize, setImageNaturalSize] = useState<ImageNaturalSize>(
     fallbackImageNaturalSize
   );
+  const [file, setFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const targetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  
+  const [candidateName, setCandidateName] = useState<string | null>(null);
+  const [candidateScientific, setCandidateScientific] = useState<string | null>(null);
+
   const hasPreview = source !== null;
 
   useEffect(
@@ -48,9 +56,27 @@ export function CaptureEntryPage() {
     []
   );
 
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      setFile(selectedFile);
+      const url = URL.createObjectURL(selectedFile);
+      setPreviewUrl(url);
+      setSource("upload");
+      setStatus("ready");
+      setSubjectPoint(null);
+      setDisplayPoint(null);
+    }
+  }
+
   function startCapture(nextSource: CaptureSource) {
     if (targetTimer.current) {
       clearTimeout(targetTimer.current);
+    }
+    
+    if (nextSource === "upload" && fileInputRef.current) {
+      fileInputRef.current.click();
     }
 
     setSource(nextSource);
@@ -97,8 +123,49 @@ export function CaptureEntryPage() {
     setDisplayPoint(targetPoint);
     setStatus("thanks");
     targetTimer.current = setTimeout(() => {
-      setStatus("located");
+      setStatus("scanning");
+      submitIdentification(point);
     }, 650);
+  }
+
+  async function submitIdentification(point: SubjectPoint) {
+    if (!file) return;
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("subjectHint", JSON.stringify(point));
+
+      const res = await fetch("/api/identify", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      console.log("Identification result:", data);
+      
+      if (data.result && data.result.type === "identification_candidate") {
+        const topCandidate = data.result.result.identityCandidates[0];
+        setCandidateName(topCandidate?.commonName || "Unknown");
+        setCandidateScientific(topCandidate?.scientificName || "Unknown");
+        
+        const updateUI = () => {
+          setStatus("located");
+          dialogRef.current?.showModal();
+        };
+
+        if (document.startViewTransition) {
+          document.startViewTransition(updateUI);
+        } else {
+          updateUI();
+        }
+      } else {
+        alert("Failed to identify");
+        setStatus("located");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error identifying image");
+      setStatus("located");
+    }
   }
 
   function recordSubjectTap(event: MouseEvent<HTMLDivElement>) {
@@ -120,13 +187,15 @@ export function CaptureEntryPage() {
   }
 
   const statusCopy =
-    status === "located"
-      ? "Subject Located"
-      : status === "thanks"
-        ? "Thank you for your help"
-        : status === "ready"
-          ? "Tap the subject"
-          : "Choose a path";
+    status === "scanning"
+      ? "Analyzing biological signature..."
+      : status === "located"
+        ? "Subject Located"
+        : status === "thanks"
+          ? "Thank you for your help"
+          : status === "ready"
+            ? "Tap the subject"
+            : "Choose a path";
 
   return (
     <main className="capture-shell">
@@ -153,6 +222,13 @@ export function CaptureEntryPage() {
               <h1 id="capture-title">Start a field note</h1>
             </div>
             <div className="capture-actions" aria-label="Capture entry actions">
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
               <button type="button" onClick={() => startCapture("upload")}>
                 Upload Photo
               </button>
@@ -187,7 +263,7 @@ export function CaptureEntryPage() {
                     });
                   }}
                   priority
-                  src={previewImage}
+                  src={previewUrl || previewImage}
                   unoptimized
                   width={800}
                 />
@@ -211,6 +287,7 @@ export function CaptureEntryPage() {
                   }}
                 />
               ) : null}
+              {status === "scanning" ? <div className="capture-scanner-sweep" /> : null}
             </div>
 
             <aside className="capture-hud" aria-live="polite" role="status">
@@ -225,6 +302,19 @@ export function CaptureEntryPage() {
           </section>
         </div>
       </section>
+      
+      <dialog ref={dialogRef} className="reveal-dialog" style={{ viewTransitionName: 'reveal' }}>
+        <h2>{candidateName}</h2>
+        <p className="scientific-name">{candidateScientific}</p>
+        <div className="reveal-actions">
+          <button type="button" className="btn-primary" onClick={() => dialogRef.current?.close()}>
+            Save to Field Notes
+          </button>
+          <button type="button" className="btn-secondary" onClick={() => dialogRef.current?.close()}>
+            Discard
+          </button>
+        </div>
+      </dialog>
     </main>
   );
 }
